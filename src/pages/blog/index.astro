@@ -38,11 +38,16 @@ const formatDate = (date: Date) =>
   <div class="container">
     <!-- Header -->
     <header class="page-header">
-      <h1 class="page-title">Blog</h1>
-      <p class="page-desc">
-        Tempat saya berpikir dengan keras — tentang gambar, kode, dan perjalanan
-        menjadi manusia yang lebih baik.
-      </p>
+      <div class="page-header-inner">
+        <h1 class="page-title" id="page-title">Blog</h1>
+        <p class="page-desc" id="page-desc">
+          Tempat saya berpikir dengan keras — tentang gambar, kode, dan
+          perjalanan menjadi manusia yang lebih baik.
+        </p>
+      </div>
+      <div class="page-header-deco" aria-hidden="true">
+        <span class="header-deco-word" id="deco-word">tulisan</span>
+      </div>
     </header>
 
     <!-- Filter -->
@@ -128,12 +133,21 @@ const formatDate = (date: Date) =>
     padding-block: 4rem 2.5rem;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 2.5rem;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .page-header-inner {
+    flex: 1;
   }
 
   .page-title {
     font-size: clamp(2rem, 5vw, 3.25rem);
     margin: 0 0 1rem;
     color: var(--color-text);
+    transition: opacity 0.2s;
   }
 
   .page-desc {
@@ -142,6 +156,59 @@ const formatDate = (date: Date) =>
     max-width: 52ch;
     margin: 0;
     line-height: 1.75;
+    transition:
+      opacity 0.2s,
+      transform 0.25s;
+  }
+
+  .page-desc.is-transitioning {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .page-header-deco {
+    flex-shrink: 0;
+    user-select: none;
+    padding-bottom: 0.25rem;
+  }
+
+  .header-deco-word {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-style: italic;
+    font-variation-settings:
+      "opsz" 9,
+      "SOFT" 100;
+    color: var(--color-border);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    transition:
+      color 0.3s,
+      opacity 0.3s;
+    display: block;
+  }
+
+  .header-deco-word.deco--craft {
+    color: var(--color-accent);
+    opacity: 0.25;
+  }
+  .header-deco-word.deco--notes {
+    color: var(--color-text-muted);
+    opacity: 0.2;
+  }
+  .header-deco-word.deco--family {
+    color: #16a34a;
+    opacity: 0.25;
+  }
+
+  @media (max-width: 600px) {
+    .page-header {
+      flex-direction: column;
+      gap: 0;
+    }
+    .page-header-deco {
+      display: none;
+    }
   }
 
   /* Filter */
@@ -327,27 +394,69 @@ const formatDate = (date: Date) =>
   const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
   const posts = document.querySelectorAll<HTMLElement>(".post-item");
   const catDesc = document.getElementById("cat-desc");
+  const pageDesc = document.getElementById("page-desc");
+  const decoWord = document.getElementById("deco-word");
 
-  const descs: Record<string, string> = {
+  // Deskripsi filter bar (tetap sama)
+  const filterDescs: Record<string, string> = {
     all: "",
     craft: "Proses, teknik, dan refleksi tentang ilustrasi.",
     notes: "Catatan dari meja kerja — engineering, ide, dan hal sehari-hari.",
     family: "Jurnal sebagai suami dan ayah.",
   };
 
+  // Hook kalimat di header — berubah per kategori
+  const headerHooks: Record<string, string> = {
+    all: "Tempat saya berpikir dengan keras — tentang gambar, kode, dan perjalanan menjadi manusia yang lebih baik.",
+    craft:
+      "Di balik setiap ilustrasi ada pilihan yang tidak terlihat — soal warna, soal komposisi, soal apa yang ingin disampaikan. Saya tulis prosesnya di sini.",
+    notes:
+      "Pikiran-pikiran dari meja kerja. Kadang soal arsitektur sistem, kadang soal kenapa kopi sore terasa lebih baik dari kopi pagi.",
+    family:
+      "Ini bukan blog teknikal. Bagian ini adalah jurnal — catatan dari seorang ayah yang masih belajar hadir sepenuhnya di tengah jadwal yang tidak selalu berpihak.",
+  };
+
+  // Kata dekorasi dan class warna
+  const decoConfig: Record<string, { word: string; cls: string }> = {
+    all: { word: "tulisan", cls: "" },
+    craft: { word: "proses", cls: "deco--craft" },
+    notes: { word: "catatan", cls: "deco--notes" },
+    family: { word: "jurnal", cls: "deco--family" },
+  };
+
   buttons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const filter = btn.dataset.filter ?? "all";
 
+      // Update aria-selected
       buttons.forEach((b) => b.setAttribute("aria-selected", "false"));
       btn.setAttribute("aria-selected", "true");
 
+      // Filter post
       posts.forEach((post) => {
         const match = filter === "all" || post.dataset.category === filter;
         post.classList.toggle("hidden", !match);
       });
 
-      if (catDesc) catDesc.textContent = descs[filter] ?? "";
+      // Update deskripsi filter bar
+      if (catDesc) catDesc.textContent = filterDescs[filter] ?? "";
+
+      // Animasi transisi header hook
+      if (pageDesc) {
+        pageDesc.classList.add("is-transitioning");
+        setTimeout(() => {
+          pageDesc.textContent = headerHooks[filter] ?? headerHooks.all;
+          pageDesc.classList.remove("is-transitioning");
+        }, 200);
+      }
+
+      // Update dekorasi kata
+      if (decoWord) {
+        const config = decoConfig[filter] ?? decoConfig.all;
+        decoWord.textContent = config.word;
+        decoWord.className = "header-deco-word";
+        if (config.cls) decoWord.classList.add(config.cls);
+      }
     });
   });
 </script>

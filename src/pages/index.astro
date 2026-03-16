@@ -1,5 +1,7 @@
 ---
 // src/pages/index.astro
+import { Image } from 'astro:assets';
+import profileImg from '../assets/profile.png';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -38,47 +40,28 @@ const categoryLabel: Record<string, string> = {
        HERO
   ============================================================ -->
   <section class="hero">
-    <div class="container">
-      <div class="hero-inner">
-
-        <!-- Teks utama -->
-        <div class="hero-text">
-          <p class="hero-eyebrow">Halo, saya</p>
-          <h1 class="hero-name">Teguh Suwanda</h1>
-          <p class="hero-tagline">
-            Engineer by day,<br />
-            illustrator by passion,<br />
-            family man by purpose.
-          </p>
-          <p class="hero-bio">
-            Saya membangun software di siang hari dan menggambar di malam hari.
+  <div class="hero-bg-image">
+    <img src="/images/profile.png" alt="" aria-hidden="true" />
+  </div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Halo, saya</p>
+      <h1 class="hero-name">Teguh Suwanda</h1>
+      <p class="hero-tagline">
+        Engineer by day,<br />
+        illustrator by passion,<br />
+        family man by purpose.
+      </p>
+      <p class="hero-bio">Saya membangun software di siang hari dan menggambar di malam hari.
             Di sini saya berbagi karya, proses, dan catatan kecil tentang hidup
-            yang pelan-pelan menjadi bermakna.
-          </p>
-          <div class="hero-actions">
-            <a href="/work" class="btn btn--primary">Lihat karya</a>
-            <a href="/blog" class="btn btn--ghost">Baca tulisan</a>
-          </div>
-        </div>
-
-        <!-- Placeholder foto / ilustrasi diri -->
-        <div class="hero-visual" aria-hidden="true">
-          <div class="hero-placeholder">
-            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="160" height="160" opacity="0.35">
-              <!-- Sosok sederhana — ganti dengan foto/ilustrasi Anda -->
-              <circle cx="100" cy="72" r="36" stroke="currentColor" stroke-width="1.5"/>
-              <path d="M36 180c0-35.346 28.654-64 64-64s64 28.654 64 64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <!-- Pensil kecil di tangan -->
-              <line x1="148" y1="130" x2="168" y2="110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              <line x1="168" y1="110" x2="172" y2="106" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-            <span class="hero-placeholder-label">foto / ilustrasi diri</span>
-          </div>
-        </div>
-
+            yang pelan-pelan menjadi bermakna.</p>
+      <div class="hero-actions">
+        <a href="/work" class="btn btn--primary">Lihat karya</a>
+        <a href="/blog" class="btn btn--ghost">Baca tulisan</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ============================================================
        FEATURED WORK
@@ -116,8 +99,8 @@ const categoryLabel: Record<string, string> = {
             <a href={`/work/${work.id}`} class="work-card">
               <div class="work-card-image">
                 <img
-                  src={work.data.cover?.src}
-                  alt={work.data.coverAlt}
+                  src={work.data.cover}
+                  alt={work.data.coverAlt || ""}
                   loading="lazy"
                   decoding="async"
                 />
@@ -287,15 +270,52 @@ const categoryLabel: Record<string, string> = {
 
   /* ── Hero ── */
   .hero {
-    padding-block: 6rem 5rem;
+    position: relative;
+    min-height: 520px;
+    overflow: hidden;
     border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
   }
 
+  .hero-bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center right;
+  }
+
+  /* Overlay gradient — teks kiri tetap terbaca */
+  .hero-bg-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+    var(--color-bg) 0%,
+    var(--color-bg) 40%,
+    color-mix(in srgb, var(--color-bg) 70%, transparent) 65%,
+    transparent 100%
+  );
+}
+
   .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4rem;
-    align-items: center;
+    position: relative;
+    z-index: 1;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding: 6rem 1.5rem;
+    width: 100%;
+  }
+
+  .hero-text {
+    max-width: 52ch;
   }
 
   .hero-eyebrow {
@@ -355,6 +375,14 @@ const categoryLabel: Record<string, string> = {
   .hero-placeholder-label {
     font-size: 0.75rem;
     color: var(--color-text-muted);
+  }
+
+  .hero-image {
+    width: 220px;
+    height: 220px;
+    border-radius: 16px;
+    object-fit: cover;
+    background-color: var(--color-bg-subtle);
   }
 
   /* ── Work grid ── */
@@ -537,7 +565,7 @@ const categoryLabel: Record<string, string> = {
     max-width: 52ch;
   }
 
-  /* Dekorasi tipografi stacked -->
+  /* Dekorasi tipografi stacked */
   .about-snippet-deco {
     display: flex;
     flex-direction: column;
