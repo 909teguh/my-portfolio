@@ -1,0 +1,301 @@
+---
+// src/pages/work/index.astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allWork = await getCollection("work");
+const work = allWork.sort((a, b) => a.data.order - b.data.order);
+
+// Kumpulkan semua type yang ada untuk filter
+const types = ["all", ...new Set(work.map((w) => w.data.type))];
+
+const typeLabel: Record<string, string> = {
+  all: "All",
+  illustration: "Illustration",
+  commission: "Commission",
+  generative: "Generative",
+  other: "Other",
+};
+---
+
+<BaseLayout
+  title="Work"
+  description="Kumpulan karya ilustrasi — personal, commission, dan eksperimen generatif."
+>
+  <div class="container">
+    <!-- Header -->
+    <header class="page-header">
+      <h1 class="page-title">Work</h1>
+      <p class="page-desc">
+        Karya-karya yang lahir dari sela-sela waktu — di malam hari, di akhir
+        pekan, dan di momen tenang yang susah payah saya jaga.
+      </p>
+    </header>
+
+    <!-- Filter tabs -->
+    <div class="filter-bar" role="tablist" aria-label="Filter karya">
+      {
+        types.map((type) => (
+          <button
+            class="filter-btn"
+            data-filter={type}
+            role="tab"
+            aria-selected={type === "all" ? "true" : "false"}
+          >
+            {typeLabel[type] ?? type}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- Grid -->
+    {
+      work.length === 0 ? (
+        <div class="empty-state">
+          <p>Karya sedang dalam perjalanan. Nantikan.</p>
+        </div>
+      ) : (
+        <div class="work-grid" id="work-grid">
+          {work.map((item) => (
+            <a
+              href={`/work/${item.id}`}
+              class="work-card"
+              data-type={item.data.type}
+            >
+              <div class="work-card-image">
+                {item.data.cover ? (
+                  <img
+                    src={item.data.cover.src}
+                    alt={item.data.coverAlt ?? item.data.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="work-card-noimage">
+                    <span>{item.data.title.charAt(0)}</span>
+                  </div>
+                )}
+              </div>
+              <div class="work-card-info">
+                <div class="work-card-top">
+                  <p class="work-card-title">{item.data.title}</p>
+                  <span class="work-card-year">{item.data.year}</span>
+                </div>
+                <p class="work-card-desc">{item.data.description}</p>
+                {item.data.tags.length > 0 && (
+                  <div class="work-card-tags">
+                    {item.data.tags.slice(0, 3).map((tag) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  /* Header */
+  .page-header {
+    padding-block: 4rem 2.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .page-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin: 0 0 1rem;
+    color: var(--color-text);
+  }
+
+  .page-desc {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 52ch;
+    margin: 0;
+    line-height: 1.75;
+  }
+
+  /* Filter */
+  .filter-bar {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+
+  .filter-btn {
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: 99px;
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .filter-btn[aria-selected="true"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  /* Grid */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px
+      color-mix(in srgb, var(--color-text) 8%, transparent);
+  }
+
+  .work-card-image {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .work-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s;
+  }
+
+  .work-card:hover .work-card-image img {
+    transform: scale(1.04);
+  }
+
+  .work-card-noimage {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .work-card-info {
+    padding: 1rem 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+
+  .work-card-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .work-card-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .work-card-year {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .work-card-desc {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .work-card-tags {
+    display: flex;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+    margin-top: 0.375rem;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 99px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  /* Hidden card saat filter aktif */
+  .work-card.hidden {
+    display: none;
+  }
+
+  /* Empty state */
+  .empty-state {
+    padding: 5rem 0;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cards = document.querySelectorAll<HTMLElement>(".work-card");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const filter = btn.dataset.filter ?? "all";
+
+      // Update aria-selected
+      buttons.forEach((b) => b.setAttribute("aria-selected", "false"));
+      btn.setAttribute("aria-selected", "true");
+
+      // Tampilkan / sembunyikan karya
+      cards.forEach((card) => {
+        const match = filter === "all" || card.dataset.type === filter;
+        card.classList.toggle("hidden", !match);
+      });
+    });
+  });
+</script>

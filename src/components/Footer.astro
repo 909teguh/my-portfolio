@@ -1,0 +1,68 @@
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <p class="footer-copy">
+      © {year} Teguh Suwanda — engineer · illustrator · family man
+    </p>
+    <ul class="footer-links" role="list">
+      <li>
+        <a
+          href="https://instagram.com/suwandateguh"
+          target="_blank"
+          rel="noopener">Instagram</a>
+      </li>
+      <li>
+        <a href="https://github.com/909teguh" target="_blank" rel="noopener"
+          >GitHub</a>
+      </li>
+      <!-- Tambah atau hapus sesuai platform yang Anda gunakan -->
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: auto;
+    border-top: 1px solid var(--color-border);
+    padding-block: 2rem;
+  }
+
+  .footer-inner {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-copy {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .footer-links a {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-accent);
+  }
+</style>

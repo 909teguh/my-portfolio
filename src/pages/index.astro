@@ -1,11 +1,600 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// Ambil karya yang featured, urutkan by order
+const allWork = await getCollection('work');
+const featuredWork = allWork
+  .filter(w => w.data.featured)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+
+// Ambil 3 blog post terbaru yang bukan draft
+const allPosts = await getCollection('blog');
+const latestPosts = allPosts
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+// Format tanggal
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+// Label kategori blog
+const categoryLabel: Record<string, string> = {
+  craft:  'Craft',
+  notes:  'Notes',
+  family: 'Family',
+};
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout
+  title="Home"
+  description="Engineer by day, illustrator by passion, family man by purpose."
+>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+
+        <!-- Teks utama -->
+        <div class="hero-text">
+          <p class="hero-eyebrow">Halo, saya</p>
+          <h1 class="hero-name">Teguh Suwanda</h1>
+          <p class="hero-tagline">
+            Engineer by day,<br />
+            illustrator by passion,<br />
+            family man by purpose.
+          </p>
+          <p class="hero-bio">
+            Saya membangun software di siang hari dan menggambar di malam hari.
+            Di sini saya berbagi karya, proses, dan catatan kecil tentang hidup
+            yang pelan-pelan menjadi bermakna.
+          </p>
+          <div class="hero-actions">
+            <a href="/work" class="btn btn--primary">Lihat karya</a>
+            <a href="/blog" class="btn btn--ghost">Baca tulisan</a>
+          </div>
+        </div>
+
+        <!-- Placeholder foto / ilustrasi diri -->
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-placeholder">
+            <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" width="160" height="160" opacity="0.35">
+              <!-- Sosok sederhana — ganti dengan foto/ilustrasi Anda -->
+              <circle cx="100" cy="72" r="36" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M36 180c0-35.346 28.654-64 64-64s64 28.654 64 64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <!-- Pensil kecil di tangan -->
+              <line x1="148" y1="130" x2="168" y2="110" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="168" y1="110" x2="172" y2="106" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            <span class="hero-placeholder-label">foto / ilustrasi diri</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FEATURED WORK
+  ============================================================ -->
+  <section class="section">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">Selected Work</h2>
+        <a href="/work" class="section-link">All work →</a>
+      </div>
+
+      {featuredWork.length === 0 ? (
+        <!-- Placeholder saat belum ada karya -->
+        <div class="work-grid">
+          {[1, 2, 3].map(i => (
+            <div class="work-card work-card--placeholder">
+              <div class="work-card-image work-card-image--placeholder">
+                <span>karya {i}</span>
+              </div>
+              <div class="work-card-info">
+                <p class="work-card-title">Judul Karya {i}</p>
+                <p class="work-card-desc">Deskripsi singkat karya ini akan tampil di sini.</p>
+                <div class="work-card-meta">
+                  <span class="tag">illustration</span>
+                  <span class="work-card-year">2025</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="work-grid">
+          {featuredWork.map(work => (
+            <a href={`/work/${work.id}`} class="work-card">
+              <div class="work-card-image">
+                <img
+                  src={work.data.cover?.src}
+                  alt={work.data.coverAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="work-card-info">
+                <p class="work-card-title">{work.data.title}</p>
+                <p class="work-card-desc">{work.data.description}</p>
+                <div class="work-card-meta">
+                  {work.data.tags.slice(0, 2).map(tag => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                  <span class="work-card-year">{work.data.year}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LATEST POSTS
+  ============================================================ -->
+  <section class="section section--tinted">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">From the blog</h2>
+        <a href="/blog" class="section-link">All posts →</a>
+      </div>
+
+      {latestPosts.length === 0 ? (
+        <!-- Placeholder saat belum ada post -->
+        <div class="posts-list">
+          {[
+            { title: 'Kenapa saya akhirnya membuat website ini', cat: 'notes', date: 'hari ini' },
+            { title: 'Belajar menggambar di tengah jadwal yang padat', cat: 'craft', date: 'minggu lalu' },
+            { title: 'Hal-hal kecil yang saya syukuri sebagai ayah', cat: 'family', date: 'bulan lalu' },
+          ].map(p => (
+            <div class="post-item post-item--placeholder">
+              <div class="post-item-left">
+                <span class={`post-cat post-cat--${p.cat}`}>{categoryLabel[p.cat]}</span>
+                <p class="post-title">{p.title}</p>
+              </div>
+              <span class="post-date">{p.date}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="posts-list">
+          {latestPosts.map(post => (
+            <a href={`/blog/${post.id}`} class="post-item">
+              <div class="post-item-left">
+                <span class={`post-cat post-cat--${post.data.category}`}>
+                  {categoryLabel[post.data.category]}
+                </span>
+                <p class="post-title">{post.data.title}</p>
+              </div>
+              <span class="post-date">{formatDate(post.data.pubDate)}</span>
+            </a>
+          ))}
+        </div>
+      )}
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT SNIPPET
+  ============================================================ -->
+  <section class="section">
+    <div class="container">
+      <div class="about-snippet">
+        <div class="about-snippet-text">
+          <h2 class="about-snippet-title">A bit about me</h2>
+          <p>
+            Saya seorang software engineer yang menemukan ketenangan dalam menggambar.
+            Dua dunia yang kelihatannya berbeda — tapi bagi saya, keduanya sama: soal
+            membangun sesuatu yang bermakna, satu langkah kecil dalam satu waktu.
+          </p>
+          <p>
+            Di luar layar dan kanvas, saya adalah suami dan ayah yang sedang belajar
+            hadir sepenuhnya.
+          </p>
+          <a href="/about" class="btn btn--ghost" style="margin-top: 1.25rem; display: inline-flex;">
+            More about me →
+          </a>
+        </div>
+        <!-- Dekorasi tipografi -->
+        <div class="about-snippet-deco" aria-hidden="true">
+          <span class="deco-word">engineer</span>
+          <span class="deco-word deco-word--accent">illustrator</span>
+          <span class="deco-word">father</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  /* ── Layout helpers ── */
+  .container {
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .section {
+    padding-block: 5rem;
+  }
+
+  .section--tinted {
+    background-color: var(--color-bg-subtle);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .section-link {
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    transition: opacity 0.15s;
+  }
+
+  .section-link:hover { opacity: 0.75; }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    transition: background-color 0.15s, color 0.15s, opacity 0.15s;
+    cursor: pointer;
+  }
+
+  .btn--primary {
+    background-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .btn--primary:hover { opacity: 0.85; }
+
+  .btn--ghost {
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    background: transparent;
+  }
+
+  .btn--ghost:hover { background-color: var(--color-bg-subtle); }
+
+  /* ── Hero ── */
+  .hero {
+    padding-block: 6rem 5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.03em;
+  }
+
+  .hero-name {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin: 0 0 1.25rem;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-serif);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--color-text-muted);
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    font-variation-settings: "opsz" 9, "SOFT" 100;
+  }
+
+  .hero-bio {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 48ch;
+    margin: 0 0 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Placeholder visual hero */
+  .hero-visual { flex-shrink: 0; }
+
+  .hero-placeholder {
+    width: 220px;
+    height: 220px;
+    border-radius: 16px;
+    border: 1px dashed var(--color-border);
+    background-color: var(--color-bg-subtle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .hero-placeholder-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Work grid ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .work-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-text) 8%, transparent);
+  }
+
+  .work-card-image {
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+  }
+
+  .work-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .work-card:hover .work-card-image img { transform: scale(1.03); }
+
+  .work-card-image--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .work-card-info {
+    padding: 1rem 1.125rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    flex: 1;
+  }
+
+  .work-card-title {
+    font-weight: 500;
+    font-size: 0.9375rem;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .work-card-desc {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .work-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .work-card-year {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-left: auto;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 99px;
+    background-color: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Blog posts list ── */
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .post-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 1.125rem;
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+    color: inherit;
+    transition: background-color 0.15s;
+    border-radius: 4px;
+  }
+
+  .post-item:first-child { border-top: 1px solid var(--color-border); }
+
+  .post-item:not(.post-item--placeholder):hover {
+    background-color: var(--color-bg-subtle);
+    padding-inline: 0.75rem;
+    margin-inline: -0.75rem;
+  }
+
+  .post-item-left {
+    display: flex;
+    align-items: baseline;
+    gap: 0.875rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-cat {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .post-cat--notes  { background: var(--color-bg-subtle); color: var(--color-text-muted); }
+  .post-cat--craft  { background: var(--color-accent-soft); color: var(--color-accent); }
+  .post-cat--family {
+    background: color-mix(in srgb, #16a34a 10%, transparent);
+    color: #16a34a;
+  }
+
+  .post-title {
+    font-size: 0.9375rem;
+    margin: 0;
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .post-date {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ── About snippet ── */
+  .about-snippet {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-snippet-title {
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    margin: 0 0 1rem;
+  }
+
+  .about-snippet-text p {
+    color: var(--color-text-muted);
+    margin: 0 0 0.875rem;
+    max-width: 52ch;
+  }
+
+  /* Dekorasi tipografi stacked -->
+  .about-snippet-deco {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+    user-select: none;
+  }
+
+  .deco-word {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-style: italic;
+    font-variation-settings: "opsz" 9, "SOFT" 100;
+    color: var(--color-border);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    transition: color 0.2s;
+  }
+
+  .deco-word--accent { color: var(--color-accent); opacity: 0.3; }
+
+  .about-snippet:hover .deco-word { color: var(--color-text-muted); }
+  .about-snippet:hover .deco-word--accent { opacity: 0.6; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .hero-visual { display: none; }
+
+    .work-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .work-card { flex-direction: row; }
+
+    .work-card-image {
+      width: 100px;
+      flex-shrink: 0;
+      aspect-ratio: 1;
+    }
+
+    .about-snippet {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about-snippet-deco { display: none; }
+
+    .post-item { flex-direction: column; gap: 0.25rem; }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .work-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

@@ -1,0 +1,277 @@
+---
+// src/pages/work/[slug].astro
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const work = await getCollection("work");
+  return work.map((item) => ({
+    params: { slug: item.id },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+const { Content } = await render(item);
+
+const typeLabel: Record<string, string> = {
+  illustration: "Illustration",
+  commission: "Commission",
+  generative: "Generative",
+  other: "Other",
+};
+---
+
+<BaseLayout
+  title={item.data.title}
+  description={item.data.description}
+  ogImage={item.data.cover?.src}
+  ogType="article"
+>
+  <div class="container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/work">Work</a>
+      <span aria-hidden="true">›</span>
+      <span>{item.data.title}</span>
+    </nav>
+
+    <!-- Header karya -->
+    <header class="work-header">
+      <div class="work-meta-row">
+        <span class="work-type"
+          >{typeLabel[item.data.type] ?? item.data.type}</span
+        >
+        <span class="work-year">{item.data.year}</span>
+      </div>
+      <h1 class="work-title">{item.data.title}</h1>
+      <p class="work-desc">{item.data.description}</p>
+
+      {
+        (item.data.tags.length > 0 || item.data.tools.length > 0) && (
+          <div class="work-chips">
+            {item.data.tags.map((tag) => (
+              <span class="chip chip--tag">{tag}</span>
+            ))}
+            {item.data.tools.map((tool) => (
+              <span class="chip chip--tool">{tool}</span>
+            ))}
+          </div>
+        )
+      }
+
+      {
+        item.data.externalUrl && (
+          <a
+            href={item.data.externalUrl}
+            target="_blank"
+            rel="noopener"
+            class="external-link"
+          >
+            Lihat di platform lain ↗
+          </a>
+        )
+      }
+    </header>
+
+    <!-- Gambar cover -->
+    {
+      item.data.cover && (
+        <div class="work-cover">
+          <img
+            src={item.data.cover.src}
+            alt={item.data.coverAlt ?? item.data.title}
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+      )
+    }
+
+    <!-- Konten MDX -->
+    <article class="work-content prose">
+      <Content />
+    </article>
+
+    <!-- Navigasi bawah -->
+    <div class="work-footer">
+      <a href="/work" class="back-link">← Kembali ke Work</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    max-width: 56rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    padding-bottom: 5rem;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-top: 2rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .breadcrumb a {
+    color: var(--color-accent);
+    transition: opacity 0.15s;
+  }
+
+  .breadcrumb a:hover {
+    opacity: 0.75;
+  }
+
+  /* Header */
+  .work-header {
+    padding-block: 2rem 2.5rem;
+  }
+
+  .work-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .work-type {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.625rem;
+    border-radius: 4px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  .work-year {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .work-title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    margin: 0 0 0.875rem;
+    color: var(--color-text);
+  }
+
+  .work-desc {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    max-width: 52ch;
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  .work-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 1.25rem;
+  }
+
+  .chip {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 99px;
+  }
+
+  .chip--tag {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  .chip--tool {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  .external-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    transition: opacity 0.15s;
+  }
+
+  .external-link:hover {
+    opacity: 0.75;
+  }
+
+  /* Cover image */
+  .work-cover {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 3rem;
+    background: var(--color-bg-subtle);
+  }
+
+  .work-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Prose / konten MDX */
+  .prose {
+    color: var(--color-text);
+    line-height: 1.8;
+    font-size: 1.0625rem;
+  }
+
+  .prose :global(h2) {
+    font-size: 1.375rem;
+    margin: 2.5rem 0 0.875rem;
+    color: var(--color-text);
+  }
+
+  .prose :global(h3) {
+    font-size: 1.125rem;
+    margin: 2rem 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .prose :global(p) {
+    margin: 0 0 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .prose :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-block: 1.5rem;
+    border: 1px solid var(--color-border);
+  }
+
+  .prose :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Footer navigasi */
+  .work-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .back-link {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    transition: color 0.15s;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+</style>

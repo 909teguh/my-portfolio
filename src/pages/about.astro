@@ -1,0 +1,506 @@
+---
+// src/pages/about.astro
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const skills = {
+    Engineering: ["JavaScript / TypeScript", "React", "Node.js", "SQL", "Git"],
+    Illustration: ["Procreate", "Adobe Illustrator", "Figma", "Photoshop"],
+    "Currently learning": ["Astro", "p5.js", "Watercolor"],
+};
+
+const contacts = [
+    {
+        label: "Email",
+        href: "mailto:email@anda.com",
+        display: "email@anda.com",
+    },
+    {
+        label: "Instagram",
+        href: "https://instagram.com/username",
+        display: "@username",
+    },
+    {
+        label: "GitHub",
+        href: "https://github.com/username",
+        display: "github.com/username",
+    },
+];
+---
+
+<BaseLayout
+    title="About"
+    description="Engineer by day, illustrator by passion, family man by purpose — sedikit lebih dalam tentang siapa saya."
+>
+    <div class="container">
+        <!-- ── INTRO ── -->
+        <section class="intro">
+            <div class="intro-text">
+                <p class="intro-eyebrow">Tentang saya</p>
+                <h1 class="intro-heading">
+                    Saya Teguh —<br />
+                    <em>engineer, illustrator,<br />dan ayah.</em>
+                </h1>
+                <p class="intro-lead">
+                    Tiga kata itu bukan label. Mereka adalah cara saya memahami
+                    diri sendiri — dan cara saya menemukan makna di tengah
+                    hari-hari yang sibuk.
+                </p>
+            </div>
+
+            <div class="intro-photo">
+                <!-- Ganti div ini dengan <img> saat foto sudah siap -->
+                <div class="photo-placeholder" aria-label="Foto Teguh">
+                    <svg
+                        viewBox="0 0 200 200"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="120"
+                        height="120"
+                        opacity="0.25"
+                    >
+                        <circle
+                            cx="100"
+                            cy="72"
+                            r="36"
+                            stroke="currentColor"
+                            stroke-width="1.5"></circle>
+                        <path
+                            d="M36 180c0-35.346 28.654-64 64-64s64 28.654 64 64"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"></path>
+                    </svg>
+                    <span>foto diri</span>
+                </div>
+                <!-- Contoh saat foto sudah ada:
+        <img src="/images/photo.jpg" alt="Teguh Suwanda" />
+        -->
+            </div>
+        </section>
+
+        <!-- ── NARASI ── -->
+        <section class="narrative">
+            <div class="narrative-block">
+                <span class="narrative-marker">01</span>
+                <div class="narrative-content">
+                    <h2>Engineer by day</h2>
+                    <p>
+                        Saya bekerja sebagai software engineer — membangun
+                        sistem, memecahkan masalah, dan (sesekali) berdebat soal
+                        arsitektur sampai larut malam. Ada kepuasan tersendiri
+                        ketika sebuah solusi yang rapi akhirnya berjalan dengan
+                        baik.
+                    </p>
+                    <p>
+                        Dunia engineering mengajarkan saya untuk berpikir
+                        sistematis, sabar dengan proses, dan tidak takut
+                        mengerjakan ulang sesuatu yang belum benar.
+                    </p>
+                </div>
+            </div>
+
+            <div class="narrative-block">
+                <span class="narrative-marker">02</span>
+                <div class="narrative-content">
+                    <h2>Illustrator by passion</h2>
+                    <p>
+                        Menggambar adalah cara saya bernafas di luar pekerjaan.
+                        Bukan untuk menjadi sempurna — tapi untuk hadir
+                        sepenuhnya dalam satu momen, di mana satu-satunya yang
+                        penting adalah goresan di atas kanvas.
+                    </p>
+                    <p>
+                        Saya tertarik pada karakter, cerita, dan detail kecil
+                        yang membuat sebuah gambar terasa hidup. Dua dunia ini —
+                        kode dan gambar — lebih sering bertemu dari yang saya
+                        kira.
+                    </p>
+                </div>
+            </div>
+
+            <div class="narrative-block">
+                <span class="narrative-marker">03</span>
+                <div class="narrative-content">
+                    <h2>Family man by purpose</h2>
+                    <p>
+                        Di atas semua itu, saya adalah suami dan ayah. Ini bukan
+                        peran sampingan — ini adalah alasan di balik segalanya.
+                        Semua yang saya bangun, pelajari, dan ciptakan pada
+                        akhirnya bermuara pada satu hal: hadir untuk orang-orang
+                        yang saya cintai.
+                    </p>
+                    <p>
+                        Website ini pun sebagian adalah cara saya
+                        mendokumentasikan perjalanan itu — supaya suatu hari
+                        anak saya bisa melihat bagaimana ayahnya tumbuh.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── SKILLS & TOOLS ── -->
+        <section class="skills-section">
+            <h2 class="section-title">Skills & tools</h2>
+            <p class="section-desc">
+                Yang saya gunakan sehari-hari — di kantor, di studio, maupun di
+                meja belajar.
+            </p>
+            <div class="skills-grid">
+                {
+                    Object.entries(skills).map(([category, items]) => (
+                        <div class="skill-group">
+                            <h3 class="skill-category">{category}</h3>
+                            <ul class="skill-list" role="list">
+                                {items.map((skill) => (
+                                    <li class="skill-item">{skill}</li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))
+                }
+            </div>
+        </section>
+
+        <!-- ── CONTACT ── -->
+        <section class="contact-section">
+            <div class="contact-inner">
+                <div class="contact-text">
+                    <h2 class="section-title">Mari terhubung</h2>
+                    <p>
+                        Apakah Anda ingin berkolaborasi, memesan ilustrasi, atau
+                        sekadar menyapa — saya senang mendengar kabar dari Anda.
+                    </p>
+                </div>
+                <ul class="contact-list" role="list">
+                    {
+                        contacts.map((c) => (
+                            <li>
+                                <a
+                                    href={c.href}
+                                    class="contact-link"
+                                    target={
+                                        c.href.startsWith("http")
+                                            ? "_blank"
+                                            : undefined
+                                    }
+                                    rel={
+                                        c.href.startsWith("http")
+                                            ? "noopener"
+                                            : undefined
+                                    }
+                                >
+                                    <span class="contact-label">{c.label}</span>
+                                    <span class="contact-display">
+                                        {c.display} →
+                                    </span>
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </section>
+    </div>
+</BaseLayout>
+
+<style>
+    .container {
+        max-width: 56rem;
+        margin-inline: auto;
+        padding-inline: 1.5rem;
+        padding-bottom: 6rem;
+    }
+
+    .section-title {
+        font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+        margin: 0 0 0.75rem;
+        color: var(--color-text);
+    }
+
+    .section-desc {
+        font-size: 0.9375rem;
+        color: var(--color-text-muted);
+        margin: 0 0 2rem;
+        line-height: 1.7;
+    }
+
+    /* ── Intro ── */
+    .intro {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 4rem;
+        align-items: start;
+        padding-block: 4rem 3.5rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .intro-eyebrow {
+        font-size: 0.8125rem;
+        color: var(--color-text-muted);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 0 0 1rem;
+    }
+
+    .intro-heading {
+        font-size: clamp(2rem, 5vw, 3rem);
+        margin: 0 0 1.5rem;
+        color: var(--color-text);
+        line-height: 1.1;
+    }
+
+    .intro-heading em {
+        font-style: italic;
+        color: var(--color-accent);
+        font-variation-settings:
+            "opsz" 9,
+            "SOFT" 100;
+    }
+
+    .intro-lead {
+        font-size: 1.0625rem;
+        color: var(--color-text-muted);
+        line-height: 1.8;
+        max-width: 46ch;
+        margin: 0;
+    }
+
+    /* Foto */
+    .intro-photo {
+        flex-shrink: 0;
+        padding-top: 0.5rem;
+    }
+
+    .photo-placeholder {
+        width: 200px;
+        height: 240px;
+        border-radius: 16px;
+        border: 1px dashed var(--color-border);
+        background: var(--color-bg-subtle);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        color: var(--color-text-muted);
+        font-size: 0.75rem;
+    }
+
+    .intro-photo img {
+        width: 200px;
+        height: 240px;
+        border-radius: 16px;
+        object-fit: cover;
+        border: 1px solid var(--color-border);
+        display: block;
+    }
+
+    /* ── Narasi ── */
+    .narrative {
+        padding-block: 3.5rem;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .narrative-block {
+        display: grid;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 1.5rem;
+        padding-block: 2.5rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .narrative-block:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .narrative-block:first-child {
+        padding-top: 0;
+    }
+
+    .narrative-marker {
+        font-family: var(--font-serif);
+        font-size: 0.875rem;
+        font-style: italic;
+        color: var(--color-accent);
+        opacity: 0.6;
+        padding-top: 0.35rem;
+    }
+
+    .narrative-content h2 {
+        font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+        margin: 0 0 1rem;
+        color: var(--color-text);
+    }
+
+    .narrative-content p {
+        font-size: 1rem;
+        color: var(--color-text-muted);
+        line-height: 1.85;
+        margin: 0 0 1rem;
+        max-width: 58ch;
+    }
+
+    .narrative-content p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* ── Skills ── */
+    .skills-section {
+        padding-block: 3.5rem;
+        border-bottom: 1px solid var(--color-border);
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .skill-category {
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--color-accent);
+        margin: 0 0 0.875rem;
+    }
+
+    .skill-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .skill-item {
+        font-size: 0.9375rem;
+        color: var(--color-text-muted);
+        padding-left: 1rem;
+        position: relative;
+    }
+
+    .skill-item::before {
+        content: "·";
+        position: absolute;
+        left: 0;
+        color: var(--color-accent);
+        opacity: 0.5;
+    }
+
+    /* ── Contact ── */
+    .contact-section {
+        padding-block: 3.5rem 0;
+    }
+
+    .contact-inner {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+    }
+
+    .contact-text p {
+        font-size: 0.9375rem;
+        color: var(--color-text-muted);
+        line-height: 1.75;
+        margin: 0;
+    }
+
+    .contact-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .contact-link {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-block: 0.875rem;
+        border-bottom: 1px solid var(--color-border);
+        transition: background-color 0.15s;
+        border-radius: 4px;
+        text-decoration: none;
+    }
+
+    .contact-list li:first-child .contact-link {
+        border-top: 1px solid var(--color-border);
+    }
+
+    .contact-link:hover {
+        background-color: var(--color-bg-subtle);
+        padding-inline: 0.75rem;
+        margin-inline: -0.75rem;
+    }
+
+    .contact-label {
+        font-size: 0.8125rem;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 500;
+    }
+
+    .contact-display {
+        font-size: 0.9375rem;
+        color: var(--color-accent);
+        transition: opacity 0.15s;
+    }
+
+    .contact-link:hover .contact-display {
+        opacity: 0.75;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+        .intro {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .intro-photo {
+            order: -1;
+        }
+
+        .photo-placeholder,
+        .intro-photo img {
+            width: 100%;
+            height: 200px;
+        }
+
+        .narrative-block {
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+
+        .narrative-marker {
+            padding-top: 0;
+        }
+
+        .skills-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .contact-inner {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 900px) {
+        .skills-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
