@@ -66,4 +66,35 @@ const work = defineCollection({
     }),
 });
 
-export const collections = { blog, work };
+/**
+ * Collection: now
+ * Untuk halaman /now — snapshot apa yang sedang terjadi
+ * Hanya ada satu file: src/content/now/index.mdx
+ */
+const now = defineCollection({
+    loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/now' }),
+    schema: z.object({
+        // Kapan terakhir diperbarui — tampil di header halaman
+        lastUpdated: z.coerce.date(),
+
+        // Daftar proyek aktif
+        projects: z.array(
+            z.object({
+                title: z.string(),
+                desc: z.string(),
+                // 'aktif' = sedang dikerjakan penuh, 'pelan-pelan' = sambil lalu
+                status: z.enum(['aktif', 'pelan-pelan']).default('aktif'),
+            })
+        ).default([]),
+
+        // Fokus & tujuan saat ini
+        focus: z.array(
+            z.object({
+                area: z.string(),
+                desc: z.string(),
+            })
+        ).default([]),
+    }),
+});
+
+export const collections = { blog, work, now };
