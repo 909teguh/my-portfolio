@@ -1,0 +1,55 @@
+---
+// src/components/mdx/ImageFloat.astro
+/**
+ * Komponen gambar mengambang kiri / kanan untuk MDX.
+ * Teks konten di-slot di sebelah gambar.
+ *
+ * Props:
+ *   src     — path gambar (wajib)
+ *   alt     — teks alt (wajib untuk aksesibilitas)
+ *   side    — 'left' | 'right'  (default: 'right')
+ *   caption — teks caption di bawah gambar (opsional)
+ *   width   — lebar gambar dalam px, string CSS (default: '240px')
+ *
+ * Contoh penggunaan di MDX:
+ *   import { ImageFloat } from '@components/mdx/index.ts'
+ *
+ *   <ImageFloat src="/images/sketch.jpg" alt="Sketsa awal" side="left" caption="Proses sketsa awal di kertas">
+ *     Saya selalu memulai dengan sketsa di atas kertas — bukan langsung digital.
+ *     Ada kualitas tertentu dari goresan pena yang tidak bisa digantikan stylus.
+ *   </ImageFloat>
+ */
+
+interface Props {
+  src: string;
+  alt: string;
+  side?: 'left' | 'right';
+  caption?: string;
+  width?: string;
+}
+
+const {
+  src,
+  alt,
+  side = 'right',
+  caption,
+  width = '240px',
+} = Astro.props;
+---
+
+<div class={`image-float${side === 'right' ? ' image-float--right' : ''}`}>
+  <figure style={`flex-basis: ${width}; flex-shrink: 0;`}>
+    <img
+      src={src}
+      alt={alt}
+      class="image-float__img"
+      loading="lazy"
+      decoding="async"
+      style={`width: ${width};`}
+    />
+    {caption && <figcaption class="image-float__caption">{caption}</figcaption>}
+  </figure>
+  <div class="image-float__body">
+    <slot />
+  </div>
+</div>

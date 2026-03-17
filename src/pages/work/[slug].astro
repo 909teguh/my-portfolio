@@ -25,7 +25,7 @@ const typeLabel: Record<string, string> = {
 <BaseLayout
   title={item.data.title}
   description={item.data.description}
-  ogImage={item.data.cover?.src}
+  ogImage={item.data.cover}
   ogType="article"
 >
   <div class="container">
@@ -79,7 +79,7 @@ const typeLabel: Record<string, string> = {
       item.data.cover && (
         <div class="work-cover">
           <img
-            src={item.data.cover.src}
+            src={item.data.cover}
             alt={item.data.coverAlt ?? item.data.title}
             loading="eager"
             decoding="async"

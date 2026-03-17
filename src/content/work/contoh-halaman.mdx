@@ -1,0 +1,99 @@
+---
+title: "Contoh Komponen Lengkap untuk Work"
+description: "Demonstrasi lengkap penggunaan komponen MDX di dalam halaman detail Work."
+type: "illustration"
+year: 2026
+featured: true
+tags: ["contoh", "demo", "komponen"]
+tools: ["Astro", "MDX", "CSS"]
+cover: "/images/portfolio1.jpg"
+coverAlt: "Contoh Portfolio 1"
+---
+
+import { Callout, ImageFloat } from '../../components/mdx/index.ts';
+
+# Contoh Halaman Work: Detail Portofolio
+
+Ini adalah contoh halaman (sebagai _study case_ atau _showcase_ karya) yang dirender di `src/pages/work/[slug].astro`. Kita akan melihat bagaimana semua komponen MDX dapat digunakan berdampingan untuk menjelaskan _behind-the-scenes_ dari karya.
+
+## 1. Pengenalan Karya (Callout)
+
+Di bagian awal portfolio, wajar bila kita ingin memberikan informasi latar belakang yang ringkas namun menonjol. Callout adalah pilihan terbaik:
+
+<Callout type="info" title="Latar Belakang Proyek">
+  Karya ini dikerjakan sebagai bahan demonstrasi untuk melihat integrasi Astro Content Collections dengan MDX.
+</Callout>
+
+<Callout type="tip" title="Eksperimen Gaya">
+  Kami menggunakan kombinasi warna pastel lembut dan pencahayaan dinamis untuk menghidupkan karakter di dalam gambar.
+</Callout>
+
+<Callout type="warning" title="Batasan Media">
+  Ukuran file mentah yang terlalu besar mengharuskan kompresi, perhatikan kehilangan beberapa detail halus pada bayangan.
+</Callout>
+
+<Callout type="danger" title="Hak Cipta (NDA)">
+  Beberapa aset dari contoh asli digunakan kembali di sini. Jangan mereproduksi gambar tanpa mencantumkan kredit.
+</Callout>
+
+<Callout type="accent">
+  Sebuah catatan singkat sebagai penutup ringkasan proyek.
+</Callout>
+
+---
+
+## 2. Proses Kerja: `ImageFloat`
+
+Menggunakan `<ImageFloat>` dalam portfolio akan membuat studi kasus (*case-study*) terlihat lebih seperti majalah desain (*editorial layout*) yang elegan dibandingkan daftar gambar ke bawah biasa.
+
+### Gambar Konsep
+
+<ImageFloat
+  src="/images/portfolio1.jpg"
+  alt="Konsep Contoh Portfolio 1"
+  side="left"
+  width="280px"
+  caption="Gambar proses awal / Portofolio 1"
+>
+  Pada tahapan _sketching_ dan purwarupa (prototype), ide dasar sudah terbentuk. Penggunaan floating image di sisi kiri ini memudahkan Anda untuk menjelaskan keputusan artistik selagi pembaca masih bisa melihat bentuk kasarnya. 
+  
+  Teks akan membungkus (wrap) gambar ini di layarnya.
+</ImageFloat>
+
+### Penyajian Final
+
+<ImageFloat
+  src="/images/portfolio2.jpg"
+  alt="Hasil Jadi Portfolio 2"
+  side="right"
+  width="300px"
+  caption="Gambar final karya / Portofolio 2"
+>
+  Setelah melalui proses penyempurnaan, beginilah hasil akhir pengerjaan. Menggunakan gambar yang melayang di kanan memecah kebosanan pola layout, dan sangat cocok apabila resolusi gambar _portrait_ (memanjang ke bawah).
+  
+  Teknik ini juga memberikan porsi seimbang antara visual yang disajikan dan konteks yang melatarbelakangi pembuatannya.
+</ImageFloat>
+
+---
+
+## 3. Catatan Teknis (Tipografi standar)
+
+Sebagai pengembang atau desainer, terkadang Anda ingin menaruh snippet kode kreatif.
+
+```css
+/* Efek visual transisi */
+.work-item:hover .thumbnail {
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in-out;
+}
+```
+
+> "Proses desain yang tidak diungkapkan sering kali dilupakan. Mendokumentasikannya adalah cara kita belajar dari masa lalu."
+
+### Daftar _Tools_ Terpakai:
+- Aplikasi Desain Raster Utama
+- Sistem Layout dengan `CSS Flexbox` dan `Grid`
+- SSG Astro
+- Komponen Custom MDX.
+
+Begitulah cara Anda bisa merakit komponen-komponen ini untuk menghasilkan artikel portofolio yang interaktif dan kaya secara tekstur!

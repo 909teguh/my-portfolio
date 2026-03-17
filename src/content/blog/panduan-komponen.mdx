@@ -1,0 +1,157 @@
+---
+# src/content/blog/panduan-komponen.mdx
+#
+# File ini adalah DEMO penggunaan semua komponen MDX.
+# Hapus atau ubah isinya sesuai kebutuhan.
+
+title: "Panduan Komponen Konten"
+description: "Referensi cepat semua elemen tipografi dan komponen yang tersedia di blog."
+pubDate: 2025-01-15
+category: "notes"
+tags: ["panduan", "tipografi", "komponen"]
+draft: false
+---
+
+import { Callout, ImageFloat } from '../../components/mdx/index.ts';
+
+# Ini adalah H1
+
+H1 digunakan sebagai judul utama. Di halaman blog biasanya sudah dirender otomatis dari `title` di frontmatter,
+jadi H1 di dalam konten cocok untuk memulai bagian yang sangat penting atau sebagai judul mandiri.
+
+---
+
+## Ini adalah H2
+
+H2 adalah section header utama. Gunakan untuk membagi artikel menjadi bagian-bagian besar.
+Setiap H2 mendapat aksen garis oranye di kiri sebagai penanda visual.
+
+### Ini adalah H3
+
+H3 adalah sub-section. Gunakan di bawah H2 untuk memecah pembahasan lebih detail.
+H3 tampil italic dengan warna aksen — lebih lembut dari H2.
+
+---
+
+## Blockquote
+
+Gunakan `>` untuk kutipan.
+
+> Menggambar bukan soal bakat. Menggambar adalah soal mau duduk, mau membuat kesalahan,
+> dan mau kembali lagi keesokan harinya.
+> <cite>Austin Kleon</cite>
+
+---
+
+## Callout
+
+Callout tersedia dalam lima varian. Import `Callout` dari komponen MDX.
+
+<Callout type="info" title="Informasi">
+  Ini adalah callout varian **info** — untuk informasi tambahan yang berguna tapi tidak kritis.
+</Callout>
+
+<Callout type="tip" title="Pro tip">
+  Gunakan shortcut **Cmd+Z** berkali-kali di Procreate untuk undo. Bisa sampai ratusan langkah ke belakang.
+</Callout>
+
+<Callout type="warning" title="Perhatian">
+  Layer yang sudah di-merge **tidak bisa** dipisahkan kembali. Pastikan Anda sudah yakin sebelum merge.
+</Callout>
+
+<Callout type="danger" title="Peringatan">
+  Jangan hapus folder `src/content/` — semua data blog dan portfolio Anda ada di sana.
+</Callout>
+
+<Callout type="accent">
+  Callout tanpa judul juga bisa — cocok untuk catatan singkat atau emphasis ringan.
+</Callout>
+
+---
+
+## Kode
+
+Inline code: gunakan `backtick` di kiri dan kanan teks.
+
+Block code menggunakan triple backtick:
+
+```typescript
+// Fetch semua post blog yang bukan draft
+const allPosts = await getCollection('blog');
+const posts = allPosts
+  .filter(p => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+```
+
+```css
+/* Contoh CSS dengan variabel tema */
+.my-component {
+  background: var(--color-bg-subtle);
+  color: var(--color-accent);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+}
+```
+
+---
+
+## Divider
+
+Gunakan `---` (tiga strip) untuk memisahkan antar bagian. Di atas dan bawah ini adalah contoh divider.
+
+---
+
+## Gambar Mengambang — Kanan
+
+Gunakan `<ImageFloat side="right">` untuk gambar di kanan, teks di kiri.
+Isi slot dengan paragraf yang ingin ditampilkan berdampingan.
+
+<ImageFloat
+  src="/images/profile.png"
+  alt="Contoh gambar mengambang kanan"
+  side="right"
+  caption="Keterangan gambar di sini"
+>
+  Gambar ini mengambang ke kanan. Teks di sebelah kiri bisa berisi penjelasan,
+  konteks, atau cerita di balik gambar. Di layar mobile keduanya akan stack secara vertikal.
+
+  Paragraf kedua tetap berada di sebelah gambar selama cukup tinggi.
+</ImageFloat>
+
+---
+
+## Gambar Mengambang — Kiri
+
+Gunakan `<ImageFloat side="left">` untuk gambar di kiri, teks di kanan.
+
+<ImageFloat
+  src="/images/profile.png"
+  alt="Contoh gambar mengambang kiri"
+  side="left"
+  width="200px"
+  caption="Sketsa awal di kertas"
+>
+  Gambar ini mengambang ke kiri dengan lebar yang lebih kecil (`width="200px"`).
+  Teks di sebelah kanan mengalir secara alami. Cocok untuk gambar potret atau thumbnail kecil.
+</ImageFloat>
+
+---
+
+## Bullet List
+
+- Item pertama dalam daftar
+- Item kedua — penjelasan yang sedikit lebih panjang untuk melihat bagaimana teks mengalir
+- Item ketiga
+  - Sub-item A
+  - Sub-item B
+- Item keempat
+
+---
+
+## Numbered List
+
+1. Langkah pertama: buka aplikasi Procreate
+2. Buat kanvas baru dengan ukuran `2048 × 2048 px`
+3. Pilih brush favorit Anda dari koleksi
+4. Mulai dengan sketsa kasar — jangan terlalu detail dulu
+5. Refinement dilakukan setelah komposisi dirasa tepat

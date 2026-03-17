@@ -1,0 +1,438 @@
+/*
+ * src/styles/prose.css
+ *
+ * Styling untuk semua konten MDX — dipakai di blog/[slug].astro
+ * dan work/[slug].astro lewat class .prose pada wrapper <article>.
+ *
+ * Tambahkan @import './prose.css'; di global.css atau langsung
+ * di BaseLayout.astro di bawah global.css yang sudah ada.
+ */
+
+/* ─────────────────────────────────────────────
+   HEADINGS
+───────────────────────────────────────────── */
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 9;
+  color: var(--color-text);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+/* H1 — judul utama artikel */
+.prose h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 1.5rem;
+}
+
+/* H1 — garis aksen di bawah */
+.prose h1::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 3px;
+  background: var(--color-accent);
+  border-radius: 99px;
+  margin-top: 0.75rem;
+}
+
+/* H2 — section header */
+.prose h2 {
+  font-size: clamp(1.375rem, 3vw, 1.75rem);
+  margin: 3rem 0 1rem;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-accent);
+}
+
+/* H3 — sub-section */
+.prose h3 {
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  margin: 2.25rem 0 0.75rem;
+  color: var(--color-accent);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────────
+   PARAGRAPH & INLINE
+───────────────────────────────────────────── */
+
+.prose p {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  line-height: 1.85;
+  margin: 0 0 1.5rem;
+}
+
+.prose strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.prose em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-variation-settings: "opsz" 9, "SOFT" 100;
+  color: var(--color-text);
+}
+
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  transition: opacity 0.15s;
+}
+
+.prose a:hover {
+  opacity: 0.75;
+}
+
+/* ─────────────────────────────────────────────
+   BLOCKQUOTE
+───────────────────────────────────────────── */
+
+.prose blockquote {
+  position: relative;
+  margin: 2.5rem 0;
+  padding: 1.75rem 1.75rem 1.75rem 2rem;
+  background: var(--color-bg-subtle);
+  border-radius: 0 12px 12px 0;
+  border-left: 4px solid var(--color-accent);
+}
+
+/* Tanda kutip dekoratif */
+.prose blockquote::before {
+  content: '\201C';
+  position: absolute;
+  top: -0.5rem;
+  left: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--color-accent);
+  opacity: 0.2;
+  font-variation-settings: "opsz" 9;
+}
+
+.prose blockquote p {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-style: italic;
+  font-variation-settings: "opsz" 9, "SOFT" 100;
+  color: var(--color-text);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.prose blockquote cite {
+  display: block;
+  margin-top: 0.875rem;
+  font-size: 0.8125rem;
+  font-style: normal;
+  color: var(--color-text-muted);
+  font-family: var(--font-sans);
+}
+
+.prose blockquote cite::before {
+  content: '— ';
+}
+
+/* ─────────────────────────────────────────────
+   LISTS
+───────────────────────────────────────────── */
+
+.prose ul,
+.prose ol {
+  margin: 0 0 1.5rem;
+  padding-left: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+/* Bullet list — custom bullet aksen */
+.prose ul li {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.prose ul li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  opacity: 0.7;
+}
+
+/* Numbered list — angka dengan aksen */
+.prose ol {
+  counter-reset: prose-counter;
+}
+
+.prose ol li {
+  font-size: 1.0625rem;
+  color: var(--color-text-muted);
+  line-height: 1.75;
+  padding-left: 2.25rem;
+  position: relative;
+  counter-increment: prose-counter;
+}
+
+.prose ol li::before {
+  content: counter(prose-counter, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  font-family: var(--font-serif);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--color-accent);
+  opacity: 0.8;
+  line-height: 1.75;
+}
+
+/* Nested list */
+.prose li ul,
+.prose li ol {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────
+   CODE — INLINE
+───────────────────────────────────────────── */
+
+.prose code:not(pre code) {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+  font-size: 0.875em;
+  padding: 0.2em 0.45em;
+  border-radius: 4px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  color: var(--color-accent);
+}
+
+/* ─────────────────────────────────────────────
+   CODE — BLOCK  <pre><code>
+───────────────────────────────────────────── */
+
+.prose pre {
+  position: relative;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+
+  /* Scrollbar tipis */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.prose pre code {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Label bahasa — opsional, ditampilkan via data-language attr */
+.prose pre[data-language]::before {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.75rem;
+  right: 1rem;
+  font-size: 0.6875rem;
+  font-family: var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+}
+
+/* ─────────────────────────────────────────────
+   DIVIDER  <hr>
+───────────────────────────────────────────── */
+
+.prose hr {
+  border: none;
+  margin: 3rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+/* Tiga titik tengah sebagai ornamen */
+.prose hr::before {
+  content: '· · ·';
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  letter-spacing: 0.5rem;
+  color: var(--color-border);
+  font-style: italic;
+}
+
+/* ─────────────────────────────────────────────
+   IMAGE — standar
+───────────────────────────────────────────── */
+
+.prose img:not(.float-img) {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  margin-block: 2.5rem;
+}
+
+/* figcaption */
+.prose figcaption {
+  margin-top: -2rem;
+  margin-bottom: 2.5rem;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
+/* ─────────────────────────────────────────────
+   IMAGE FLOAT — kiri & kanan
+   Gunakan komponen <ImageFloat> di MDX
+───────────────────────────────────────────── */
+
+.prose .image-float {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.75rem;
+  margin-block: 2.5rem;
+  clear: both;
+}
+
+.prose .image-float--right {
+  flex-direction: row-reverse;
+}
+
+.prose .image-float__img {
+  flex-shrink: 0;
+  width: clamp(160px, 40%, 280px);
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  object-fit: cover;
+  height: auto;
+  display: block;
+}
+
+.prose .image-float__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.prose .image-float__caption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
+/* Responsive — stack on mobile */
+@media (max-width: 640px) {
+  .prose .image-float,
+  .prose .image-float--right {
+    flex-direction: column;
+  }
+
+  .prose .image-float__img {
+    width: 100%;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   CALLOUT
+───────────────────────────────────────────── */
+
+.prose .callout {
+  display: flex;
+  gap: 1rem;
+  margin-block: 2rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-subtle);
+}
+
+.prose .callout__icon {
+  flex-shrink: 0;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  margin-top: 0.05rem;
+}
+
+.prose .callout__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.prose .callout__title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 0.375rem;
+  font-family: var(--font-sans);
+}
+
+.prose .callout__body p {
+  font-size: 0.9375rem;
+  margin: 0;
+  line-height: 1.7;
+}
+
+/* Varian warna */
+.prose .callout--info {
+  background: color-mix(in srgb, #3b82f6 8%, var(--color-bg));
+  border-color: color-mix(in srgb, #3b82f6 25%, transparent);
+}
+.prose .callout--info .callout__title { color: #3b82f6; }
+
+.prose .callout--warning {
+  background: color-mix(in srgb, #f59e0b 8%, var(--color-bg));
+  border-color: color-mix(in srgb, #f59e0b 25%, transparent);
+}
+.prose .callout--warning .callout__title { color: #d97706; }
+
+.prose .callout--danger {
+  background: color-mix(in srgb, #ef4444 8%, var(--color-bg));
+  border-color: color-mix(in srgb, #ef4444 25%, transparent);
+}
+.prose .callout--danger .callout__title { color: #ef4444; }
+
+.prose .callout--tip {
+  background: color-mix(in srgb, #10b981 8%, var(--color-bg));
+  border-color: color-mix(in srgb, #10b981 25%, transparent);
+}
+.prose .callout--tip .callout__title { color: #10b981; }
+
+.prose .callout--accent {
+  background: var(--color-accent-soft);
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+.prose .callout--accent .callout__title { color: var(--color-accent); }

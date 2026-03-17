@@ -1,0 +1,101 @@
+---
+title: "Contoh Komponen Lengkap untuk Blog"
+description: "Halaman ini mendemonstrasikan penggunaan semua komponen MDX yang tersedia untuk koleksi Blog."
+pubDate: 2026-03-17
+category: "notes"
+tags: ["panduan", "komponen", "testing"]
+draft: false
+---
+
+import { Callout, ImageFloat } from '../../components/mdx/index.ts';
+
+# Contoh Halaman Blog: Penggunaan Semua Komponen
+
+Halo! Ini adalah contoh halaman yang sengaja dibuat untuk memperlihatkan bagaimana semua komponen MDX dirender pada template `src/pages/blog/[slug].astro`.
+
+## 1. Komponen Callout
+
+Callout sangat berguna untuk menarik perhatian pembaca pada informasi-informasi penting.
+
+<Callout type="info" title="Sekilas Info">
+  Anda sedang melihat contoh penggunaan varian **info**. Komponen ini biasanya digunakan untuk memberikan catatan tambahan atau informasi ekstra yang tidak bersifat darurat.
+</Callout>
+
+<Callout type="tip" title="Tips dan Trik">
+  Gunakan varian **tip** untuk membagikan _shortcut_ atau trik-trik menarik terkait topik yang sedang dibahas.
+</Callout>
+
+<Callout type="warning" title="Perhatian">
+  Varian **warning** sebaiknya digunakan untuk hal-hal yang perlu diperhatikan sebelum mengambil tindakan lebih lanjut.
+</Callout>
+
+<Callout type="danger" title="Awas!">
+  Varian **danger** sangat cocok untuk menyoroti bahaya, kesalahan fatal, atau perubahan yang tidak bisa di-cancel.
+</Callout>
+
+<Callout type="accent">
+  Ini adalah varian callout tanpa judul, yang menggunakan warna **aksen** bawaan tema.
+</Callout>
+
+---
+
+## 2. Gambar Mengambang (ImageFloat)
+
+Komponen `<ImageFloat>` memungkinkan kita untuk menempatkan gambar berdampingan dengan teks (kiri atau kanan) secara presisi, sangat cocok untuk _artbook_ atau penjelasan visual lainnya.
+
+### Mengambang di Kiri
+
+<ImageFloat
+  src="/images/portfolio1.jpg"
+  alt="Contoh Portfolio 1 di Kiri"
+  side="left"
+  width="250px"
+  caption="Gambar portofolio 1 (mengambang di sebelah kiri)"
+>
+  Penggunaan `ImageFloat` di sebelah kiri ini memungkinkan teks untuk mengalir bebas di sebelah kanannya. Coba bayangkan jika Anda sedang bercerita tentang proses pembuatan karya ini, paragraf demi paragraf akan tetap terbaca dengan nyaman tanpa terpotong oleh blok gambar besar di tengah.
+  
+  Anda juga bisa menambahkan lebih banyak paragraf di sini, dan teks akan mengisi ruang yang kosong di bawah gambar apabila gambar tersebut tidak terlalu tinggi.
+</ImageFloat>
+
+### Mengambang di Kanan
+
+<ImageFloat
+  src="/images/portfolio2.jpg"
+  alt="Contoh Portfolio 2 di Kanan"
+  side="right"
+  width="300px"
+  caption="Gambar portofolio 2 (mengambang di sebelah kanan)"
+>
+  Kebalikan dari gaya sebelumnya, di sini gambar diletakkan di sisi kanan teks. Variasi ini bagus digunakan secara bergantian dengan yang di kiri agar komposisi artikel tidak monoton dan layout halaman terasa lebih dinamis.
+  
+  Pastikan Anda selalu menyertakan atribut `caption` dan `alt` yang deskriptif guna meningkatkan aksesibilitas (_accessibility_) web!
+</ImageFloat>
+
+---
+
+## 3. Elemen Tipografi Standar
+
+Untuk memastikan kelengkapan referensi, di bawah ini kita letakkan elemen-elemen _markdown_ bawaan.
+
+> "Tipografi yang baik adalah ketika Anda tidak menyadari betapa bagusnya itu, melainkan betapa mudahnya Anda membaca apa yang tertulis di sana."  
+> <cite>Seseorang yang bijak</cite>
+
+### Kode (Code Block)
+
+```javascript
+// Contoh fetch sederhana
+async function getPosts() {
+  const posts = await fetch('/api/posts');
+  return posts.json();
+}
+```
+
+### Daftar (List)
+
+- Item pertama dalam bentuk _bullet_
+- Item kedua dengan beberapa anak item:
+  - Sub-item A
+  - Sub-item B
+- Item ketiga
+
+Itu dia seluruh demonstrasi penggunaan komponen MDX dan elemen tipografi pada template halaman blog.

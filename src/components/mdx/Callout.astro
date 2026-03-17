@@ -1,0 +1,48 @@
+---
+// src/components/mdx/Callout.astro
+/**
+ * Komponen Callout untuk MDX
+ *
+ * Props:
+ *   type    — 'info' | 'warning' | 'danger' | 'tip' | 'accent'  (default: 'info')
+ *   title   — judul callout (opsional)
+ *   icon    — emoji atau karakter (opsional, ada default per type)
+ *
+ * Contoh penggunaan di MDX:
+ *   import { Callout } from '@components/mdx/index.ts'
+ *
+ *   <Callout type="tip" title="Pro tip">
+ *     Gunakan shortcut Cmd+Z untuk undo di Procreate.
+ *   </Callout>
+ */
+
+interface Props {
+  type?: 'info' | 'warning' | 'danger' | 'tip' | 'accent';
+  title?: string;
+  icon?: string;
+}
+
+const {
+  type = 'info',
+  title,
+  icon,
+} = Astro.props;
+
+const defaultIcons: Record<string, string> = {
+  info:    'ℹ️',
+  warning: '⚠️',
+  danger:  '🚨',
+  tip:     '💡',
+  accent:  '✦',
+};
+
+const resolvedIcon = icon ?? defaultIcons[type];
+---
+
+<div class={`callout callout--${type}`}>
+  <span class="callout__icon" aria-hidden="true">{resolvedIcon}</span>
+  <div class="callout__body">
+    {title && <p class="callout__title">{title}</p>}
+    <slot />
+  </div>
+</div>

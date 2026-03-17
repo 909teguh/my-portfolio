@@ -22,10 +22,7 @@ const formatDate = (date: Date) =>
   });
 ---
 
-<BaseLayout
-  title={post.data.title}
-  description={post.data.description}
->
+<BaseLayout title={post.data.title} description={post.data.description}>
   <article class="container">
     <header class="post-header">
       <time class="post-date" datetime={post.data.pubDate.toISOString()}>
@@ -33,16 +30,18 @@ const formatDate = (date: Date) =>
       </time>
       <h1 class="post-title">{post.data.title}</h1>
       <p class="post-desc">{post.data.description}</p>
-      {post.data.tags && post.data.tags.length > 0 && (
-        <div class="post-tags">
-          {post.data.tags.map((tag) => (
-            <span class="tag">#{tag}</span>
-          ))}
-        </div>
-      )}
+      {
+        post.data.tags && post.data.tags.length > 0 && (
+          <div class="post-tags">
+            {post.data.tags.map((tag) => (
+              <span class="tag">#{tag}</span>
+            ))}
+          </div>
+        )
+      }
     </header>
-    
-    <div class="post-content">
+
+    <div class="post-content prose">
       <Content />
     </div>
   </article>
@@ -102,54 +101,5 @@ const formatDate = (date: Date) =>
     color: var(--color-text);
     line-height: 1.8;
     font-size: 1.0625rem;
-  }
-
-  .post-content :global(h2) {
-    font-size: 1.5rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
-    color: var(--color-text);
-  }
-
-  .post-content :global(h3) {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-
-  .post-content :global(p) {
-    margin-bottom: 1.5rem;
-  }
-
-  .post-content :global(a) {
-    color: var(--color-accent);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
-
-  .post-content :global(ul), .post-content :global(ol) {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .post-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .post-content :global(blockquote) {
-    border-left: 4px solid var(--color-border);
-    padding-left: 1rem;
-    margin-left: 0;
-    margin-right: 0;
-    font-style: italic;
-    color: var(--color-text-muted);
-  }
-
-  .post-content :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-block: 2rem;
   }
 </style>
