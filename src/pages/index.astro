@@ -1,7 +1,5 @@
 ---
 // src/pages/index.astro
-import { Image } from 'astro:assets';
-import profileImg from '../assets/profile.png';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
@@ -10,7 +8,7 @@ const allWork = await getCollection('work');
 const featuredWork = allWork
   .filter(w => w.data.featured)
   .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+  .slice(0, 8); // ambil hingga 8 untuk masonry
 
 // Ambil 3 blog post terbaru yang bukan draft
 const allPosts = await getCollection('blog');
@@ -29,6 +27,13 @@ const categoryLabel: Record<string, string> = {
   notes:  'Notes',
   family: 'Family',
 };
+
+const typeLabel: Record<string, string> = {
+  illustration: 'Illustration',
+  commission: 'Commission',
+  generative: 'Generative',
+  other: 'Other',
+};
 ---
 
 <BaseLayout
@@ -40,31 +45,31 @@ const categoryLabel: Record<string, string> = {
        HERO
   ============================================================ -->
   <section class="hero">
-  <div class="hero-bg-image">
-    <img src="/images/portfolio1.jpg" alt="" aria-hidden="true" />
-  </div>
-  <div class="hero-inner">
-    <div class="hero-text">
-      <p class="hero-eyebrow">Halo, saya</p>
-      <h1 class="hero-name">Teguh Suwanda</h1>
-      <p class="hero-tagline">
-        Engineer by day,<br />
-        illustrator by passion,<br />
-        family man by purpose.
-      </p>
-      <p class="hero-bio">Saya membangun software di siang hari dan menggambar di malam hari.
-            Di sini saya berbagi karya, proses, dan catatan kecil tentang hidup
-            yang pelan-pelan menjadi bermakna.</p>
-      <div class="hero-actions">
-        <a href="/work" class="btn btn--primary">Lihat karya</a>
-        <a href="/blog" class="btn btn--ghost">Baca tulisan</a>
+    <div class="hero-bg-image">
+      <img src="/images/portfolio1.jpg" alt="" aria-hidden="true" />
+    </div>
+    <div class="hero-inner">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Halo, saya</p>
+        <h1 class="hero-name">Teguh Suwanda</h1>
+        <p class="hero-tagline">
+          Engineer by day,<br />
+          illustrator by passion,<br />
+          family man by purpose.
+        </p>
+        <p class="hero-bio">Saya membangun software di siang hari dan menggambar di malam hari.
+              Di sini saya berbagi karya, proses, dan catatan kecil tentang hidup
+              yang pelan-pelan menjadi bermakna.</p>
+        <div class="hero-actions">
+          <a href="/work" class="btn btn--primary">Lihat karya</a>
+          <a href="/blog" class="btn btn--ghost">Baca tulisan</a>
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- ============================================================
-       FEATURED WORK
+       SELECTED WORK — Pinterest Masonry
   ============================================================ -->
   <section class="section">
     <div class="container">
@@ -75,44 +80,51 @@ const categoryLabel: Record<string, string> = {
       </div>
 
       {featuredWork.length === 0 ? (
-        <!-- Placeholder saat belum ada karya -->
-        <div class="work-grid">
-          {[1, 2, 3].map(i => (
-            <div class="work-card work-card--placeholder">
-              <div class="work-card-image work-card-image--placeholder">
-                <span>karya {i}</span>
-              </div>
-              <div class="work-card-info">
-                <p class="work-card-title">Judul Karya {i}</p>
-                <p class="work-card-desc">Deskripsi singkat karya ini akan tampil di sini.</p>
-                <div class="work-card-meta">
-                  <span class="tag">illustration</span>
-                  <span class="work-card-year">2025</span>
+        <div class="featured-grid">
+          {[1, 2, 3, 4].map((i) => (
+            <div class="featured-card featured-card--placeholder">
+              <div class="featured-card__image-wrap">
+                <div class="featured-card__noimage">
+                  <span>{i}</span>
                 </div>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div class="work-grid">
-          {featuredWork.map(work => (
-            <a href={`/work/${work.id}`} class="work-card">
-              <div class="work-card-image">
-                <img
-                  src={work.data.cover}
-                  alt={work.data.coverAlt || ""}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-              <div class="work-card-info">
-                <p class="work-card-title">{work.data.title}</p>
-                <p class="work-card-desc">{work.data.description}</p>
-                <div class="work-card-meta">
-                  {work.data.tags.slice(0, 2).map(tag => (
-                    <span class="tag">{tag}</span>
-                  ))}
-                  <span class="work-card-year">{work.data.year}</span>
+        <div class="featured-grid">
+          {featuredWork.map((work) => (
+            <a
+              href={`/work/${work.id}`}
+              class="featured-card"
+              aria-label={work.data.title}
+            >
+              <div class="featured-card__image-wrap">
+                {work.data.cover ? (
+                  <img
+                    class="featured-card__img"
+                    src={work.data.cover}
+                    alt={work.data.coverAlt ?? ''}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="featured-card__noimage">
+                    <span>{work.data.title.charAt(0)}</span>
+                  </div>
+                )}
+
+                <!-- Overlay -->
+                <div class="featured-card__overlay" aria-hidden="true">
+                  <div class="featured-card__overlay-inner">
+                    <p class="featured-card__overlay-title">{work.data.title}</p>
+                    <div class="featured-card__overlay-meta">
+                      <span class="featured-card__overlay-type">
+                        {typeLabel[work.data.type] ?? work.data.type}
+                      </span>
+                      <span class="featured-card__overlay-year">{work.data.year}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </a>
@@ -135,7 +147,6 @@ const categoryLabel: Record<string, string> = {
       </div>
 
       {latestPosts.length === 0 ? (
-        <!-- Placeholder saat belum ada post -->
         <div class="posts-list">
           {[
             { title: 'Kenapa saya akhirnya membuat website ini', cat: 'notes', date: 'hari ini' },
@@ -191,7 +202,6 @@ const categoryLabel: Record<string, string> = {
             More about me →
           </a>
         </div>
-        <!-- Dekorasi tipografi -->
         <div class="about-snippet-deco" aria-hidden="true">
           <span class="deco-word">engineer</span>
           <span class="deco-word deco-word--accent">illustrator</span>
@@ -206,7 +216,7 @@ const categoryLabel: Record<string, string> = {
 <style>
   /* ── Layout helpers ── */
   .container {
-    max-width: 72rem;
+    max-width: 80rem;
     margin-inline: auto;
     padding-inline: 1.5rem;
   }
@@ -223,7 +233,7 @@ const categoryLabel: Record<string, string> = {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.75rem;
   }
 
   .section-title {
@@ -291,7 +301,6 @@ const categoryLabel: Record<string, string> = {
     object-position: center right;
   }
 
-  /* Overlay gradient — teks kiri tetap terbaca */
   .hero-bg-image::after {
     content: '';
     position: absolute;
@@ -308,15 +317,13 @@ const categoryLabel: Record<string, string> = {
   .hero-inner {
     position: relative;
     z-index: 1;
-    max-width: 72rem;
+    max-width: 80rem;
     margin-inline: auto;
     padding: 6rem 1.5rem;
     width: 100%;
   }
 
-  .hero-text {
-    max-width: 52ch;
-  }
+  .hero-text { max-width: 52ch; }
 
   .hero-eyebrow {
     font-size: 0.875rem;
@@ -355,127 +362,121 @@ const categoryLabel: Record<string, string> = {
     flex-wrap: wrap;
   }
 
-  /* Placeholder visual hero */
-  .hero-visual { flex-shrink: 0; }
-
-  .hero-placeholder {
-    width: 220px;
-    height: 220px;
-    border-radius: 16px;
-    border: 1px dashed var(--color-border);
-    background-color: var(--color-bg-subtle);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .hero-placeholder-label {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .hero-image {
-    width: 220px;
-    height: 220px;
-    border-radius: 16px;
-    object-fit: cover;
-    background-color: var(--color-bg-subtle);
-  }
-
-  /* ── Work grid ── */
-  .work-grid {
+  /* ── Featured Grid — portrait 1:2, max 4 per baris ── */
+  .featured-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
   }
 
-  .work-card {
-    display: flex;
-    flex-direction: column;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    background-color: var(--color-bg);
-    transition: transform 0.2s, box-shadow 0.2s;
+  /* ── Featured Card ── */
+  .featured-card {
+    display: block;
     text-decoration: none;
     color: inherit;
-  }
-
-  .work-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px color-mix(in srgb, var(--color-text) 8%, transparent);
-  }
-
-  .work-card-image {
-    aspect-ratio: 4/3;
+    border-radius: 12px;
     overflow: hidden;
-    background-color: var(--color-bg-subtle);
   }
 
-  .work-card-image img {
+  .featured-card__image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;   /* portrait memanjang */
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--color-bg-subtle);
+  }
+
+  .featured-card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
+    display: block;
+    transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
-  .work-card:hover .work-card-image img { transform: scale(1.03); }
+  .featured-card:hover .featured-card__img {
+    transform: scale(1.05);
+  }
 
-  .work-card-image--placeholder {
+  .featured-card__noimage {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.8125rem;
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-style: italic;
     color: var(--color-text-muted);
   }
 
-  .work-card-info {
-    padding: 1rem 1.125rem 1.25rem;
+  /* Overlay gelap dari bawah */
+  .featured-card__overlay {
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, #000 80%, transparent) 0%,
+      color-mix(in srgb, #000 25%, transparent) 35%,
+      transparent 60%
+    );
     display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-    flex: 1;
+    align-items: flex-end;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
   }
 
-  .work-card-title {
+  .featured-card:hover .featured-card__overlay,
+  .featured-card.is-visible .featured-card__overlay {
+    opacity: 1;
+  }
+
+  .featured-card__overlay-inner {
+    padding: 1.125rem 1rem 1rem;
+    width: 100%;
+    transform: translateY(8px);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .featured-card:hover .featured-card__overlay-inner,
+  .featured-card.is-visible .featured-card__overlay-inner {
+    transform: translateY(0);
+  }
+
+  .featured-card__overlay-title {
+    font-size: 0.875rem;
     font-weight: 500;
-    font-size: 0.9375rem;
-    margin: 0;
-    color: var(--color-text);
+    color: #fff;
+    margin: 0 0 0.3rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
-  .work-card-desc {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  .work-card-meta {
+  .featured-card__overlay-meta {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    margin-top: 0.5rem;
-    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
-  .work-card-year {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    margin-left: auto;
-  }
-
-  .tag {
-    font-size: 0.7rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 99px;
-    background-color: var(--color-accent-soft);
-    color: var(--color-accent);
+  .featured-card__overlay-type {
+    font-size: 0.65rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .featured-card__overlay-year {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: var(--font-serif);
+    font-style: italic;
   }
 
   /* ── Blog posts list ── */
@@ -565,7 +566,6 @@ const categoryLabel: Record<string, string> = {
     max-width: 52ch;
   }
 
-  /* Dekorasi tipografi stacked */
   .about-snippet-deco {
     display: flex;
     flex-direction: column;
@@ -591,25 +591,14 @@ const categoryLabel: Record<string, string> = {
   .about-snippet:hover .deco-word--accent { opacity: 0.6; }
 
   /* ── Responsive ── */
-  @media (max-width: 768px) {
+  @media (max-width: 640px) {
+    .featured-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
     .hero-inner {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-
-    .hero-visual { display: none; }
-
-    .work-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    .work-card { flex-direction: row; }
-
-    .work-card-image {
-      width: 100px;
-      flex-shrink: 0;
-      aspect-ratio: 1;
+      padding: 4rem 1.5rem;
     }
 
     .about-snippet {
@@ -622,7 +611,30 @@ const categoryLabel: Record<string, string> = {
     .post-item { flex-direction: column; gap: 0.25rem; }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .work-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (min-width: 641px) and (max-width: 900px) {
+    .featured-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 </style>
+
+<script>
+  // Overlay muncul saat card terlihat di viewport saat scroll
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const card = entry.target as HTMLElement;
+        if (entry.isIntersecting) {
+          card.classList.add('is-visible');
+        } else {
+          card.classList.remove('is-visible');
+        }
+      });
+    },
+    { threshold: 0.2, rootMargin: '0px 0px -5% 0px' }
+  );
+
+  document.querySelectorAll<HTMLElement>('.featured-card').forEach((card) => {
+    observer.observe(card);
+  });
+</script>
