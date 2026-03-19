@@ -14,36 +14,165 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+const pt = post.data.postType ?? "long";
+
 const formatDate = (date: Date) =>
   date.toLocaleDateString("id-ID", {
     day: "numeric",
     month: "long",
     year: "numeric",
   });
+
+const getDomain = (url: string) => {
+  try { return new URL(url).hostname.replace("www.", ""); }
+  catch { return url; }
+};
+
+const categoryLabel: Record<string, string> = {
+  craft: "Craft", notes: "Notes", family: "Family",
+};
+
+const typeLabel: Record<string, string> = {
+  long: "Artikel", quote: "Quote", image: "Foto", link: "Link",
+};
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="container">
-    <header class="post-header">
-      <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-        {formatDate(post.data.pubDate)}
-      </time>
-      <h1 class="post-title">{post.data.title}</h1>
-      <p class="post-desc">{post.data.description}</p>
-      {
-        post.data.tags && post.data.tags.length > 0 && (
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={post.data.cover ?? post.data.image}
+>
+  <article class={`container post-detail post-detail--${pt}`}>
+
+    <!-- ── Back link ── -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/blog">← Blog</a>
+    </nav>
+
+    <!-- ══════════════════════════════
+         LONG: artikel panjang
+    ══════════════════════════════ -->
+    {pt === "long" && (
+      <header class="post-header">
+        <div class="post-meta-row">
+          <span class={`cat-badge cat-badge--${post.data.category}`}>
+            {categoryLabel[post.data.category]}
+          </span>
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+        <h1 class="post-title">{post.data.title}</h1>
+        <p class="post-desc">{post.data.description}</p>
+        {post.data.tags && post.data.tags.length > 0 && (
           <div class="post-tags">
             {post.data.tags.map((tag) => (
               <span class="tag">#{tag}</span>
             ))}
           </div>
-        )
-      }
-    </header>
+        )}
+      </header>
+    )}
 
-    <div class="post-content prose">
+    {pt === "long" && post.data.cover && (
+      <div class="post-cover-wrap">
+        <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} />
+      </div>
+    )}
+
+    <!-- ══════════════════════════════
+         QUOTE
+    ══════════════════════════════ -->
+    {pt === "quote" && (
+      <header class="post-header post-header--quote">
+        <div class="post-meta-row">
+          <span class="type-pill type-pill--quote">❝ Quote</span>
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+        <blockquote class="quote-hero">{post.data.title}</blockquote>
+        {(post.data.quoteAttribution || post.data.quoteSource) && (
+          <cite class="quote-cite">
+            {post.data.quoteAttribution}
+            {post.data.quoteSource && (
+              <span class="quote-source">, {post.data.quoteSource}</span>
+            )}
+          </cite>
+        )}
+      </header>
+    )}
+
+    <!-- ══════════════════════════════
+         IMAGE
+    ══════════════════════════════ -->
+    {pt === "image" && (
+      <header class="post-header post-header--image">
+        <div class="post-meta-row">
+          <span class="type-pill type-pill--image">◻ Foto</span>
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+      </header>
+    )}
+
+    {pt === "image" && post.data.image && (
+      <div class="image-hero-wrap">
+        <img
+          src={post.data.image}
+          alt={post.data.imageAlt ?? post.data.title}
+          class="image-hero"
+        />
+        {post.data.imageCaption && (
+          <p class="image-hero-caption">{post.data.imageCaption}</p>
+        )}
+      </div>
+    )}
+
+    <!-- ══════════════════════════════
+         LINK
+    ══════════════════════════════ -->
+    {pt === "link" && (
+      <header class="post-header post-header--link">
+        <div class="post-meta-row">
+          <span class="type-pill type-pill--link">↗ Link</span>
+          <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+            {formatDate(post.data.pubDate)}
+          </time>
+        </div>
+        <h1 class="post-title">
+          <a
+            href={post.data.linkUrl}
+            target="_blank"
+            rel="noopener"
+            class="link-title-anchor"
+          >
+            {post.data.title}
+          </a>
+        </h1>
+        {post.data.linkUrl && (
+          <a
+            href={post.data.linkUrl}
+            target="_blank"
+            rel="noopener"
+            class="link-url-badge"
+          >
+            ↗ {post.data.linkDomain ?? getDomain(post.data.linkUrl)}
+          </a>
+        )}
+        <p class="post-desc">{post.data.description}</p>
+      </header>
+    )}
+
+    <!-- ══════════════════════════════
+         Konten MDX (semua tipe)
+         Untuk quote/image/link: komentar panjang opsional
+    ══════════════════════════════ -->
+    <div class={`post-content prose ${pt !== "long" ? "post-content--secondary" : ""}`}>
       <Content />
     </div>
+
   </article>
 </BaseLayout>
 
@@ -55,37 +184,109 @@ const formatDate = (date: Date) =>
     padding-bottom: 6rem;
   }
 
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    padding-top: 2rem;
+    padding-bottom: 0;
+    font-size: 0.8125rem;
+  }
+
+  .breadcrumb a {
+    color: var(--color-text-muted);
+    transition: color 0.15s;
+  }
+
+  .breadcrumb a:hover { color: var(--color-accent); }
+
+  /* ── Common header ── */
   .post-header {
-    padding-block: 4rem 2.5rem;
+    padding-block: 3rem 2rem;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: 2.5rem;
   }
 
-  .post-date {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
+  .post-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
   }
 
+  .post-date {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-left: auto;
+  }
+
+  /* ── Cat badge ── */
+  .cat-badge {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  .cat-badge--notes { background: var(--color-bg-subtle); color: var(--color-text-muted); }
+  .cat-badge--craft { background: var(--color-accent-soft); color: var(--color-accent); }
+  .cat-badge--family {
+    background: color-mix(in srgb, #16a34a 12%, transparent);
+    color: #16a34a;
+  }
+
+  /* ── Type pill ── */
+  .type-pill {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+  }
+
+  .type-pill--quote {
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-accent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+  }
+
+  .type-pill--image {
+    background: color-mix(in srgb, #7c3aed 10%, transparent);
+    color: #7c3aed;
+    border: 1px solid color-mix(in srgb, #7c3aed 25%, transparent);
+  }
+
+  :root.dark .type-pill--image { color: #a78bfa; }
+
+  .type-pill--link {
+    background: color-mix(in srgb, #0891b2 10%, transparent);
+    color: #0891b2;
+    border: 1px solid color-mix(in srgb, #0891b2 25%, transparent);
+  }
+
+  :root.dark .type-pill--link { color: #22d3ee; }
+
+  /* ── Long post title ── */
   .post-title {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin: 0 0 1rem;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    margin: 0 0 0.875rem;
     color: var(--color-text);
     line-height: 1.2;
   }
 
   .post-desc {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     color: var(--color-text-muted);
-    line-height: 1.6;
     margin: 0;
+    line-height: 1.7;
   }
 
   .post-tags {
     display: flex;
     gap: 0.5rem;
-    margin-top: 1.5rem;
+    margin-top: 1.25rem;
     flex-wrap: wrap;
   }
 
@@ -97,9 +298,127 @@ const formatDate = (date: Date) =>
     border-radius: 99px;
   }
 
+  /* ── Long post cover ── */
+  .post-cover-wrap {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    margin-bottom: 2.5rem;
+  }
+
+  .post-cover-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16/7;
+    object-fit: cover;
+  }
+
+  /* ── Quote detail article ── */
+  .post-detail--quote {
+    border-left: 4px solid var(--color-accent);
+    padding-left: 1.75rem;
+    position: relative;
+    /* Optional: shift left to counteract the container padding and keep visual alignment */
+    /* margin-left: -1.75rem; */ 
+  }
+
+  /* ── Quote hero ── */
+  .post-header--quote {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .quote-hero {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-style: italic;
+    font-variation-settings: "opsz" 9, "SOFT" 100;
+    color: var(--color-text);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    border: none;
+    padding: 0;
+  }
+
+  .quote-cite {
+    display: block;
+    font-size: 0.9rem;
+    font-style: normal;
+    color: var(--color-text-muted);
+  }
+
+  .quote-cite::before { content: "— "; }
+  .quote-source { font-style: italic; }
+
+  /* ── Image hero ── */
+  .image-hero-wrap {
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .image-hero {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .image-hero-caption {
+    padding: 0.875rem 1.25rem;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-family: var(--font-serif);
+    background: var(--color-bg-subtle);
+    margin: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* ── Link hero ── */
+  .post-header--link .post-title {
+    font-size: clamp(1.375rem, 3.5vw, 2rem);
+  }
+
+  .link-title-anchor {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .link-title-anchor:hover { color: var(--color-accent); }
+
+  .link-url-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+    background: var(--color-accent-soft);
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-bottom: 1rem;
+    transition: opacity 0.15s;
+  }
+
+  .link-url-badge:hover { opacity: 0.8; }
+
+  /* ── MDX content ── */
   .post-content {
     color: var(--color-text);
     line-height: 1.8;
     font-size: 1.0625rem;
   }
+
+  /* Untuk non-long: konten MDX adalah komentar/catatan, beri separator */
+  .post-content--secondary {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Jika tidak ada konten MDX (body kosong), sembunyikan area ini */
+  .post-content--secondary:empty { display: none; }
 </style>

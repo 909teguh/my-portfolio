@@ -3,7 +3,11 @@ import { glob } from 'astro/loaders';
 
 /**
  * Collection: blog
- * Untuk tulisan / artikel di halaman /blog
+ * Mendukung empat format post:
+ *   'long'   → artikel panjang (default sebelumnya)
+ *   'quote'  → kutipan pendek dengan atribusi
+ *   'image'  → gambar utama + caption + komentar singkat
+ *   'link'   → link eksternal + komentar singkat
  */
 const blog = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
@@ -13,16 +17,30 @@ const blog = defineCollection({
         pubDate: z.coerce.date(),
         updatedDate: z.coerce.date().optional(),
 
-        // Kategori tulisan — pilih salah satu sesuai topik
-        // 'craft'   → tentang proses ilustrasi, teknik, tool
-        // 'notes'   → refleksi sehari-hari, engineering, hidup
-        // 'family'  → catatan sebagai ayah & suami
+        // Jenis post — menentukan cara render di feed maupun detail page
+        postType: z.enum(['long', 'quote', 'image', 'link']).default('long'),
+
+        // Kategori tulisan
         category: z.enum(['craft', 'notes', 'family']).default('notes'),
 
         tags: z.array(z.string()).default([]),
         draft: z.boolean().default(false),
 
-        // Opsional: gambar cover untuk OG image & header artikel
+        // ── Field khusus postType: 'quote' ──
+        // Isi kutipan ada di body MDX, field ini untuk atribusi
+        quoteAttribution: z.string().optional(), // mis. "Austin Kleon"
+        quoteSource: z.string().optional(),      // mis. "Steal Like an Artist"
+
+        // ── Field khusus postType: 'image' ──
+        image: z.string().optional(),
+        imageAlt: z.string().optional(),
+        imageCaption: z.string().optional(),
+
+        // ── Field khusus postType: 'link' ──
+        linkUrl: z.string().url().optional(),
+        linkDomain: z.string().optional(), // mis. "medium.com" — opsional, bisa dihitung otomatis
+
+        // ── Field untuk 'long' post (sama seperti sebelumnya) ──
         cover: z.string().optional(),
         coverAlt: z.string().optional(),
     }),
@@ -30,64 +48,38 @@ const blog = defineCollection({
 
 /**
  * Collection: work
- * Untuk karya ilustrasi & proyek di halaman /work
  */
 const work = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/work' }),
     schema: z.object({
         title: z.string(),
         description: z.string(),
-
-        // Gambar utama karya — diproses oleh Astro Image (path string di v6)
         cover: z.string().optional(),
         coverAlt: z.string().optional(),
-
-        // Jenis karya
-        // 'illustration' → karya ilustrasi personal
-        // 'commission'   → karya pesanan / klien
-        // 'generative'   → coding + seni generatif
-        // 'other'        → lainnya
         type: z.enum(['illustration', 'commission', 'generative', 'other']).default('illustration'),
-
         tags: z.array(z.string()).default([]),
         year: z.number(),
-
-        // Tools yang digunakan, misal: ['Procreate', 'Figma', 'p5.js']
         tools: z.array(z.string()).default([]),
-
-        // Tampilkan di homepage sebagai karya pilihan
         featured: z.boolean().default(false),
-
-        // Urutan tampil di halaman /work (angka kecil = tampil lebih awal)
         order: z.number().default(99),
-
-        // Link eksternal, misal Behance, Instagram post, dll.
         externalUrl: z.string().url().optional(),
     }),
 });
 
 /**
  * Collection: now
- * Untuk halaman /now — snapshot apa yang sedang terjadi
- * Hanya ada satu file: src/content/now/index.mdx
  */
 const now = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/now' }),
     schema: z.object({
-        // Kapan terakhir diperbarui — tampil di header halaman
         lastUpdated: z.coerce.date(),
-
-        // Daftar proyek aktif
         projects: z.array(
             z.object({
                 title: z.string(),
                 desc: z.string(),
-                // 'aktif' = sedang dikerjakan penuh, 'pelan-pelan' = sambil lalu
                 status: z.enum(['aktif', 'pelan-pelan']).default('aktif'),
             })
         ).default([]),
-
-        // Fokus & tujuan saat ini
         focus: z.array(
             z.object({
                 area: z.string(),
