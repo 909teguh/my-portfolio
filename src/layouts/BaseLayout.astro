@@ -1,6 +1,6 @@
 ---
 // src/layouts/BaseLayout.astro
-import Nav from "../components/Nav.astro";
+import Sidebar from "../components/Sidebar.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 import "../styles/prose.css";
@@ -16,7 +16,7 @@ interface Props {
 const {
   title,
   description = "Engineer by day, illustrator by passion, family man by purpose.",
-  ogImage = "/og-default.png", // buat gambar default nanti di public/
+  ogImage = "/og-default.png",
   ogType = "website",
   noindex = false,
 } = Astro.props;
@@ -32,62 +32,91 @@ const fullTitle =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Canonical -->
     <link rel="canonical" href={canonicalURL} />
-
-    <!-- Favicon — taruh file di public/ -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Primary meta -->
+    <!-- Google Fonts — Inter + Newsreader (untuk design system baru) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&display=swap"
+      rel="stylesheet"
+    />
+
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
 
-    <!-- Open Graph -->
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site)} />
 
-    <!-- Twitter / X Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
-    <!-- Sitemap -->
     <link rel="sitemap" href="/sitemap-index.xml" />
 
-    <!--
-      Inline script ini dijalankan SEBELUM browser merender halaman,
-      sehingga tidak ada flash of wrong theme (FOWT).
-    -->
+    <!-- Anti-flash theme script — harus inline sebelum render -->
     <script is:inline>
       const theme =
         localStorage.getItem("theme") ??
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.classList.toggle("dark", theme === "dark");
     </script>
   </head>
 
   <body>
-    <Nav />
+    <!-- Layout wrapper: sidebar (fixed) + main content geser ke kanan -->
+    <div class="layout-root">
+      <Sidebar />
 
-    <main class="main-content">
-      <slot />
-    </main>
-
-    <Footer />
+      <div class="layout-main">
+        <main class="main-content">
+          <slot />
+        </main>
+        <Footer />
+      </div>
+    </div>
   </body>
 </html>
 
 <style>
+  /* ══ LAYOUT ROOT ══
+     Sidebar 16rem (256px) fixed kiri.
+     Main content diberi margin-left sebesar lebar sidebar.
+  ══════════════════ */
+  .layout-root {
+    min-height: 100dvh;
+  }
+
+  .layout-main {
+    margin-left: 16rem;   /* sama dengan width sidebar */
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: #fcf9f8;
+    transition: background 0.3s;
+  }
+
+  :root.dark .layout-main {
+    background: #141412;
+  }
+
   .main-content {
     flex: 1;
     width: 100%;
+  }
+
+  /* ══ MOBILE: sidebar disembunyikan, margin di-reset ══ */
+  @media (max-width: 768px) {
+    .layout-main {
+      margin-left: 0;
+      padding-top: 3.25rem; /* tinggi mobile-bar */
+    }
   }
 </style>

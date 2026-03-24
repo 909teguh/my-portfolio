@@ -1,0 +1,706 @@
+---
+// src/components/Sidebar.astro
+const navLinks = [
+  { href: "/work",  label: "Work",  icon: "work" },
+  { href: "/blog",  label: "Blog",  icon: "edit_note" },
+  { href: "/about", label: "About", icon: "person" },
+  { href: "/now",   label: "Now",   icon: "today" },
+];
+
+const currentPath = Astro.url.pathname;
+
+// Resolve active state: exact match for root-level, startsWith for others
+const isActive = (href: string) => {
+  if (href === "/") return currentPath === "/";
+  return currentPath.startsWith(href);
+};
+---
+
+<!-- ══ SIDEBAR — Desktop ══ -->
+<aside class="sidebar" id="sidebar" aria-label="Navigasi utama">
+  <div class="sidebar-inner">
+
+    <!-- ── Avatar ── -->
+    <div class="avatar-box" aria-label="Avatar placeholder">
+      <!-- Ganti konten ini dengan <img> saat foto tersedia:
+           <img src="/images/avatar.jpg" alt="Teguh Suwanda" class="avatar-img" />
+      -->
+      <div class="avatar-placeholder">
+        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40" opacity="0.25">
+          <circle cx="40" cy="28" r="16" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── Brand ── -->
+    <div class="sidebar-brand">
+      <a href="/" class="brand-name">The Curator</a>
+    </div>
+
+    <!-- ── Navigation ── -->
+    <nav class="sidebar-nav" aria-label="Menu utama">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={["nav-link", { "nav-link--active": isActive(link.href) }]}
+          aria-current={isActive(link.href) ? "page" : undefined}
+        >
+          {isActive(link.href) && (
+            <span class="nav-dot" aria-hidden="true"></span>
+          )}
+          <span class="material-symbols-outlined nav-icon" aria-hidden="true">
+            {link.icon}
+          </span>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <!-- ── Identity + Socials ── -->
+    <div class="sidebar-footer">
+      <div class="identity">
+        <p class="identity-name">Teguh Suwanda</p>
+        <p class="identity-role">Engineer &amp; Illustrator</p>
+      </div>
+      <div class="sidebar-actions">
+        <div class="social-links">
+          <a href="https://instagram.com/suwandateguh" target="_blank" rel="noopener"
+             class="social-btn" aria-label="Instagram">
+            <span class="material-symbols-outlined">photo_camera</span>
+          </a>
+          <a href="https://github.com/909teguh" target="_blank" rel="noopener"
+             class="social-btn" aria-label="GitHub">
+            <span class="material-symbols-outlined">code</span>
+          </a>
+        </div>
+        <button id="theme-toggle-sidebar" class="theme-btn" aria-label="Toggle dark mode">
+          <span class="material-symbols-outlined icon-light">light_mode</span>
+          <span class="material-symbols-outlined icon-dark">dark_mode</span>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</aside>
+
+<!-- ══ MOBILE TOP BAR ══ -->
+<header class="mobile-bar" id="mobile-bar">
+  <a href="/" class="mobile-brand">The Curator</a>
+  <div class="mobile-bar-right">
+    <button id="theme-toggle-mobile" class="theme-btn" aria-label="Toggle dark mode">
+      <span class="material-symbols-outlined icon-light">light_mode</span>
+      <span class="material-symbols-outlined icon-dark">dark_mode</span>
+    </button>
+    <button
+      id="mobile-menu-toggle"
+      class="hamburger-btn"
+      aria-label="Buka menu"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+    >
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+      <span class="ham-line"></span>
+    </button>
+  </div>
+</header>
+
+<!-- ══ MOBILE DRAWER ══ -->
+<div id="mobile-backdrop" aria-hidden="true"></div>
+<div id="mobile-drawer" role="dialog" aria-label="Menu navigasi" aria-modal="true">
+  <nav class="drawer-nav">
+    {navLinks.map((link) => (
+      <a
+        href={link.href}
+        class:list={["drawer-link", { "drawer-link--active": isActive(link.href) }]}
+      >
+        <span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
+        {link.label}
+        <svg class="drawer-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6"/>
+        </svg>
+      </a>
+    ))}
+  </nav>
+  <div class="drawer-footer">
+    <p class="identity-name">Teguh Suwanda</p>
+    <p class="identity-role">Engineer · Illustrator · Family Man</p>
+  </div>
+</div>
+
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+<style>
+  /* ══ MATERIAL SYMBOLS ══ */
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+    font-size: 1.125rem;
+    line-height: 1;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
+  /* ══ SIDEBAR ══ */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16rem;
+    height: 100dvh;
+    z-index: 40;
+    background: #f6f3f2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :root.dark .sidebar {
+    background: #1a1917;
+  }
+
+  .sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2rem 2rem 2rem;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .sidebar-inner::-webkit-scrollbar { display: none; }
+
+  /* ── Avatar Box ── */
+  .avatar-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 1.75rem;
+    background: #ede9e3;
+    flex-shrink: 0;
+  }
+
+  :root.dark .avatar-box {
+    background: #2a2825;
+  }
+
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #887363;
+  }
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Brand ── */
+  .sidebar-brand {
+    margin-bottom: 2rem;
+  }
+
+  .brand-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #1c1b1b;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  :root.dark .brand-name {
+    color: #f5f3ee;
+  }
+
+  .brand-name:hover {
+    color: #8f4e00;
+  }
+
+  :root.dark .brand-name:hover {
+    color: #e28112;
+  }
+
+  /* ── Navigation ── */
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(28, 27, 27, 0.55);
+    text-decoration: none;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.375rem;
+    transition: color 0.15s, background 0.15s;
+    position: relative;
+  }
+
+  :root.dark .nav-link {
+    color: rgba(245, 243, 238, 0.5);
+  }
+
+  .nav-link:hover {
+    color: #1c1b1b;
+    background: rgba(28, 27, 27, 0.05);
+  }
+
+  :root.dark .nav-link:hover {
+    color: #f5f3ee;
+    background: rgba(245, 243, 238, 0.07);
+  }
+
+  .nav-link--active {
+    color: #8f4e00 !important;
+    background: transparent !important;
+  }
+
+  :root.dark .nav-link--active {
+    color: #e28112 !important;
+  }
+
+  .nav-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #8f4e00;
+    flex-shrink: 0;
+    position: absolute;
+    left: -0.75rem;
+  }
+
+  :root.dark .nav-dot {
+    background: #e28112;
+  }
+
+  .nav-icon {
+    opacity: 0.7;
+  }
+
+  .nav-link--active .nav-icon {
+    opacity: 1;
+  }
+
+  /* ── Spacer ── */
+  .sidebar-spacer {
+    flex: 1;
+    min-height: 2rem;
+  }
+
+  /* ── Footer ── */
+  .sidebar-footer {
+    border-top: 1px solid rgba(28, 27, 27, 0.08);
+    padding-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  :root.dark .sidebar-footer {
+    border-top-color: rgba(245, 243, 238, 0.08);
+  }
+
+  .identity-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #1c1b1b;
+    margin: 0 0 0.2rem;
+  }
+
+  :root.dark .identity-name {
+    color: #f5f3ee;
+  }
+
+  .identity-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #887363;
+    margin: 0;
+  }
+
+  :root.dark .identity-role {
+    color: #a8a29e;
+  }
+
+  .sidebar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+    color: rgba(28, 27, 27, 0.5);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  :root.dark .social-btn {
+    color: rgba(245, 243, 238, 0.45);
+  }
+
+  .social-btn:hover {
+    color: #8f4e00;
+    background: rgba(143, 78, 0, 0.08);
+  }
+
+  :root.dark .social-btn:hover {
+    color: #e28112;
+    background: rgba(226, 129, 18, 0.1);
+  }
+
+  /* ── Theme toggle ── */
+  .theme-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.375rem;
+    border: 1px solid rgba(28, 27, 27, 0.1);
+    background: transparent;
+    color: rgba(28, 27, 27, 0.5);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    flex-shrink: 0;
+  }
+
+  :root.dark .theme-btn {
+    border-color: rgba(245, 243, 238, 0.1);
+    color: rgba(245, 243, 238, 0.5);
+  }
+
+  .theme-btn:hover {
+    color: #8f4e00;
+    border-color: #8f4e00;
+    background: rgba(143, 78, 0, 0.06);
+  }
+
+  :root.dark .theme-btn:hover {
+    color: #e28112;
+    border-color: #e28112;
+    background: rgba(226, 129, 18, 0.08);
+  }
+
+  /* Show/hide sun/moon based on theme */
+  :root:not(.dark) .icon-dark  { display: none; }
+  :root.dark       .icon-light { display: none; }
+
+  /* ══ MOBILE BAR ══ */
+  .mobile-bar {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    height: 3.25rem;
+    padding: 0 1.25rem;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(246, 243, 242, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(28, 27, 27, 0.06);
+  }
+
+  :root.dark .mobile-bar {
+    background: rgba(26, 25, 23, 0.92);
+    border-bottom-color: rgba(245, 243, 238, 0.06);
+  }
+
+  .mobile-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #1c1b1b;
+    text-decoration: none;
+  }
+
+  :root.dark .mobile-brand {
+    color: #f5f3ee;
+  }
+
+  .mobile-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: transparent;
+    border: 1px solid rgba(28, 27, 27, 0.1);
+    border-radius: 0.375rem;
+    cursor: pointer;
+    padding: 0 7px;
+    transition: border-color 0.15s;
+  }
+
+  :root.dark .hamburger-btn {
+    border-color: rgba(245, 243, 238, 0.1);
+  }
+
+  .ham-line {
+    display: block;
+    height: 1.5px;
+    background: #554335;
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.2s;
+  }
+
+  :root.dark .ham-line {
+    background: #c9b8ac;
+  }
+
+  /* Hamburger → X animation */
+  .hamburger-btn[aria-expanded="true"] .ham-line:nth-child(1) {
+    transform: translateY(6.5px) rotate(45deg);
+  }
+  .hamburger-btn[aria-expanded="true"] .ham-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger-btn[aria-expanded="true"] .ham-line:nth-child(3) {
+    transform: translateY(-6.5px) rotate(-45deg);
+  }
+
+  /* ══ MOBILE BACKDROP ══ */
+  #mobile-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(28, 27, 27, 0.45);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  #mobile-backdrop.is-open {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ══ MOBILE DRAWER ══ */
+  #mobile-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 60;
+    width: min(20rem, 85vw);
+    background: #f6f3f2;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 1.5rem 2.5rem;
+    transform: translateX(110%);
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    visibility: hidden;
+  }
+
+  :root.dark #mobile-drawer {
+    background: #1a1917;
+  }
+
+  #mobile-drawer.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .drawer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    border-radius: 0.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgba(28, 27, 27, 0.6);
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  :root.dark .drawer-link {
+    color: rgba(245, 243, 238, 0.55);
+  }
+
+  .drawer-link:hover {
+    background: rgba(28, 27, 27, 0.05);
+    color: #1c1b1b;
+  }
+
+  :root.dark .drawer-link:hover {
+    background: rgba(245, 243, 238, 0.06);
+    color: #f5f3ee;
+  }
+
+  .drawer-link--active {
+    color: #8f4e00 !important;
+    background: rgba(143, 78, 0, 0.07) !important;
+  }
+
+  :root.dark .drawer-link--active {
+    color: #e28112 !important;
+    background: rgba(226, 129, 18, 0.1) !important;
+  }
+
+  .drawer-arrow {
+    margin-left: auto;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.15s, transform 0.15s;
+    flex-shrink: 0;
+  }
+
+  .drawer-link:hover .drawer-arrow,
+  .drawer-link--active .drawer-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .drawer-footer {
+    border-top: 1px solid rgba(28, 27, 27, 0.08);
+    padding-top: 1.25rem;
+  }
+
+  :root.dark .drawer-footer {
+    border-top-color: rgba(245, 243, 238, 0.08);
+  }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .mobile-bar { display: flex; }
+  }
+
+  @media (min-width: 769px) {
+    #mobile-drawer,
+    #mobile-backdrop,
+    .mobile-bar {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  // ── Theme ──
+  const getTheme = () =>
+    localStorage.getItem("theme") ??
+    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+
+  const applyTheme = (theme: string) => {
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
+  };
+
+  const toggleTheme = () =>
+    applyTheme(document.documentElement.classList.contains("dark") ? "light" : "dark");
+
+  applyTheme(getTheme());
+
+  document.getElementById("theme-toggle-sidebar")?.addEventListener("click", toggleTheme);
+  document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
+
+  // ── Mobile drawer ──
+  const menuToggle  = document.getElementById("mobile-menu-toggle") as HTMLButtonElement;
+  const drawer      = document.getElementById("mobile-drawer")!;
+  const backdrop    = document.getElementById("mobile-backdrop")!;
+
+  let drawerOpen = false;
+
+  function openDrawer() {
+    drawerOpen = true;
+    menuToggle.setAttribute("aria-expanded", "true");
+    drawer.classList.add("is-open");
+    backdrop.style.display = "block";
+    requestAnimationFrame(() => {
+      backdrop.classList.add("is-open");
+    });
+    document.body.style.overflow = "hidden";
+    drawer.querySelector<HTMLElement>(".drawer-link")?.focus();
+  }
+
+  function closeDrawer() {
+    drawerOpen = false;
+    menuToggle.setAttribute("aria-expanded", "false");
+    drawer.classList.remove("is-open");
+    backdrop.classList.remove("is-open");
+    setTimeout(() => { backdrop.style.display = "none"; }, 250);
+    document.body.style.overflow = "";
+    menuToggle.focus();
+  }
+
+  menuToggle?.addEventListener("click", () => drawerOpen ? closeDrawer() : openDrawer());
+  backdrop?.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawerOpen) closeDrawer();
+  });
+
+  drawer?.querySelectorAll(".drawer-link").forEach((link) => {
+    link.addEventListener("click", closeDrawer);
+  });
+
+  // Trap focus in drawer
+  drawer?.addEventListener("keydown", (e) => {
+    if (!drawerOpen || e.key !== "Tab") return;
+    const focusable = drawer.querySelectorAll<HTMLElement>(
+      'a[href], button, [tabindex]:not([tabindex="-1"])'
+    );
+    const first = focusable[0];
+    const last  = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  });
+</script>

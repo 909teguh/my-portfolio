@@ -3,38 +3,43 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer">
+<footer class="site-footer">
   <div class="footer-inner">
     <p class="footer-copy">
-      © {year} Teguh Suwanda — engineer · illustrator · family man
+      <span class="footer-copy-serif">Engineer, Illustrator, Family Man.</span>
+      © {year}
     </p>
     <ul class="footer-links" role="list">
       <li>
-        <a
-          href="https://instagram.com/suwandateguh"
-          target="_blank"
-          rel="noopener">Instagram</a>
+        <a href="https://instagram.com/suwandateguh" target="_blank" rel="noopener">
+          Instagram
+        </a>
       </li>
       <li>
-        <a href="https://github.com/909teguh" target="_blank" rel="noopener"
-          >GitHub</a>
+        <a href="https://github.com/909teguh" target="_blank" rel="noopener">
+          GitHub
+        </a>
       </li>
-      <!-- Tambah atau hapus sesuai platform yang Anda gunakan -->
     </ul>
   </div>
 </footer>
 
 <style>
-  .footer {
-    margin-top: auto;
-    border-top: 1px solid var(--color-border);
+  .site-footer {
+    border-top: 1px solid rgba(28, 27, 27, 0.06);
     padding-block: 2rem;
+    background: #fcf9f8;
+  }
+
+  :root.dark .site-footer {
+    background: #141412;
+    border-top-color: rgba(245, 243, 238, 0.06);
   }
 
   .footer-inner {
     max-width: 72rem;
     margin-inline: auto;
-    padding-inline: 1.5rem;
+    padding-inline: 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -43,26 +48,58 @@ const year = new Date().getFullYear();
   }
 
   .footer-copy {
+    font-family: 'Inter', sans-serif;
     font-size: 0.8125rem;
-    color: var(--color-text-muted);
+    color: rgba(28, 27, 27, 0.4);
     margin: 0;
+  }
+
+  :root.dark .footer-copy {
+    color: rgba(245, 243, 238, 0.35);
+  }
+
+  .footer-copy-serif {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
   }
 
   .footer-links {
     display: flex;
-    gap: 1.25rem;
+    gap: 2rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
   .footer-links a {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(28, 27, 27, 0.35);
+    text-decoration: none;
     transition: color 0.15s;
   }
 
+  :root.dark .footer-links a {
+    color: rgba(245, 243, 238, 0.3);
+  }
+
   .footer-links a:hover {
-    color: var(--color-accent);
+    color: #8f4e00;
+  }
+
+  :root.dark .footer-links a:hover {
+    color: #e28112;
+  }
+
+  @media (max-width: 768px) {
+    .footer-inner {
+      padding-inline: 1.25rem;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
   }
 </style>

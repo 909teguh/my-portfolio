@@ -1,506 +1,666 @@
 ---
 // src/pages/about.astro
 import BaseLayout from "../layouts/BaseLayout.astro";
-
-const skills = {
-    Engineering: ["JavaScript / TypeScript", "React", "Node.js", "SQL", "Git"],
-    Illustration: ["Procreate", "Adobe Illustrator", "Figma", "Photoshop"],
-    "Currently learning": ["Astro", "p5.js", "Watercolor"],
-};
-
-const contacts = [
-    {
-        label: "Email",
-        href: "mailto:email@anda.com",
-        display: "email@anda.com",
-    },
-    {
-        label: "Instagram",
-        href: "https://instagram.com/username",
-        display: "@username",
-    },
-    {
-        label: "GitHub",
-        href: "https://github.com/username",
-        display: "github.com/username",
-    },
-];
 ---
 
 <BaseLayout
     title="About"
-    description="Engineer by day, illustrator by passion, family man by purpose — sedikit lebih dalam tentang siapa saya."
+    description="Engineer by day, illustrator by passion, family man by purpose."
 >
-    <div class="container">
-        <!-- ── INTRO ── -->
-        <section class="intro">
-            <div class="intro-text">
-                <p class="intro-eyebrow">Tentang saya</p>
-                <h1 class="intro-heading">
-                    Saya Teguh —<br />
-                    <em>engineer, illustrator,<br />dan ayah.</em>
-                </h1>
-                <p class="intro-lead">
-                    Tiga kata itu bukan label. Mereka adalah cara saya memahami
-                    diri sendiri — dan cara saya menemukan makna di tengah
-                    hari-hari yang sibuk.
+    <!-- ══ HERO ══ -->
+    <section class="ab-hero">
+        <div class="ab-hero-inner">
+            <h1 class="ab-hero-heading">
+                Intentional by design,<br />
+                <span class="ab-hero-heading-serif">precise by trade.</span>
+            </h1>
+            <div class="ab-hero-body-grid">
+                <div class="ab-hero-body-col">
+                    <p class="ab-hero-lead">
+                        I am Teguh Suwanda. I spend my days navigating the rigid
+                        logic of engineering and my nights exploring the fluid
+                        expression of illustration. These two worlds don't
+                        collide; they inform one another.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══ THREE PILLARS — BENTO GRID ══ -->
+    <section class="ab-pillars">
+        <div class="ab-grid">
+            <!-- 01 Engineer — text card -->
+            <div class="ab-card ab-card--engineer">
+                <div>
+                    <span class="ab-eyebrow">01 — The Engineer</span>
+                    <h2 class="ab-pillar-h">
+                        Building resilient systems with quiet confidence.
+                    </h2>
+                    <p class="ab-pillar-body">
+                        Specializing in distributed systems and clean
+                        architecture. I believe code should be as readable as a
+                        well-set page of typography. My approach is rooted in
+                        structural integrity and long-term maintainability.
+                    </p>
+                </div>
+                <div class="ab-tags">
+                    <span class="ab-tag">Systems Architecture</span>
+                    <span class="ab-tag">Backend Excellence</span>
+                </div>
+            </div>
+
+            <!-- 01 Engineer — image -->
+            <div class="ab-card ab-card--img ab-card--eng-img">
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA3tXPwf2o9Pk83HdtIQcE3ivSyo4JEd6ZVvldxT_YeBaaakMjVyWvM0nXLFY4xJIcm0Cf5ZEBj28Gi63LGwFCdw6i1F8ol0NT8ODQEB-4CD7BuyaBbwUEp9Wvm8u1AD800YqD1gOTvjBre3MXt72rxufvpWw-MFo32FWGnc4StpfLcWrK9oCDZUXLSiT5MLxRpIVp8x6cLZVP57bP3N-y8bwc4wL0ViABFe1Q2QAOsjRn_IZzWrPjFJ5hQdbYBTvDWNNVyGKVF8RV"
+                    alt="Technical engineering setup with clean lines"
+                    class="ab-img"
+                    loading="lazy"
+                />
+                <div class="ab-img-tint"></div>
+            </div>
+
+            <!-- 02 Illustrator — image -->
+            <div class="ab-card ab-card--img ab-card--illus-img">
+                <img
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFLu-j_x7SEP9mO6tSVjDrxDvK387cEAPURdJnNWjG9yfFbA1bnGq421z_lrfGLNByYfcZVY7AFt5dCGIFGnIdoNgTPBjKU917WuREqevs3QYBbH_bOrp36XI2quoLoSdUwwHi94cdHBamfYptOqWJWjd9ucaH39IVqtsD48yzXj890p6WJ2RZOTvtDPq9LjBdKg7bOBmRoa-XWnN_tJxZsribVGPTxSinAmLcMFx8xYDT833fvWwQHX15pcGTUSywV3XZKu5IO2CA"
+                    alt="Detailed botanical illustration"
+                    class="ab-img"
+                    loading="lazy"
+                />
+            </div>
+
+            <!-- 02 Illustrator — text card -->
+            <div class="ab-card ab-card--illus">
+                <span class="ab-eyebrow">02 — The Illustrator</span>
+                <h2 class="ab-pillar-h ab-pillar-h--serif">
+                    Observing the world, one line at a time.
+                </h2>
+                <p class="ab-pillar-body">
+                    Illustration is my meditative practice. It requires a
+                    different kind of precision—one that values the "perfect
+                    mistake." I focus on textures and the interplay of light,
+                    much like the tonal shifts in this very design system.
                 </p>
             </div>
 
-            <div class="intro-photo">
-                <!-- Ganti div ini dengan <img> saat foto sudah siap -->
-                <div class="photo-placeholder" aria-label="Foto Teguh">
-                    <svg
-                        viewBox="0 0 200 200"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="120"
-                        height="120"
-                        opacity="0.25"
-                    >
-                        <circle
-                            cx="100"
-                            cy="72"
-                            r="36"
-                            stroke="currentColor"
-                            stroke-width="1.5"></circle>
-                        <path
-                            d="M36 180c0-35.346 28.654-64 64-64s64 28.654 64 64"
-                            stroke="currentColor"
-                            stroke-width="1.5"
-                            stroke-linecap="round"></path>
-                    </svg>
-                    <span>foto diri</span>
-                </div>
-                <!-- Contoh saat foto sudah ada:
-        <img src="/images/photo.jpg" alt="Teguh Suwanda" />
-        -->
-            </div>
-        </section>
-
-        <!-- ── NARASI ── -->
-        <section class="narrative">
-            <div class="narrative-block">
-                <span class="narrative-marker">01</span>
-                <div class="narrative-content">
-                    <h2>Engineer by day</h2>
-                    <p>
-                        Saya bekerja sebagai software engineer — membangun
-                        sistem, memecahkan masalah, dan (sesekali) berdebat soal
-                        arsitektur sampai larut malam. Ada kepuasan tersendiri
-                        ketika sebuah solusi yang rapi akhirnya berjalan dengan
-                        baik.
-                    </p>
-                    <p>
-                        Dunia engineering mengajarkan saya untuk berpikir
-                        sistematis, sabar dengan proses, dan tidak takut
-                        mengerjakan ulang sesuatu yang belum benar.
+            <!-- 03 Family Man -->
+            <div class="ab-card ab-card--family">
+                <div class="ab-family-text">
+                    <span class="ab-eyebrow">03 — The Family Man</span>
+                    <h2 class="ab-pillar-h">The anchor of intentionality.</h2>
+                    <p class="ab-pillar-body">
+                        Beyond the screens and the sketchbooks, my most vital
+                        role is being present for my family. This balance is
+                        what fuels my creativity and keeps my engineering
+                        focused on human-centric solutions. Everything I build
+                        is with their future in mind.
                     </p>
                 </div>
-            </div>
-
-            <div class="narrative-block">
-                <span class="narrative-marker">02</span>
-                <div class="narrative-content">
-                    <h2>Illustrator by passion</h2>
-                    <p>
-                        Menggambar adalah cara saya bernafas di luar pekerjaan.
-                        Bukan untuk menjadi sempurna — tapi untuk hadir
-                        sepenuhnya dalam satu momen, di mana satu-satunya yang
-                        penting adalah goresan di atas kanvas.
-                    </p>
-                    <p>
-                        Saya tertarik pada karakter, cerita, dan detail kecil
-                        yang membuat sebuah gambar terasa hidup. Dua dunia ini —
-                        kode dan gambar — lebih sering bertemu dari yang saya
-                        kira.
-                    </p>
+                <div class="ab-family-imgs">
+                    <div class="ab-fimg ab-fimg--top">
+                        <img
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq1xFUpWGlBMjXy-PGW6eGNIU0JxN1kgYD81DtbcisXfeoVG_PifLE5lSE3qtYIFsoJcxn7WBiYJUzpixQbHQYGXcxgwEFl5tSDJM2x1X-z_smBVJG-Yti4VSopDAOD_CcmC-8ZuE4pU5Yzw1Q_hC2FIOj508V9Ipme0EZcrfOpl2hgkOSdTafkz6nIZIEJ-8RXMBZptC58XIJjV3Y_8ylaovVjWreM_oWta4_-uAUtWvAhHgCjecGUYO1FhlWRgBJ-782UfNJNF4w"
+                            alt="Warm family gathering scene"
+                            loading="lazy"
+                        />
+                    </div>
+                    <div class="ab-fimg ab-fimg--bottom">
+                        <img
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDntmhPm31Lg7ZunvKBypvawZ9ZYnRu_RxiKkWQOvp2pqL-RzIWBz1teUD1MlanGysMJoGgk-oNFoh3GF7CB4S9AnBEBmXUDLNgeYDAaOOh4hdlDkEglRewI8IQkauIi8WznRNgrw0yZ7Srr4mLhOyaQpdla_VRb5bRRyMtdq5Zd0xde93I6sDom3Uf4qv1tH9mvrju1znEesZHoxUnIasl_wmRnZNrskzOfk8WnnQpanZYiyaGn_6KBTgGOAL8rckidn23KFOT6aAi"
+                            alt="Peaceful morning light"
+                            loading="lazy"
+                        />
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <div class="narrative-block">
-                <span class="narrative-marker">03</span>
-                <div class="narrative-content">
-                    <h2>Family man by purpose</h2>
-                    <p>
-                        Di atas semua itu, saya adalah suami dan ayah. Ini bukan
-                        peran sampingan — ini adalah alasan di balik segalanya.
-                        Semua yang saya bangun, pelajari, dan ciptakan pada
-                        akhirnya bermuara pada satu hal: hadir untuk orang-orang
-                        yang saya cintai.
-                    </p>
-                    <p>
-                        Website ini pun sebagian adalah cara saya
-                        mendokumentasikan perjalanan itu — supaya suatu hari
-                        anak saya bisa melihat bagaimana ayahnya tumbuh.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- ── SKILLS & TOOLS ── -->
-        <section class="skills-section">
-            <h2 class="section-title">Skills & tools</h2>
-            <p class="section-desc">
-                Yang saya gunakan sehari-hari — di kantor, di studio, maupun di
-                meja belajar.
+    <!-- ══ PHILOSOPHY ══ -->
+    <section class="ab-philosophy">
+        <div class="ab-philosophy-inner">
+            <span class="ab-phil-eyebrow">The Philosophy</span>
+            <blockquote class="ab-quote">
+                "Sophistication is not about adding more; it is about the
+                curated removal of the unnecessary until only the soul remains."
+            </blockquote>
+            <div class="ab-rule" aria-hidden="true"></div>
+            <p class="ab-phil-body">
+                Whether I am refactoring a complex microservice or shading a
+                graphite portrait, my core principle remains:
+                <strong>Intentionality over Velocity.</strong> In a world that demands
+                'more' and 'faster', I choose to offer 'better' and 'deeper'.
             </p>
-            <div class="skills-grid">
-                {
-                    Object.entries(skills).map(([category, items]) => (
-                        <div class="skill-group">
-                            <h3 class="skill-category">{category}</h3>
-                            <ul class="skill-list" role="list">
-                                {items.map((skill) => (
-                                    <li class="skill-item">{skill}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    ))
-                }
-            </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- ── CONTACT ── -->
-        <section class="contact-section">
-            <div class="contact-inner">
-                <div class="contact-text">
-                    <h2 class="section-title">Mari terhubung</h2>
-                    <p>
-                        Apakah Anda ingin berkolaborasi, memesan ilustrasi, atau
-                        sekadar menyapa — saya senang mendengar kabar dari Anda.
-                    </p>
-                </div>
-                <ul class="contact-list" role="list">
-                    {
-                        contacts.map((c) => (
-                            <li>
-                                <a
-                                    href={c.href}
-                                    class="contact-link"
-                                    target={
-                                        c.href.startsWith("http")
-                                            ? "_blank"
-                                            : undefined
-                                    }
-                                    rel={
-                                        c.href.startsWith("http")
-                                            ? "noopener"
-                                            : undefined
-                                    }
-                                >
-                                    <span class="contact-label">{c.label}</span>
-                                    <span class="contact-display">
-                                        {c.display} →
-                                    </span>
-                                </a>
-                            </li>
-                        ))
-                    }
-                </ul>
+    <!-- ══ CTA ══ -->
+    <section class="ab-cta-wrap">
+        <div class="ab-cta">
+            <div class="ab-cta-text">
+                <h3 class="ab-cta-h">Have a project in mind?</h3>
+                <p class="ab-cta-sub">
+                    Let's discuss how intentional design can elevate your
+                    vision.
+                </p>
             </div>
-        </section>
-    </div>
+            <a href="mailto:email@anda.com" class="ab-cta-btn">Get in Touch</a>
+        </div>
+    </section>
 </BaseLayout>
 
 <style>
-    .container {
-        max-width: 56rem;
-        margin-inline: auto;
-        padding-inline: 1.5rem;
-        padding-bottom: 6rem;
+    /* ══════════════════════════════════════════
+     GOOGLE FONTS
+  ══════════════════════════════════════════ */
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&display=swap");
+
+    /* ══════════════════════════════════════════
+     DESIGN TOKENS
+  ══════════════════════════════════════════ */
+    :root {
+        --ab-surface: #fcf9f8;
+        --ab-surface-low: #f6f3f2;
+        --ab-surface-cont: #f0edec;
+        --ab-surface-high: #ebe7e7;
+        --ab-surface-highest: #e5e2e1;
+        --ab-surface-lowest: #ffffff;
+        --ab-on-bg: #1c1b1b;
+        --ab-on-surface-var: #554335;
+        --ab-outline-var: #dbc2b0;
+        --ab-primary: #8f4e00;
+        --ab-primary-fixed: #ffdcc2;
+        --ab-on-primary: #ffffff;
+        --ab-f-head: "Inter", sans-serif;
+        --ab-f-body: "Newsreader", serif;
     }
 
-    .section-title {
-        font-size: clamp(1.25rem, 2.5vw, 1.625rem);
-        margin: 0 0 0.75rem;
-        color: var(--color-text);
+    :root.dark {
+        --ab-surface: #141412;
+        --ab-surface-low: #1e1d1a;
+        --ab-surface-cont: #252320;
+        --ab-surface-high: #2a2825;
+        --ab-surface-highest: #302e2b;
+        --ab-surface-lowest: #232220;
+        --ab-on-bg: #f5f3ee;
+        --ab-on-surface-var: #c9b8ac;
+        --ab-outline-var: #4a3828;
+        --ab-primary: #e28112;
+        --ab-primary-fixed: #3d2200;
     }
 
-    .section-desc {
-        font-size: 0.9375rem;
-        color: var(--color-text-muted);
-        margin: 0 0 2rem;
-        line-height: 1.7;
+    * {
+        box-sizing: border-box;
     }
 
-    /* ── Intro ── */
-    .intro {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 4rem;
-        align-items: start;
-        padding-block: 4rem 3.5rem;
-        border-bottom: 1px solid var(--color-border);
+    /* ══════════════════════════════════════════
+     HERO
+  ══════════════════════════════════════════ */
+    .ab-hero {
+        background: var(--ab-surface);
+        padding: 8rem 5rem 5rem;
     }
 
-    .intro-eyebrow {
-        font-size: 0.8125rem;
-        color: var(--color-text-muted);
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        margin: 0 0 1rem;
+    .ab-hero-inner {
+        max-width: 72rem;
     }
 
-    .intro-heading {
-        font-size: clamp(2rem, 5vw, 3rem);
-        margin: 0 0 1.5rem;
-        color: var(--color-text);
+    .ab-hero-heading {
+        font-family: var(--ab-f-head);
+        font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
         line-height: 1.1;
+        color: var(--ab-on-bg);
+        margin: 0 0 2rem;
     }
 
-    .intro-heading em {
+    .ab-hero-heading-serif {
+        font-family: var(--ab-f-body);
         font-style: italic;
-        color: var(--color-accent);
-        font-variation-settings:
-            "opsz" 9,
-            "SOFT" 100;
-    }
-
-    .intro-lead {
-        font-size: 1.0625rem;
-        color: var(--color-text-muted);
-        line-height: 1.8;
-        max-width: 46ch;
-        margin: 0;
-    }
-
-    /* Foto */
-    .intro-photo {
-        flex-shrink: 0;
-        padding-top: 0.5rem;
-    }
-
-    .photo-placeholder {
-        width: 200px;
-        height: 240px;
-        border-radius: 16px;
-        border: 1px dashed var(--color-border);
-        background: var(--color-bg-subtle);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        color: var(--color-text-muted);
-        font-size: 0.75rem;
-    }
-
-    .intro-photo img {
-        width: 200px;
-        height: 240px;
-        border-radius: 16px;
-        object-fit: cover;
-        border: 1px solid var(--color-border);
+        font-weight: 400;
+        color: var(--ab-primary);
         display: block;
     }
 
-    /* ── Narasi ── */
-    .narrative {
-        padding-block: 3.5rem;
-        border-bottom: 1px solid var(--color-border);
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-    }
-
-    .narrative-block {
+    .ab-hero-body-grid {
         display: grid;
-        grid-template-columns: 2.5rem 1fr;
-        gap: 1.5rem;
-        padding-block: 2.5rem;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .narrative-block:last-child {
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .narrative-block:first-child {
-        padding-top: 0;
-    }
-
-    .narrative-marker {
-        font-family: var(--font-serif);
-        font-size: 0.875rem;
-        font-style: italic;
-        color: var(--color-accent);
-        opacity: 0.6;
-        padding-top: 0.35rem;
-    }
-
-    .narrative-content h2 {
-        font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-        margin: 0 0 1rem;
-        color: var(--color-text);
-    }
-
-    .narrative-content p {
-        font-size: 1rem;
-        color: var(--color-text-muted);
-        line-height: 1.85;
-        margin: 0 0 1rem;
-        max-width: 58ch;
-    }
-
-    .narrative-content p:last-child {
-        margin-bottom: 0;
-    }
-
-    /* ── Skills ── */
-    .skills-section {
-        padding-block: 3.5rem;
-        border-bottom: 1px solid var(--color-border);
-    }
-
-    .skills-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(12, 1fr);
         gap: 2rem;
     }
 
-    .skill-category {
-        font-size: 0.75rem;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: var(--color-accent);
-        margin: 0 0 0.875rem;
+    .ab-hero-body-col {
+        grid-column: span 7;
     }
 
-    .skill-list {
-        list-style: none;
-        padding: 0;
+    .ab-hero-lead {
+        font-family: var(--ab-f-body);
+        font-style: italic;
+        font-size: 1.25rem;
+        line-height: 1.75;
+        color: var(--ab-on-surface-var);
         margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
     }
 
-    .skill-item {
-        font-size: 0.9375rem;
-        color: var(--color-text-muted);
-        padding-left: 1rem;
+    /* ══════════════════════════════════════════
+     PILLARS — 12-COL BENTO GRID
+  ══════════════════════════════════════════ */
+    .ab-pillars {
+        background: var(--ab-surface-low);
+        padding: 5rem;
+    }
+
+    .ab-grid {
+        max-width: 80rem;
+        margin-inline: auto;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 2rem;
+    }
+
+    /* ── Card base ── */
+    .ab-card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+    }
+
+    /* ── Image cards ── */
+    .ab-card--img {
         position: relative;
     }
 
-    .skill-item::before {
-        content: "·";
+    .ab-img {
         position: absolute;
-        left: 0;
-        color: var(--color-accent);
-        opacity: 0.5;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
 
-    /* ── Contact ── */
-    .contact-section {
-        padding-block: 3.5rem 0;
+    .ab-card--img:hover .ab-img {
+        transform: scale(1.06);
     }
 
-    .contact-inner {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: start;
+    .ab-img-tint {
+        position: absolute;
+        inset: 0;
+        background: rgba(143, 78, 0, 0.2);
+        mix-blend-mode: multiply;
+        pointer-events: none;
     }
 
-    .contact-text p {
-        font-size: 0.9375rem;
-        color: var(--color-text-muted);
-        line-height: 1.75;
-        margin: 0;
-    }
-
-    .contact-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    /* ── 01 Engineer text ── */
+    .ab-card--engineer {
+        grid-column: span 8;
+        background: var(--ab-surface-lowest);
+        padding: 3rem;
         display: flex;
         flex-direction: column;
-        gap: 0;
-    }
-
-    .contact-link {
-        display: flex;
-        align-items: baseline;
         justify-content: space-between;
+        min-height: 400px;
+    }
+
+    /* ── 01 Engineer image ── */
+    .ab-card--eng-img {
+        grid-column: span 4;
+        min-height: 260px;
+    }
+
+    /* ── 02 Illustrator image ── */
+    .ab-card--illus-img {
+        grid-column: span 5;
+        min-height: 500px;
+    }
+
+    /* ── 02 Illustrator text ── */
+    .ab-card--illus {
+        grid-column: span 7;
+        background: var(--ab-surface-highest);
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* ── 03 Family Man ── */
+    .ab-card--family {
+        grid-column: span 12;
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        margin-top: 1rem;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .ab-family-text {
+        flex: 1;
+    }
+
+    .ab-family-imgs {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 1rem;
-        padding-block: 0.875rem;
-        border-bottom: 1px solid var(--color-border);
-        transition: background-color 0.15s;
-        border-radius: 4px;
-        text-decoration: none;
     }
 
-    .contact-list li:first-child .contact-link {
-        border-top: 1px solid var(--color-border);
+    .ab-fimg {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        height: 16rem;
     }
 
-    .contact-link:hover {
-        background-color: var(--color-bg-subtle);
-        padding-inline: 0.75rem;
-        margin-inline: -0.75rem;
+    .ab-fimg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
     }
 
-    .contact-label {
-        font-size: 0.8125rem;
-        color: var(--color-text-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
+    .ab-fimg--bottom {
+        margin-top: 2rem;
+    }
+
+    /* ── Shared text styles ── */
+    .ab-eyebrow {
+        font-family: var(--ab-f-head);
+        font-size: 0.75rem;
         font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--ab-primary);
+        display: block;
+        margin-bottom: 1.5rem;
     }
 
-    .contact-display {
-        font-size: 0.9375rem;
-        color: var(--color-accent);
-        transition: opacity 0.15s;
+    .ab-pillar-h {
+        font-family: var(--ab-f-head);
+        font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+        font-weight: 700;
+        color: var(--ab-on-bg);
+        line-height: 1.2;
+        letter-spacing: -0.025em;
+        margin: 0 0 1.5rem;
     }
 
-    .contact-link:hover .contact-display {
-        opacity: 0.75;
+    .ab-pillar-h--serif {
+        font-family: var(--ab-f-body);
+        font-style: italic;
+        font-weight: 400;
+        letter-spacing: -0.01em;
     }
 
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-        .intro {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+    .ab-pillar-body {
+        font-family: var(--ab-f-body);
+        font-size: 1.0625rem;
+        line-height: 1.75;
+        color: var(--ab-on-surface-var);
+        max-width: 52ch;
+        margin: 0;
+    }
+
+    .ab-tags {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+    }
+
+    .ab-tag {
+        font-family: var(--ab-f-head);
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.25rem 0.75rem;
+        background: var(--ab-surface-cont);
+        color: var(--ab-on-surface-var);
+        border-radius: 0.25rem;
+    }
+
+    /* ══════════════════════════════════════════
+     PHILOSOPHY
+  ══════════════════════════════════════════ */
+    .ab-philosophy {
+        background: var(--ab-surface);
+        padding: 8rem 5rem;
+    }
+
+    .ab-philosophy-inner {
+        max-width: 48rem;
+        margin-inline: auto;
+        text-align: center;
+    }
+
+    .ab-phil-eyebrow {
+        font-family: var(--ab-f-head);
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.4em;
+        color: var(--ab-primary);
+        display: block;
+        margin-bottom: 2.5rem;
+    }
+
+    .ab-quote {
+        font-family: var(--ab-f-body);
+        font-style: italic;
+        font-size: clamp(1.5rem, 3vw, 2.5rem);
+        line-height: 1.35;
+        color: var(--ab-on-bg);
+        margin: 0 0 2.5rem;
+        border: none;
+        padding: 0;
+    }
+
+    .ab-rule {
+        width: 3rem;
+        height: 1px;
+        background: var(--ab-outline-var);
+        margin-inline: auto;
+        margin-bottom: 2.5rem;
+    }
+
+    .ab-phil-body {
+        font-family: var(--ab-f-body);
+        font-size: 1.0625rem;
+        line-height: 1.9;
+        color: var(--ab-on-surface-var);
+        margin: 0;
+    }
+
+    .ab-phil-body strong {
+        font-weight: 600;
+        font-style: italic;
+        color: var(--ab-on-bg);
+    }
+
+    /* ══════════════════════════════════════════
+     CTA
+  ══════════════════════════════════════════ */
+    .ab-cta-wrap {
+        padding: 0 5rem 8rem;
+        background: var(--ab-surface);
+    }
+
+    .ab-cta {
+        background: var(--ab-primary);
+        border-radius: 0.75rem;
+        padding: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .ab-cta-h {
+        font-family: var(--ab-f-head);
+        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-weight: 700;
+        color: var(--ab-on-primary);
+        letter-spacing: -0.02em;
+        margin: 0 0 0.5rem;
+    }
+
+    .ab-cta-sub {
+        font-family: var(--ab-f-body);
+        font-style: italic;
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .ab-cta-btn {
+        font-family: var(--ab-f-head);
+        font-size: 0.875rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--ab-primary);
+        background: var(--ab-surface-lowest);
+        padding: 1rem 2.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        flex-shrink: 0;
+        white-space: nowrap;
+        transition:
+            transform 0.15s ease,
+            opacity 0.15s ease;
+        display: inline-block;
+    }
+
+    .ab-cta-btn:hover {
+        transform: scale(1.02);
+    }
+    .ab-cta-btn:active {
+        transform: scale(0.98);
+    }
+
+    /* ══════════════════════════════════════════
+     RESPONSIVE
+  ══════════════════════════════════════════ */
+
+    /* Tablet ≤ 1024px */
+    @media (max-width: 1024px) {
+        .ab-hero,
+        .ab-pillars,
+        .ab-philosophy,
+        .ab-cta-wrap {
+            padding-inline: 2.5rem;
         }
 
-        .intro-photo {
-            order: -1;
+        .ab-card--engineer {
+            grid-column: span 12;
+            min-height: auto;
+        }
+        .ab-card--eng-img {
+            grid-column: span 12;
+            min-height: 320px;
+        }
+        .ab-card--illus-img {
+            grid-column: span 12;
+            min-height: 380px;
+        }
+        .ab-card--illus {
+            grid-column: span 12;
         }
 
-        .photo-placeholder,
-        .intro-photo img {
-            width: 100%;
-            height: 200px;
+        .ab-fimg {
+            height: 12rem;
+        }
+    }
+
+    /* Mobile ≤ 640px */
+    @media (max-width: 640px) {
+        .ab-hero {
+            padding: 5rem 1.25rem 3rem;
         }
 
-        .narrative-block {
-            grid-template-columns: 1fr;
-            gap: 0.5rem;
+        .ab-hero-body-col {
+            grid-column: span 12;
         }
 
-        .narrative-marker {
-            padding-top: 0;
+        .ab-hero-lead {
+            font-size: 1rem;
         }
 
-        .skills-grid {
-            grid-template-columns: 1fr;
+        .ab-pillars {
+            padding: 2.5rem 1.25rem;
+        }
+
+        .ab-grid {
+            gap: 0.875rem;
+        }
+
+        .ab-card--engineer,
+        .ab-card--eng-img,
+        .ab-card--illus-img,
+        .ab-card--illus,
+        .ab-card--family {
+            grid-column: span 12;
+        }
+
+        .ab-card--engineer {
+            padding: 1.75rem;
+            min-height: auto;
+        }
+
+        .ab-card--illus {
+            padding: 1.75rem;
+        }
+
+        .ab-card--eng-img {
+            min-height: 240px;
+        }
+        .ab-card--illus-img {
+            min-height: 280px;
+        }
+
+        /* Family: stack vertically */
+        .ab-card--family {
+            flex-direction: column;
             gap: 1.5rem;
         }
 
-        .contact-inner {
-            grid-template-columns: 1fr;
-            gap: 2rem;
+        .ab-family-imgs {
+            grid-template-columns: 1fr 1fr;
+            gap: 0.625rem;
         }
-    }
 
-    @media (min-width: 769px) and (max-width: 900px) {
-        .skills-grid {
-            grid-template-columns: repeat(2, 1fr);
+        .ab-fimg {
+            height: 9rem;
+        }
+
+        .ab-fimg--bottom {
+            margin-top: 0.75rem;
+        }
+
+        .ab-philosophy {
+            padding: 4rem 1.25rem;
+        }
+
+        .ab-cta-wrap {
+            padding: 0 1.25rem 4rem;
+        }
+
+        .ab-cta {
+            padding: 2rem 1.5rem;
+            flex-direction: column;
+            align-items: flex-start;
+            border-radius: 0.5rem;
+            gap: 1.5rem;
+        }
+
+        .ab-cta-btn {
+            width: 100%;
+            text-align: center;
         }
     }
 </style>

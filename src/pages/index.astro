@@ -1,31 +1,28 @@
 ---
 // src/pages/index.astro
 import { getCollection } from "astro:content";
+import Nav from "../components/Nav.astro";
+import "../styles/global.css";
 
 const allWork = await getCollection("work");
 const featuredWork = allWork
   .filter((w) => w.data.featured)
   .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 12);
+  .slice(0, 3);
 
 const allPosts = await getCollection("blog");
 const latestPosts = allPosts
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
-
-const formatDate = (date: Date) =>
-  date.toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  .slice(0, 2);
 
 const categoryLabel: Record<string, string> = {
   craft: "Craft",
   notes: "Notes",
   family: "Family",
 };
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -39,7 +36,8 @@ const categoryLabel: Record<string, string> = {
       content="Engineer by day, illustrator by passion, family man by purpose."
     />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href="/" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>
       const theme =
         localStorage.getItem("theme") ??
@@ -49,1414 +47,919 @@ const categoryLabel: Record<string, string> = {
       document.documentElement.classList.toggle("dark", theme === "dark");
     </script>
   </head>
-  <body>
-    <div class="site-wrapper">
-      <!-- ════════════════════════════════════
-       SIDEBAR — visible on section 0 only
-  ════════════════════════════════════ -->
-      <aside class="sidebar" id="sidebar">
-        <div class="sidebar-inner">
-          <!-- Logo space -->
-          <div class="sidebar-logo-space">
-            <div class="logo-placeholder" aria-label="Logo placeholder"></div>
+
+  <body class="home-body">
+    <!-- ── Nav: komponen yang sama dengan About/Blog/Work ── -->
+    <Nav />
+
+    <!-- ── Snap Container ── -->
+    <div class="snap-container" id="snap-container">
+      <!-- ══════════════════════════════
+           SECTION 0 — HERO
+      ══════════════════════════════ -->
+      <section class="snap-section section--hero" id="s0" data-index="0">
+        <div class="hero-layout">
+          <div class="hero-text">
+            <p class="hero-eyebrow">Tentang saya</p>
+
+            <!--
+              Tipografi SAMA PERSIS dengan about.astro .intro-heading:
+                font-family: var(--font-serif)  →  Fraunces Variable
+                font-size: clamp(2rem, 5vw, 3rem)
+                Kata biasa: color --color-text, weight normal
+                <em>: font-style italic, color --color-accent,
+                      font-variation-settings "opsz" 9, "SOFT" 100
+            -->
+            <h1 class="hero-heading">
+              Engineer <em>by day,</em><br />
+              Illustrator <em>by passion,</em><br />
+              Family man <em>by purpose.</em>
+            </h1>
+
+            <p class="hero-lead">
+              Saya percaya pada pertemuan antara struktur dan jiwa — membangun
+              sistem yang skalabel sambil merajut cerita yang beresonansi.
+              Pertumbuhan saya tidak hanya diukur dari commit, tetapi dari
+              jembatan yang saya bangun antara teknologi dan emosi manusia.
+            </p>
+
+            <div class="hero-accent-bar" aria-hidden="true"></div>
+
+            <div class="hero-actions">
+              <a href="/work" class="btn-primary">Lihat karya</a>
+              <a href="/about" class="btn-ghost">Tentang saya</a>
+            </div>
           </div>
 
-          <!-- Name + tagline + nav grouped tightly -->
-          <div class="sidebar-identity">
-            <div class="sidebar-name-block">
-              <a href="/" class="logo-name">Teguh<br />Suwanda</a>
-              <p class="logo-tagline">engineer · illustrator</p>
-            </div>
-            <nav class="sidebar-nav" aria-label="Navigasi utama">
-              <a href="/work" class="snav-link">Work</a>
-              <a href="/blog" class="snav-link">Blog</a>
-              <a href="/now" class="snav-link">Now</a>
-              <a href="/about" class="snav-link">About</a>
-            </nav>
-          </div>
-
-          <div style="flex:1"></div>
-
-          <!-- Bottom: social icons + theme toggle -->
-          <div class="sidebar-bottom">
-            <div class="sidebar-social">
-              <a
-                href="https://instagram.com/suwandateguh"
-                target="_blank"
-                rel="noopener"
-                class="social-icon-link"
-                aria-label="Instagram"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
-                  ></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
-              </a>
-              <a
-                href="https://github.com/909teguh"
-                target="_blank"
-                rel="noopener"
-                class="social-icon-link"
-                aria-label="GitHub"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-                  ></path>
-                </svg>
-              </a>
-            </div>
-            <button
-              id="theme-toggle"
-              class="theme-btn"
-              aria-label="Toggle dark mode"
-            >
-              <svg
-                class="icon-sun"
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              >
-                <circle cx="12" cy="12" r="4"></circle><path
-                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-                ></path>
-              </svg>
-              <svg
-                class="icon-moon"
-                xmlns="http://www.w3.org/2000/svg"
-                width="15"
-                height="15"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              >
-                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-              </svg>
-            </button>
+          <div class="hero-deco" aria-hidden="true">
+            <span class="hero-deco-word">craft</span>
           </div>
         </div>
-      </aside>
 
-      <!-- ════════════════════════════════════
-       TOP NAV — visible on section 1
-  ════════════════════════════════════ -->
-      <header class="topnav" id="topnav" aria-hidden="true">
-        <div class="topnav-inner">
-          <a href="/" class="topnav-logo">Teguh Suwanda</a>
-          <nav class="topnav-links">
-            <a href="/work" class="tnav-link">Work</a>
-            <a href="/blog" class="tnav-link">Blog</a>
-            <a href="/now" class="tnav-link">Now</a>
-            <a href="/about" class="tnav-link">About</a>
-          </nav>
-          <button
-            id="theme-toggle-top"
-            class="theme-btn"
-            aria-label="Toggle dark mode"
-          >
-            <svg
-              class="icon-sun"
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-            >
-              <circle cx="12" cy="12" r="4"></circle><path
-                d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-              ></path>
-            </svg>
-            <svg
-              class="icon-moon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-            >
-              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-            </svg>
-          </button>
+        <div class="scroll-hint" aria-hidden="true">
+          <span class="scroll-hint-label">scroll</span>
+          <div class="scroll-hint-line"></div>
         </div>
-      </header>
+      </section>
 
-      <!-- ════════════════════════════════════
-       SCROLL CONTAINER — 2 snap sections
-  ════════════════════════════════════ -->
-      <main class="scroll-container" id="scroll-container">
-        <!-- ══ SECTION 0: GALLERY ══ -->
-        <section
-          class="snap-section section-work"
-          id="section-work"
-          data-index="0"
-        >
-          <div class="work-content">
-            <div class="gallery-masonry" id="gallery-masonry">
+      <!-- ══════════════════════════════
+           SECTION 1 — SELECTED WORKS
+           Style persis dari code.html
+      ══════════════════════════════ -->
+      <section class="snap-section section--works" id="s1" data-index="1">
+        <div class="works-inner">
+          <div class="works-header">
+            <p class="works-eyebrow">SELECTED WORKS</p>
+            <span class="works-year">2023 — {year}</span>
+          </div>
+
+          <!-- Zero-gap grid: 8fr feature + 4fr sidebar stack -->
+          <div class="works-grid">
+            <!-- Large Feature -->
+            <div class="works-feature">
               {
-                featuredWork.length === 0
-                  ? Array.from({ length: 8 }).map((_, i) => (
-                      <div class="gallery-item gallery-item--placeholder">
-                        <div class="gi-inner">
-                          <div
-                            class="gi-noimage"
-                            style={`aspect-ratio:${i % 2 === 0 ? "4/5" : "3/4"}`}
-                          >
-                            <span class="placeholder-num">0{i + 1}</span>
-                          </div>
-                        </div>
+                featuredWork[0] ? (
+                  <a href={`/work/${featuredWork[0].id}`} class="grid-cell">
+                    {featuredWork[0].data.cover ? (
+                      <img
+                        src={featuredWork[0].data.cover}
+                        alt={
+                          featuredWork[0].data.coverAlt ??
+                          featuredWork[0].data.title
+                        }
+                        loading="eager"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="grid-noimage">
+                        <span>{featuredWork[0].data.title.charAt(0)}</span>
                       </div>
-                    ))
-                  : featuredWork.map((work) => (
-                      <a
-                        href={`/work/${work.id}`}
-                        class="gallery-item"
-                        aria-label={work.data.title}
-                      >
-                        <div class="gi-inner">
-                          {work.data.cover ? (
-                            <img
-                              src={work.data.cover}
-                              alt={work.data.coverAlt ?? work.data.title}
-                              loading="lazy"
-                              decoding="async"
-                            />
-                          ) : (
-                            <div class="gi-noimage" style="aspect-ratio:4/5">
-                              <span>{work.data.title.charAt(0)}</span>
-                            </div>
-                          )}
-                          <div class="gi-overlay">
-                            <p class="overlay-title">{work.data.title}</p>
-                            <span class="overlay-year">{work.data.year}</span>
-                          </div>
-                        </div>
-                      </a>
-                    ))
+                    )}
+                  </a>
+                ) : (
+                  <div class="grid-cell grid-cell--placeholder">
+                    <div class="grid-noimage">
+                      <span>A</span>
+                    </div>
+                  </div>
+                )
               }
             </div>
 
-            <a href="/work" class="all-work-link">
-              <span>Semua karya</span>
-              <svg
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-              >
-                <path d="M5 12h14M13 6l6 6-6 6"></path>
-              </svg>
-            </a>
-          </div>
-        </section>
+            <!-- Sidebar Stack -->
+            <div class="works-stack">
+              {
+                featuredWork[1] ? (
+                  <a href={`/work/${featuredWork[1].id}`} class="grid-cell">
+                    {featuredWork[1].data.cover ? (
+                      <img
+                        src={featuredWork[1].data.cover}
+                        alt={
+                          featuredWork[1].data.coverAlt ??
+                          featuredWork[1].data.title
+                        }
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="grid-noimage">
+                        <span>{featuredWork[1].data.title.charAt(0)}</span>
+                      </div>
+                    )}
+                  </a>
+                ) : (
+                  <div class="grid-cell grid-cell--placeholder">
+                    <div class="grid-noimage">
+                      <span>B</span>
+                    </div>
+                  </div>
+                )
+              }
 
-        <!-- ══ SECTION 1: BLOG (1/3) + ABOUT (2/3) ══ -->
-        <section
-          class="snap-section section-secondary"
-          id="section-secondary"
-          data-index="1"
-        >
-          <div class="secondary-content">
-            <!-- LEFT COLUMN — 1/3 — Blog -->
-            <div class="col-blog">
-              <div class="col-blog-inner">
-                <div class="col-header">
-                  <h2 class="col-title">From the blog</h2>
-                  <a href="/blog" class="col-all-link">Semua →</a>
-                </div>
-
-                <div class="posts-list">
-                  {
-                    latestPosts.length === 0
-                      ? [
-                          {
-                            title: "Kenapa saya membuat website ini",
-                            cat: "notes",
-                            date: "1 Jan 2025",
-                            desc: "Sebuah awal yang lama tertunda.",
-                          },
-                          {
-                            title: "Menggambar di tengah jadwal padat",
-                            cat: "craft",
-                            date: "15 Jan 2025",
-                            desc: "Konsisten 15 menit sehari.",
-                          },
-                          {
-                            title: "Hal kecil yang saya syukuri",
-                            cat: "family",
-                            date: "1 Feb 2025",
-                            desc: "Momen yang sering terlewat.",
-                          },
-                          {
-                            title: "Catatan dari meja kerja",
-                            cat: "notes",
-                            date: "10 Feb 2025",
-                            desc: "Engineering, ide, dan kopi.",
-                          },
-                          {
-                            title: "Proses sketsa pertama",
-                            cat: "craft",
-                            date: "1 Mar 2025",
-                            desc: "Goresan pertama selalu sulit.",
-                          },
-                        ].map((p) => (
-                          <div class="post-row post-row--placeholder">
-                            <div class="post-row-top">
-                              <span class={`post-cat post-cat--${p.cat}`}>
-                                {categoryLabel[p.cat]}
-                              </span>
-                              <span class="post-date">{p.date}</span>
-                            </div>
-                            <p class="post-title">{p.title}</p>
-                          </div>
-                        ))
-                      : latestPosts.map((post) => (
-                          <a href={`/blog/${post.id}`} class="post-row">
-                            <div class="post-row-top">
-                              <span
-                                class={`post-cat post-cat--${post.data.category}`}
-                              >
-                                {categoryLabel[post.data.category]}
-                              </span>
-                              <span class="post-date">
-                                {formatDate(post.data.pubDate)}
-                              </span>
-                            </div>
-                            <p class="post-title">{post.data.title}</p>
-                          </a>
-                        ))
-                  }
-                </div>
-              </div>
-            </div>
-
-            <!-- DIVIDER -->
-            <div class="col-divider" aria-hidden="true"></div>
-
-            <!-- RIGHT COLUMN — 2/3 — About -->
-            <div class="col-about">
-              <div class="col-about-inner">
-                <p class="about-eyebrow">Tentang saya</p>
-                <h2 class="about-heading">
-                  Engineer <em>by day.</em><br />
-                  Illustrator <em>by passion.</em><br />
-                  Family man <em>by purpose.</em>
-                </h2>
-
-                <p class="about-bio">
-                  Saya membangun software di siang hari dan menggambar di malam
-                  hari. Dua dunia yang kelihatannya berbeda — tapi bagi saya
-                  keduanya sama: soal membangun sesuatu yang bermakna, satu
-                  langkah kecil dalam satu waktu.
-                </p>
-                <p class="about-bio">
-                  Di luar layar dan kanvas, saya adalah suami dan ayah yang
-                  sedang belajar hadir sepenuhnya. Website ini adalah cara saya
-                  mendokumentasikan perjalanan itu.
-                </p>
-
-                <div class="about-tags">
-                  <span class="atag">JavaScript</span>
-                  <span class="atag">TypeScript</span>
-                  <span class="atag">React</span>
-                  <span class="atag">Node.js</span>
-                  <span class="atag atag--accent">Procreate</span>
-                  <span class="atag atag--accent">Illustrator</span>
-                  <span class="atag atag--accent">Figma</span>
-                  <span class="atag atag--muted">Astro</span>
-                  <span class="atag atag--muted">p5.js</span>
-                </div>
-
-                <div class="about-actions">
-                  <a href="/about" class="btn-primary">Selengkapnya</a>
-                  <a href="/work" class="btn-ghost">Lihat karya</a>
-                </div>
-              </div>
+              {
+                featuredWork[2] ? (
+                  <a href={`/work/${featuredWork[2].id}`} class="grid-cell">
+                    {featuredWork[2].data.cover ? (
+                      <img
+                        src={featuredWork[2].data.cover}
+                        alt={
+                          featuredWork[2].data.coverAlt ??
+                          featuredWork[2].data.title
+                        }
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="grid-noimage">
+                        <span>{featuredWork[2].data.title.charAt(0)}</span>
+                      </div>
+                    )}
+                  </a>
+                ) : (
+                  <div class="grid-cell grid-cell--placeholder">
+                    <div class="grid-noimage">
+                      <span>C</span>
+                    </div>
+                  </div>
+                )
+              }
             </div>
           </div>
+        </div>
+      </section>
 
-          <!-- Footer inside section -->
-          <footer class="section-footer">
-            <p>© {new Date().getFullYear()} Teguh Suwanda</p>
-            <div class="footer-links">
+      <!-- ══════════════════════════════
+           SECTION 2 — RECENT REFLECTIONS
+           Style persis dari code.html
+      ══════════════════════════════ -->
+      <section class="snap-section section--blog" id="s2" data-index="2">
+        <div class="blog-inner">
+          <p class="blog-eyebrow">RECENT REFLECTIONS</p>
+
+          <div class="blog-grid">
+            {
+              latestPosts.length === 0 ? (
+                <>
+                  <article class="blog-article">
+                    <div class="article-meta">
+                      <span class="article-cat">SELF-DEVELOPMENT</span>
+                    </div>
+                    <h4 class="article-title">
+                      The Art of Deliberate Practice in Engineering
+                    </h4>
+                    <p class="article-excerpt">
+                      Bagaimana memperlakukan arsitektur software layaknya
+                      masterclass ilustrasi dapat mengubah cara kita mendekati
+                      pemecahan masalah yang kompleks...
+                    </p>
+                    <span class="article-cta">
+                      READ JOURNAL
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
+                  </article>
+
+                  <article class="blog-article">
+                    <div class="article-meta">
+                      <span class="article-cat">PHILOSOPHY</span>
+                    </div>
+                    <h4 class="article-title">
+                      Finding Stillness in the Middle of the Grind
+                    </h4>
+                    <p class="article-excerpt">
+                      Refleksi tentang mempertahankan output kreatif sembari
+                      menjalani karier engineering penuh waktu dan kekacauan
+                      indah kehidupan keluarga...
+                    </p>
+                    <span class="article-cta">
+                      READ JOURNAL
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
+                  </article>
+                </>
+              ) : (
+                latestPosts.map((post) => (
+                  <article class="blog-article">
+                    <div class="article-meta">
+                      <span class="article-cat">
+                        {categoryLabel[post.data.category]?.toUpperCase()}
+                      </span>
+                    </div>
+                    <h4 class="article-title">{post.data.title}</h4>
+                    <p class="article-excerpt">{post.data.description}</p>
+                    <a href={`/blog/${post.id}`} class="article-cta">
+                      READ JOURNAL
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </a>
+                  </article>
+                ))
+              )
+            }
+          </div>
+
+          <!-- Footer — persis dari code.html -->
+          <footer class="blog-footer">
+            <p class="blog-footer-copy">© {year} TEGUH SUWANDA</p>
+            <div class="blog-footer-links">
               <a
                 href="https://instagram.com/suwandateguh"
                 target="_blank"
-                rel="noopener">Instagram</a
+                rel="noopener">INSTAGRAM</a
               >
               <a
                 href="https://github.com/909teguh"
                 target="_blank"
-                rel="noopener">GitHub</a
+                rel="noopener">GITHUB</a
               >
             </div>
           </footer>
-        </section>
-      </main>
+        </div>
+      </section>
+    </div><!-- /snap-container -->
 
-      <!-- Section dot indicator -->
-      <nav
-        class="section-dots"
-        id="section-dots"
-        aria-label="Section navigator"
-      >
-        <button class="dot dot--active" data-target="0" aria-label="Work"
-        ></button>
-        <button class="dot" data-target="1" aria-label="Info"></button>
-      </nav>
-    </div><!-- /site-wrapper -->
-
-    <!-- ════════════════════════════════════
-     MOBILE NAV
-════════════════════════════════════ -->
-    <header class="mobile-nav" id="mobile-nav">
-      <a href="/" class="topnav-logo">Teguh Suwanda</a>
-      <div class="mobile-nav-right">
-        <button
-          id="theme-toggle-mobile"
-          class="theme-btn"
-          aria-label="Toggle dark mode"
-        >
-          <svg
-            class="icon-sun"
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          >
-            <circle cx="12" cy="12" r="4"></circle><path
-              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
-            ></path>
-          </svg>
-          <svg
-            class="icon-moon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="15"
-            height="15"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          >
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-          </svg>
-        </button>
-        <button
-          class="hamburger-btn"
-          id="hamburger"
-          aria-label="Menu"
-          aria-expanded="false"
-        >
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-    </header>
-    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
-      <nav>
-        <a href="/work" class="mmenu-link">Work</a>
-        <a href="/blog" class="mmenu-link">Blog</a>
-        <a href="/now" class="mmenu-link">Now</a>
-        <a href="/about" class="mmenu-link">About</a>
-      </nav>
-    </div>
-
-    <style>
-      /* ═══ TOKENS ═══ */
-      :root {
-        --font-sans: "Plus Jakarta Sans Variable", sans-serif;
-        --font-serif: "Fraunces Variable", serif;
-        --color-bg: #faf9f6;
-        --color-bg-subtle: #f2f0eb;
-        --color-text: #1c1917;
-        --color-text-muted: #78716c;
-        --color-border: #e5e2da;
-        --color-accent: #c2410c;
-        --color-accent-soft: #fef3ed;
-        --sidebar-w: 25vw;
-      }
-      :root.dark {
-        --color-bg: #141412;
-        --color-bg-subtle: #1e1d1a;
-        --color-text: #f5f3ee;
-        --color-text-muted: #a8a29e;
-        --color-border: #2c2a27;
-        --color-accent: #fb923c;
-        --color-accent-soft: #1c1007;
-      }
-
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      html,
-      body {
-        height: 100%;
-        overflow: hidden;
-        font-family: var(--font-sans);
-        background: var(--color-bg);
-        color: var(--color-text);
-        -webkit-font-smoothing: antialiased;
-      }
-      h1,
-      h2,
-      h3 {
-        font-family: var(--font-serif);
-        font-variation-settings: "opsz" 9;
-        line-height: 1.1;
-        letter-spacing: -0.02em;
-      }
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      :focus-visible {
-        outline: 2px solid var(--color-accent);
-        outline-offset: 3px;
-        border-radius: 2px;
-      }
-
-      /* ═══ SITE WRAPPER ═══ */
-      .site-wrapper {
-        display: flex;
-        height: 100dvh;
-        overflow: hidden;
-      }
-
-      /* ═══════════════════════════════════
-     SIDEBAR
-  ═══════════════════════════════════ */
-      .sidebar {
-        width: var(--sidebar-w);
-        min-width: 180px;
-        max-width: 300px;
-        flex-shrink: 0;
-        height: 100dvh;
-        border-right: 1px solid var(--color-border);
-        background: var(--color-bg);
-        position: relative;
-        z-index: 10;
-        transition:
-          transform 0.48s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.48s;
-      }
-      .sidebar.hidden {
-        transform: translateX(-100%);
-        opacity: 0;
-        pointer-events: none;
-        position: absolute;
-      }
-      .sidebar-inner {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        padding: 2rem 1.75rem;
-      }
-      .sidebar-logo-space {
-        margin-bottom: 2.5rem;
-      }
-      .logo-placeholder {
-        width: 48px;
-        height: 48px;
-        border-radius: 10px;
-        border: 1.5px dashed var(--color-border);
-        background: var(--color-bg-subtle);
-      }
-      .sidebar-identity {
-        display: flex;
-        flex-direction: column;
-        gap: 0.625rem;
-      }
-      .sidebar-name-block {
-        display: flex;
-        flex-direction: column;
-        gap: 0.2rem;
-      }
-      .logo-name {
-        font-family: var(--font-serif);
-        font-size: 1.375rem;
-        font-variation-settings: "opsz" 9;
-        color: var(--color-text);
-        line-height: 1.2;
-        letter-spacing: -0.025em;
-        display: block;
-        transition: color 0.15s;
-      }
-      .logo-name:hover {
-        color: var(--color-accent);
-      }
-      .logo-tagline {
-        font-size: 0.625rem;
-        color: var(--color-text-muted);
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-      }
-      .sidebar-nav {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-      .snav-link {
-        font-size: 0.9375rem;
-        font-weight: 500;
-        color: var(--color-text-muted);
-        padding: 0.375rem 0.625rem;
-        border-radius: 6px;
-        transition:
-          color 0.15s,
-          background 0.15s;
-        display: block;
-      }
-      .snav-link:hover {
-        color: var(--color-text);
-        background: var(--color-bg-subtle);
-      }
-      .sidebar-bottom {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      .sidebar-social {
-        display: flex;
-        align-items: center;
-        gap: 0.125rem;
-      }
-      .social-icon-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 6px;
-        color: var(--color-text-muted);
-        transition:
-          color 0.15s,
-          background 0.15s;
-      }
-      .social-icon-link:hover {
-        color: var(--color-accent);
-        background: var(--color-bg-subtle);
-      }
-
-      /* ═══ TOP NAV ═══ */
-      .topnav {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 20;
-        height: 3.5rem;
-        border-bottom: 1px solid var(--color-border);
-        background: color-mix(in srgb, var(--color-bg) 85%, transparent);
-        backdrop-filter: blur(10px);
-        display: flex;
-        align-items: center;
-        transform: translateY(-100%);
-        opacity: 0;
-        transition:
-          transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.45s;
-        pointer-events: none;
-      }
-      .topnav.visible {
-        transform: translateY(0);
-        opacity: 1;
-        pointer-events: auto;
-      }
-      .topnav-inner {
-        width: 100%;
-        padding-inline: 2rem;
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-      }
-      .topnav-logo {
-        font-family: var(--font-serif);
-        font-size: 1rem;
-        font-variation-settings: "opsz" 9;
-        color: var(--color-text);
-        margin-right: auto;
-      }
-      .topnav-links {
-        display: flex;
-        gap: 0.25rem;
-      }
-      .tnav-link {
-        font-size: 0.875rem;
-        color: var(--color-text-muted);
-        padding: 0.375rem 0.75rem;
-        border-radius: 6px;
-        transition:
-          color 0.15s,
-          background 0.15s;
-      }
-      .tnav-link:hover {
-        color: var(--color-text);
-        background: var(--color-bg-subtle);
-      }
-
-      /* ═══ THEME BTN ═══ */
-      .theme-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 6px;
-        border: 1px solid var(--color-border);
-        background: transparent;
-        color: var(--color-text-muted);
-        cursor: pointer;
-        transition:
-          color 0.15s,
-          background 0.15s;
-        flex-shrink: 0;
-      }
-      .theme-btn:hover {
-        color: var(--color-text);
-        background: var(--color-bg-subtle);
-      }
-      :root:not(.dark) .icon-moon {
-        display: none;
-      }
-      :root.dark .icon-sun {
-        display: none;
-      }
-
-      /* ═══ SCROLL CONTAINER ═══ */
-      .scroll-container {
-        flex: 1;
-        height: 100dvh;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        scroll-snap-type: y mandatory;
-        scroll-behavior: smooth;
-        scrollbar-width: none;
-      }
-      .scroll-container::-webkit-scrollbar {
-        display: none;
-      }
-
-      /* ═══ SNAP SECTIONS ═══ */
-      .snap-section {
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-        height: 100dvh;
-        width: 100%;
-        flex-shrink: 0;
-        display: flex;
-        align-items: stretch;
-        position: relative;
-      }
-
-      /* ═══════════════════════════════════
-     SECTION 0 — GALLERY
-  ═══════════════════════════════════ */
-      .section-work {
-        background: var(--color-bg);
-      }
-
-      .work-content {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-        padding: 1.25rem 1.25rem 0.75rem;
-        overflow: hidden;
-      }
-
-      .gallery-masonry {
-        flex: 1;
-        column-count: 4;
-        column-gap: 5px;
-        overflow-y: auto;
-        overflow-x: hidden;
-        scrollbar-width: none;
-      }
-      .gallery-masonry::-webkit-scrollbar {
-        display: none;
-      }
-
-      .gallery-item {
-        display: block;
-        break-inside: avoid;
-        margin-bottom: 5px;
-        position: relative;
-        cursor: pointer;
-      }
-      .gi-inner {
-        width: 100%;
-        position: relative;
-        overflow: hidden;
-        background: var(--color-bg-subtle);
-      }
-      .gi-inner img {
-        width: 100%;
-        height: auto;
-        display: block;
-        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      }
-      .gallery-item:hover .gi-inner img {
-        transform: scale(1.05);
-      }
-      .gi-noimage {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-serif);
-        font-size: 2rem;
-        font-style: italic;
-        color: var(--color-text-muted);
-        background: var(--color-bg-subtle);
-        border: 1px dashed var(--color-border);
-      }
-      .gi-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.72) 0%,
-          rgba(0, 0, 0, 0.15) 45%,
-          transparent 65%
-        );
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 0.75rem;
-        opacity: 0;
-        transition: opacity 0.28s ease;
-        pointer-events: none;
-      }
-      .gallery-item:hover .gi-overlay {
-        opacity: 1;
-      }
-      .overlay-title {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: #fff;
-        margin-bottom: 0.15rem;
-        line-height: 1.3;
-      }
-      .overlay-year {
-        font-size: 0.65rem;
-        color: rgba(255, 255, 255, 0.6);
-        font-family: var(--font-serif);
-        font-style: italic;
-      }
-      .placeholder-num {
-        font-family: var(--font-serif);
-        font-size: 1.25rem;
-        font-style: italic;
-        color: var(--color-border);
-      }
-
-      .all-work-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.35rem;
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-        padding: 0.625rem 0;
-        transition: color 0.15s;
-        align-self: flex-end;
-      }
-      .all-work-link:hover {
-        color: var(--color-accent);
-      }
-
-      /* ═══════════════════════════════════
-     SECTION 1 — BLOG + ABOUT
-  ═══════════════════════════════════ */
-      .section-secondary {
-        background: var(--color-bg);
-      }
-
-      /* Main 2-col layout inside section */
-      .secondary-content {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        height: 100%;
-        /* account for topnav height */
-        padding-top: 3.5rem;
-      }
-
-      /* ── LEFT: Blog (1/3) ── */
-      .col-blog {
-        width: 33.333%;
-        flex-shrink: 0;
-        border-right: 1px solid var(--color-border);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .col-blog-inner {
-        flex: 1;
-        overflow-y: auto;
-        scrollbar-width: none;
-        padding: 2.5rem 2rem;
-        display: flex;
-        flex-direction: column;
-      }
-      .col-blog-inner::-webkit-scrollbar {
-        display: none;
-      }
-
-      .col-header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        margin-bottom: 1.75rem;
-        flex-shrink: 0;
-      }
-
-      .col-title {
-        font-family: var(--font-serif);
-        font-size: clamp(1.25rem, 2vw, 1.75rem);
-        color: var(--color-text);
-        font-variation-settings: "opsz" 9;
-      }
-
-      .col-all-link {
-        font-size: 0.8125rem;
-        color: var(--color-accent);
-        transition: opacity 0.15s;
-      }
-      .col-all-link:hover {
-        opacity: 0.75;
-      }
-
-      /* Post rows */
-      .posts-list {
-        display: flex;
-        flex-direction: column;
-      }
-
-      .post-row {
-        display: block;
-        padding: 1rem 0;
-        border-bottom: 1px solid var(--color-border);
-        text-decoration: none;
-        color: inherit;
-        transition: background 0.15s;
-        border-radius: 6px;
-      }
-      .post-row:first-child {
-        border-top: 1px solid var(--color-border);
-      }
-      .post-row:not(.post-row--placeholder):hover {
-        background: var(--color-bg-subtle);
-        padding-inline: 0.625rem;
-        margin-inline: -0.625rem;
-      }
-
-      .post-row-top {
-        display: flex;
-        align-items: center;
-        gap: 0.625rem;
-        margin-bottom: 0.375rem;
-      }
-
-      .post-cat {
-        font-size: 0.6rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.07em;
-        padding: 0.15rem 0.45rem;
-        border-radius: 3px;
-        flex-shrink: 0;
-      }
-      .post-cat--notes {
-        background: var(--color-bg-subtle);
-        color: var(--color-text-muted);
-      }
-      .post-cat--craft {
-        background: var(--color-accent-soft);
-        color: var(--color-accent);
-      }
-      .post-cat--family {
-        background: color-mix(in srgb, #16a34a 12%, transparent);
-        color: #16a34a;
-      }
-
-      .post-date {
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-      }
-
-      .post-title {
-        font-size: 0.9375rem;
-        font-weight: 500;
-        color: var(--color-text);
-        line-height: 1.45;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      /* Divider between columns */
-      .col-divider {
-        width: 1px;
-        background: var(--color-border);
-        flex-shrink: 0;
-      }
-
-      /* ── RIGHT: About (2/3) ── */
-      .col-about {
-        flex: 1;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .col-about-inner {
-        flex: 1;
-        overflow-y: auto;
-        scrollbar-width: none;
-        padding: 2.5rem 3rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-      .col-about-inner::-webkit-scrollbar {
-        display: none;
-      }
-
-      .about-eyebrow {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.09em;
-        color: var(--color-text-muted);
-        margin-bottom: 1.25rem;
-      }
-
-      .about-heading {
-        font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-        color: var(--color-text);
-        margin-bottom: 2rem;
-        line-height: 1.2;
-      }
-      .about-heading em {
-        font-style: italic;
-        color: var(--color-accent);
-      }
-
-      .about-bio {
-        font-size: 0.9375rem;
-        color: var(--color-text-muted);
-        line-height: 1.85;
-        max-width: 58ch;
-        margin-bottom: 1.125rem;
-      }
-
-      .about-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.4rem;
-        margin-bottom: 2rem;
-      }
-      .atag {
-        font-size: 0.7125rem;
-        padding: 0.2rem 0.625rem;
-        border-radius: 99px;
-        background: var(--color-bg-subtle);
-        color: var(--color-text-muted);
-        border: 1px solid var(--color-border);
-      }
-      .atag--accent {
-        background: var(--color-accent-soft);
-        color: var(--color-accent);
-        border-color: color-mix(in srgb, var(--color-accent) 25%, transparent);
-      }
-      .atag--muted {
-        background: transparent;
-        border-style: dashed;
-      }
-
-      .about-actions {
-        display: flex;
-        gap: 0.75rem;
-      }
-      .btn-primary {
-        display: inline-flex;
-        align-items: center;
-        font-size: 0.875rem;
-        font-weight: 500;
-        padding: 0.625rem 1.25rem;
-        border-radius: 8px;
-        background: var(--color-accent);
-        color: #fff;
-        transition: opacity 0.15s;
-      }
-      .btn-primary:hover {
-        opacity: 0.85;
-      }
-      .btn-ghost {
-        display: inline-flex;
-        align-items: center;
-        font-size: 0.875rem;
-        font-weight: 500;
-        padding: 0.625rem 1.25rem;
-        border-radius: 8px;
-        border: 1px solid var(--color-border);
-        color: var(--color-text);
-        transition: background 0.15s;
-      }
-      .btn-ghost:hover {
-        background: var(--color-bg-subtle);
-      }
-
-      /* Section footer */
-      .section-footer {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 0.875rem 2rem;
-        border-top: 1px solid var(--color-border);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: var(--color-bg);
-      }
-      .section-footer p,
-      .footer-links a {
-        font-size: 0.75rem;
-        color: var(--color-text-muted);
-      }
-      .footer-links {
-        display: flex;
-        gap: 1.25rem;
-      }
-      .footer-links a:hover {
-        color: var(--color-accent);
-      }
-
-      /* ═══ SECTION DOTS ═══ */
-      .section-dots {
-        position: fixed;
-        right: 1.25rem;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 0.625rem;
-        z-index: 30;
-      }
-      .dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        border: none;
-        background: var(--color-border);
-        cursor: pointer;
-        padding: 0;
-        transition:
-          background 0.25s,
-          transform 0.25s;
-      }
-      .dot--active {
-        background: var(--color-accent);
-        transform: scale(1.4);
-      }
-
-      /* ═══ MOBILE ═══ */
-      .mobile-nav {
-        display: none;
-      }
-      .mobile-menu {
-        display: none;
-      }
-
-      @media (max-width: 900px) {
-        :root {
-          --sidebar-w: 28vw;
-        }
-        .gallery-masonry {
-          column-count: 3;
-        }
-      }
-
-      @media (max-width: 768px) {
-        html,
-        body {
-          overflow: hidden;
-        }
-        .sidebar,
-        .topnav,
-        .section-dots {
-          display: none !important;
-        }
-
-        .mobile-nav {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 50;
-          height: 3.25rem;
-          padding: 0 1rem;
-          background: color-mix(in srgb, var(--color-bg) 90%, transparent);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid var(--color-border);
-        }
-        .mobile-nav-right {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-        }
-        .hamburger-btn {
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          gap: 4px;
-          width: 2rem;
-          height: 2rem;
-          background: none;
-          border: 1px solid var(--color-border);
-          border-radius: 6px;
-          cursor: pointer;
-          padding: 0 7px;
-        }
-        .hamburger-btn span {
-          display: block;
-          height: 1.5px;
-          background: var(--color-text-muted);
-          border-radius: 2px;
-        }
-        .mobile-menu {
-          display: flex;
-          flex-direction: column;
-          position: fixed;
-          top: 3.25rem;
-          left: 0;
-          right: 0;
-          background: var(--color-bg);
-          border-bottom: 1px solid var(--color-border);
-          padding: 1rem;
-          z-index: 40;
-          transform: translateY(-110%);
-          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .mobile-menu.open {
-          transform: translateY(0);
-        }
-        .mmenu-link {
-          display: block;
-          padding: 0.875rem 1rem;
-          font-size: 1.0625rem;
-          font-weight: 500;
-          color: var(--color-text-muted);
-          border-radius: 8px;
-          transition:
-            color 0.15s,
-            background 0.15s;
-        }
-        .mmenu-link:hover {
-          color: var(--color-text);
-          background: var(--color-bg-subtle);
-        }
-
-        .site-wrapper {
-          flex-direction: column;
-        }
-        .scroll-container {
-          width: 100%;
-          height: 100dvh;
-        }
-        .snap-section {
-          padding-top: 3.25rem;
-        }
-
-        /* Gallery */
-        .work-content {
-          padding: 0.75rem;
-        }
-        .gallery-masonry {
-          column-count: 2;
-          column-gap: 4px;
-        }
-        .gallery-item {
-          margin-bottom: 4px;
-        }
-
-        /* Blog + About: stack vertically on mobile */
-        .secondary-content {
-          flex-direction: column;
-          padding-top: 3.25rem;
-          overflow-y: auto;
-          height: auto;
-        }
-        .col-blog {
-          width: 100%;
-          border-right: none;
-          border-bottom: 1px solid var(--color-border);
-        }
-        .col-blog-inner {
-          padding: 1.5rem 1rem;
-          overflow: visible;
-        }
-        .col-divider {
-          display: none;
-        }
-        .col-about {
-          overflow: visible;
-        }
-        .col-about-inner {
-          padding: 1.5rem 1rem 5rem;
-          overflow: visible;
-          justify-content: flex-start;
-        }
-        .section-footer {
-          position: static;
-          margin-top: auto;
-        }
-      }
-
-      /* ═══ FADE-IN ═══ */
-      .snap-section .work-content,
-      .snap-section .secondary-content {
-        opacity: 0;
-        transform: translateY(14px);
-        transition:
-          opacity 0.5s ease,
-          transform 0.5s ease;
-      }
-      .snap-section.in-view .work-content,
-      .snap-section.in-view .secondary-content {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    </style>
-
-    <script>
-      // ── Theme ──
-      const applyTheme = (t: string) => {
-        document.documentElement.classList.toggle("dark", t === "dark");
-        localStorage.setItem("theme", t);
-      };
-      const getTheme = () =>
-        localStorage.getItem("theme") ??
-        (window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light");
-      applyTheme(getTheme());
-      const toggleTheme = () =>
-        applyTheme(
-          document.documentElement.classList.contains("dark")
-            ? "light"
-            : "dark",
-        );
-      document
-        .getElementById("theme-toggle")
-        ?.addEventListener("click", toggleTheme);
-      document
-        .getElementById("theme-toggle-top")
-        ?.addEventListener("click", toggleTheme);
-      document
-        .getElementById("theme-toggle-mobile")
-        ?.addEventListener("click", toggleTheme);
-
-      // ── Scroll snap ──
-      const container = document.getElementById("scroll-container")!;
-      const sidebar = document.getElementById("sidebar")!;
-      const topnav = document.getElementById("topnav")!;
-      const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
-      const sections = document.querySelectorAll<HTMLElement>(".snap-section");
-      const H = () => window.innerHeight;
-      let cur = 0;
-
-      function goTo(idx: number) {
-        container.scrollTo({ top: idx * H(), behavior: "smooth" });
-      }
-
-      function onScroll() {
-        const idx = Math.round(container.scrollTop / H());
-        if (idx === cur) return;
-        cur = idx;
-        if (idx === 0) {
-          sidebar.classList.remove("hidden");
-          topnav.classList.remove("visible");
-          topnav.setAttribute("aria-hidden", "true");
-        } else {
-          sidebar.classList.add("hidden");
-          topnav.classList.add("visible");
-          topnav.removeAttribute("aria-hidden");
-        }
-        dots.forEach((d, i) => d.classList.toggle("dot--active", i === idx));
-        sections.forEach((s, i) => s.classList.toggle("in-view", i === idx));
-      }
-
-      container.addEventListener("scroll", onScroll, { passive: true });
-      sections[0].classList.add("in-view");
-      dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
-
-      const obs = new IntersectionObserver(
-        (entries) =>
-          entries.forEach((e) => {
-            if (e.isIntersecting) e.target.classList.add("in-view");
-          }),
-        { threshold: 0.4 },
-      );
-      sections.forEach((s) => obs.observe(s));
-
-      // ── Mobile hamburger ──
-      const hamburger = document.getElementById("hamburger");
-      const mobileMenu = document.getElementById("mobile-menu");
-      hamburger?.addEventListener("click", () => {
-        const open = mobileMenu!.classList.toggle("open");
-        hamburger.setAttribute("aria-expanded", String(open));
-      });
-    </script>
+    <!-- Section dot navigator -->
+    <nav class="section-dots" id="section-dots" aria-label="Section navigator">
+      <button class="dot dot--active" data-target="0" aria-label="Hero"
+      ></button>
+      <button class="dot" data-target="1" aria-label="Works"></button>
+      <button class="dot" data-target="2" aria-label="Blog"></button>
+    </nav>
   </body>
 </html>
+
+<style>
+  /* ══════════════════════════════════════════
+     GLOBAL RESETS FOR HOME PAGE
+  ══════════════════════════════════════════ */
+  .home-body {
+    /* Nav sudah sticky dari komponen Nav.astro (height 3.5rem) */
+    /* Body harus non-scrollable; scroll hanya di snap-container */
+    overflow: hidden;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ══════════════════════════════════════════
+     SNAP CONTAINER
+     Mengisi sisa tinggi setelah Nav (3.5rem)
+  ══════════════════════════════════════════ */
+  .snap-container {
+    flex: 1;
+    min-height: 0; /* penting agar flex child bisa scroll */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .snap-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* ══════════════════════════════════════════
+     SNAP SECTIONS — tiap section = 100% tinggi container
+  ══════════════════════════════════════════ */
+  .snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* 100vh dikurangi tinggi Nav (3.5rem) */
+    height: calc(100dvh - 3.5rem);
+    width: 100%;
+    display: flex;
+    position: relative;
+    /* Fade-in awal */
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+  }
+  .snap-section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION 0 — HERO
+  ══════════════════════════════════════════ */
+  .section--hero {
+    background: var(--color-bg);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+    max-width: 72rem;
+    padding: 0 4rem;
+  }
+
+  .hero-eyebrow {
+    /* Sama persis dengan .intro-eyebrow di about.astro */
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+  }
+
+  /*
+    TIPOGRAFI HERO — identik dengan .intro-heading di about.astro:
+      font-family: var(--font-serif)  = Fraunces Variable
+      font-size: clamp(2rem, 5vw, 3rem)
+      line-height: 1.1
+      letter-spacing: -0.02em
+      color: var(--color-text)
+
+    <em> identik dengan .intro-heading em di about.astro:
+      font-style: italic
+      color: var(--color-accent)
+      font-variation-settings: "opsz" 9, "SOFT" 100
+  */
+  .hero-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-variation-settings: "opsz" 9;
+    color: var(--color-text);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+  .hero-heading em {
+    font-style: italic;
+    color: var(--color-accent);
+    font-variation-settings:
+      "opsz" 9,
+      "SOFT" 100;
+  }
+
+  /* .intro-lead style dari about.astro */
+  .hero-lead {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
+    line-height: 1.8;
+    max-width: 46ch;
+    margin: 0 0 2rem;
+  }
+
+  /* Garis oranye pendek */
+  .hero-accent-bar {
+    width: 2.5rem;
+    height: 3px;
+    background: var(--color-accent);
+    border-radius: 99px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    background: var(--color-accent);
+    color: #fff;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover {
+    opacity: 0.85;
+  }
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    transition: background 0.15s;
+  }
+  .btn-ghost:hover {
+    background: var(--color-bg-subtle);
+  }
+
+  /* Dekorasi kata italic besar kanan */
+  .hero-deco {
+    flex-shrink: 0;
+    user-select: none;
+    padding-bottom: 0.5rem;
+  }
+  .hero-deco-word {
+    font-family: var(--font-serif);
+    font-size: clamp(5rem, 10vw, 9rem);
+    font-style: italic;
+    font-variation-settings:
+      "opsz" 9,
+      "SOFT" 100;
+    color: var(--color-border);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    display: block;
+  }
+
+  /* Scroll hint bawah */
+  .scroll-hint {
+    position: absolute;
+    bottom: 1.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .scroll-hint-label {
+    font-size: 0.625rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-border);
+  }
+  .scroll-hint-line {
+    width: 1px;
+    height: 2rem;
+    background: linear-gradient(to bottom, var(--color-border), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+    transform-origin: top;
+  }
+  @keyframes scrollPulse {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scaleY(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scaleY(1);
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION 1 — SELECTED WORKS
+     Identik dengan code.html: zero-gap, grayscale→color hover
+  ══════════════════════════════════════════ */
+  .section--works {
+    background: var(--color-bg);
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .works-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header row — persis code.html */
+  .works-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    /* px-8 md:px-20 dari code.html */
+    padding: 2.5rem 5rem 1.25rem;
+    flex-shrink: 0;
+  }
+  .works-eyebrow {
+    /* text-xs font-label uppercase tracking-[0.3em] text-on-surface-variant */
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .works-year {
+    /* text-xs font-label text-outline-variant italic */
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-style: italic;
+    color: var(--color-text-muted);
+    opacity: 0.5;
+  }
+
+  /* Grid: 12-col zero-gap — identik code.html grid-cols-12 gap-0 */
+  .works-grid {
+    display: grid;
+    grid-template-columns: 8fr 4fr; /* md:col-span-8 + md:col-span-4 */
+    gap: 0; /* ZERO GAP */
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .works-feature {
+    overflow: hidden;
+    height: 100%;
+  }
+
+  /* Sidebar stack — 2 equal rows */
+  .works-stack {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 0; /* ZERO GAP */
+    height: 100%;
+  }
+
+  /* Grid cell */
+  .grid-cell {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background: var(--color-bg-subtle);
+  }
+  .grid-cell--placeholder {
+    cursor: default;
+  }
+
+  /* Gambar — grayscale default, color on hover — identik code.html */
+  .grid-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(100%);
+    transition:
+      filter 0.7s ease,
+      transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+  }
+  .grid-cell:hover img {
+    filter: grayscale(0%);
+    transform: scale(1.03);
+  }
+
+  /* Placeholder tanpa gambar */
+  .grid-noimage {
+    width: 100%;
+    height: 100%;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-bg-subtle);
+    font-family: var(--font-serif);
+    font-size: 3.5rem;
+    font-style: italic;
+    color: var(--color-border);
+  }
+
+  /* ══════════════════════════════════════════
+     SECTION 2 — RECENT REFLECTIONS
+     Identik dengan code.html: 2-col, uppercase cat, "READ JOURNAL →"
+  ══════════════════════════════════════════ */
+  .section--blog {
+    background: var(--color-bg);
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .blog-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* px-8 md:px-20 py-32 dari code.html */
+    padding: 4rem 5rem 0;
+    max-width: 100%;
+  }
+
+  /* Eyebrow — identik code.html */
+  .blog-eyebrow {
+    /* text-xs font-label uppercase tracking-[0.3em] text-on-surface-variant mb-16 */
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 4rem;
+    flex-shrink: 0;
+  }
+
+  /* 2-col grid — identik code.html grid-cols-2 gap-16 md:gap-24 */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem 6rem;
+    flex: 1;
+  }
+
+  /* Article — group hover pattern dari code.html */
+  .blog-article {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .blog-article a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .article-meta {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Category — "text-xs font-label text-primary-container font-semibold" dari code.html */
+  .article-cat {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  /* Title — "text-2xl font-bold text-on-surface group-hover:text-primary font-headline" */
+  .article-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-variation-settings: "opsz" 9;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.3;
+    margin-bottom: 1rem;
+    transition: color 0.2s;
+  }
+  .blog-article:hover .article-title {
+    color: var(--color-accent);
+  }
+
+  /* Excerpt — "text-on-surface-variant font-body leading-relaxed" */
+  .article-excerpt {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+    flex: 1;
+  }
+
+  /* CTA — "inline-flex items-center text-xs font-bold font-label tracking-widest" */
+  .article-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .blog-article:hover .article-cta {
+    color: var(--color-accent);
+  }
+  .article-cta svg {
+    transition: transform 0.2s;
+  }
+  .blog-article:hover .article-cta svg {
+    transform: translateX(3px);
+  }
+
+  /* Footer — persis dari code.html */
+  .blog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    margin-top: auto;
+    flex-shrink: 0;
+    border-top: 1px solid
+      color-mix(in srgb, var(--color-border) 50%, transparent);
+  }
+  .blog-footer-copy {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+  .blog-footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+  .blog-footer-links a {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .blog-footer-links a:hover {
+    color: var(--color-accent);
+  }
+
+  /* ══ SECTION DOTS ══ */
+  .section-dots {
+    position: fixed;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    z-index: 30;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-border);
+    cursor: pointer;
+    padding: 0;
+    transition:
+      background 0.25s,
+      transform 0.25s;
+  }
+  .dot--active {
+    background: var(--color-accent);
+    transform: scale(1.4);
+  }
+
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 640px) {
+    .section-dots {
+      display: none;
+    }
+
+    .snap-section {
+      height: calc(100dvh - 3.5rem);
+    }
+
+    /* Hero */
+    .hero-layout {
+      grid-template-columns: 1fr;
+      padding: 1.5rem 1.25rem;
+      gap: 0;
+    }
+    .hero-deco {
+      display: none;
+    }
+    .hero-heading {
+      font-size: clamp(1.75rem, 8vw, 2.25rem);
+    }
+    .hero-lead {
+      font-size: 0.9375rem;
+      max-width: 100%;
+    }
+    .scroll-hint {
+      display: none;
+    }
+
+    /* Works */
+    .works-header {
+      padding: 1.5rem 1.25rem 0.75rem;
+    }
+    .works-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: 2fr 1fr;
+    }
+    .works-stack {
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Blog */
+    .blog-inner {
+      padding: 2rem 1.25rem 0;
+    }
+    .blog-eyebrow {
+      margin-bottom: 1.75rem;
+    }
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      overflow-y: auto;
+    }
+    .blog-footer {
+      padding: 1rem 0;
+    }
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .hero-layout {
+      padding: 0 2.5rem;
+    }
+    .works-header {
+      padding: 2rem 2.5rem 1rem;
+    }
+    .blog-inner {
+      padding: 3rem 2.5rem 0;
+    }
+    .blog-grid {
+      gap: 3rem 4rem;
+    }
+  }
+</style>
+
+<script>
+  // ── Scroll snap logic ──
+  const container = document.getElementById("snap-container")!;
+  const sections = document.querySelectorAll<HTMLElement>(".snap-section");
+  const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
+
+  function H() {
+    return container.clientHeight;
+  }
+
+  function goTo(idx: number) {
+    container.scrollTo({ top: idx * H(), behavior: "smooth" });
+  }
+
+  function onScroll() {
+    const idx = Math.round(container.scrollTop / H());
+    dots.forEach((d, i) => d.classList.toggle("dot--active", i === idx));
+  }
+
+  container.addEventListener("scroll", onScroll, { passive: true });
+  dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+
+  // Fade-in section pertama langsung
+  sections[0].classList.add("in-view");
+
+  // IntersectionObserver — fade-in saat section masuk viewport
+  const obs = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) e.target.classList.add("in-view");
+      }),
+    { threshold: 0.3, root: container },
+  );
+  sections.forEach((s) => obs.observe(s));
+</script>
