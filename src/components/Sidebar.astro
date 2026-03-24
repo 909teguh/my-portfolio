@@ -1,10 +1,10 @@
 ---
 // src/components/Sidebar.astro
 const navLinks = [
-  { href: "/work",  label: "Work",  icon: "work" },
-  { href: "/blog",  label: "Blog",  icon: "edit_note" },
+  { href: "/work", label: "Work", icon: "work" },
+  { href: "/blog", label: "Blog", icon: "edit_note" },
   { href: "/about", label: "About", icon: "person" },
-  { href: "/now",   label: "Now",   icon: "today" },
+  { href: "/now", label: "Now", icon: "today" },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -19,17 +19,13 @@ const isActive = (href: string) => {
 <!-- ══ SIDEBAR — Desktop ══ -->
 <aside class="sidebar" id="sidebar" aria-label="Navigasi utama">
   <div class="sidebar-inner">
-
     <!-- ── Avatar ── -->
     <div class="avatar-box" aria-label="Avatar placeholder">
       <!-- Ganti konten ini dengan <img> saat foto tersedia:
            <img src="/images/avatar.jpg" alt="Teguh Suwanda" class="avatar-img" />
       -->
       <div class="avatar-placeholder">
-        <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" width="40" height="40" opacity="0.25">
-          <circle cx="40" cy="28" r="16" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M8 72c0-17.673 14.327-32 32-32s32 14.327 32 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+        <img src="/images/Logo.jpg" alt="Teguh Suwanda" class="avatar-img" />
       </div>
     </div>
 
@@ -40,21 +36,24 @@ const isActive = (href: string) => {
 
     <!-- ── Navigation ── -->
     <nav class="sidebar-nav" aria-label="Menu utama">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={["nav-link", { "nav-link--active": isActive(link.href) }]}
-          aria-current={isActive(link.href) ? "page" : undefined}
-        >
-          {isActive(link.href) && (
-            <span class="nav-dot" aria-hidden="true"></span>
-          )}
-          <span class="material-symbols-outlined nav-icon" aria-hidden="true">
-            {link.icon}
-          </span>
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "nav-link",
+              { "nav-link--active": isActive(link.href) },
+            ]}
+            aria-current={isActive(link.href) ? "page" : undefined}
+          >
+            {isActive(link.href) && <span class="nav-dot" aria-hidden="true" />}
+            <span class="material-symbols-outlined nav-icon" aria-hidden="true">
+              {link.icon}
+            </span>
+            {link.label}
+          </a>
+        ))
+      }
     </nav>
 
     <div class="sidebar-spacer"></div>
@@ -67,22 +66,35 @@ const isActive = (href: string) => {
       </div>
       <div class="sidebar-actions">
         <div class="social-links">
-          <a href="https://instagram.com/suwandateguh" target="_blank" rel="noopener"
-             class="social-btn" aria-label="Instagram">
+          <a
+            href="https://instagram.com/suwandateguh"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            aria-label="Instagram"
+          >
             <span class="material-symbols-outlined">photo_camera</span>
           </a>
-          <a href="https://github.com/909teguh" target="_blank" rel="noopener"
-             class="social-btn" aria-label="GitHub">
+          <a
+            href="https://github.com/909teguh"
+            target="_blank"
+            rel="noopener"
+            class="social-btn"
+            aria-label="GitHub"
+          >
             <span class="material-symbols-outlined">code</span>
           </a>
         </div>
-        <button id="theme-toggle-sidebar" class="theme-btn" aria-label="Toggle dark mode">
+        <button
+          id="theme-toggle-sidebar"
+          class="theme-btn"
+          aria-label="Toggle dark mode"
+        >
           <span class="material-symbols-outlined icon-light">light_mode</span>
           <span class="material-symbols-outlined icon-dark">dark_mode</span>
         </button>
       </div>
     </div>
-
   </div>
 </aside>
 
@@ -90,7 +102,11 @@ const isActive = (href: string) => {
 <header class="mobile-bar" id="mobile-bar">
   <a href="/" class="mobile-brand">The Curator</a>
   <div class="mobile-bar-right">
-    <button id="theme-toggle-mobile" class="theme-btn" aria-label="Toggle dark mode">
+    <button
+      id="theme-toggle-mobile"
+      class="theme-btn"
+      aria-label="Toggle dark mode"
+    >
       <span class="material-symbols-outlined icon-light">light_mode</span>
       <span class="material-symbols-outlined icon-dark">dark_mode</span>
     </button>
@@ -110,22 +126,43 @@ const isActive = (href: string) => {
 
 <!-- ══ MOBILE DRAWER ══ -->
 <div id="mobile-backdrop" aria-hidden="true"></div>
-<div id="mobile-drawer" role="dialog" aria-label="Menu navigasi" aria-modal="true">
+<div
+  id="mobile-drawer"
+  role="dialog"
+  aria-label="Menu navigasi"
+  aria-modal="true"
+>
   <nav class="drawer-nav">
-    {navLinks.map((link) => (
-      <a
-        href={link.href}
-        class:list={["drawer-link", { "drawer-link--active": isActive(link.href) }]}
-      >
-        <span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
-        {link.label}
-        <svg class="drawer-arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-          stroke-linecap="round" aria-hidden="true">
-          <path d="M5 12h14M13 6l6 6-6 6"/>
-        </svg>
-      </a>
-    ))}
+    {
+      navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={[
+            "drawer-link",
+            { "drawer-link--active": isActive(link.href) },
+          ]}
+        >
+          <span class="material-symbols-outlined" aria-hidden="true">
+            {link.icon}
+          </span>
+          {link.label}
+          <svg
+            class="drawer-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      ))
+    }
   </nav>
   <div class="drawer-footer">
     <p class="identity-name">Teguh Suwanda</p>
@@ -134,12 +171,19 @@ const isActive = (href: string) => {
 </div>
 
 <!-- Material Symbols -->
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+  rel="stylesheet"
+/>
 
 <style>
   /* ══ MATERIAL SYMBOLS ══ */
   .material-symbols-outlined {
-    font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+    font-variation-settings:
+      "FILL" 0,
+      "wght" 300,
+      "GRAD" 0,
+      "opsz" 20;
     font-size: 1.125rem;
     line-height: 1;
     vertical-align: middle;
@@ -171,7 +215,9 @@ const isActive = (href: string) => {
     overflow-y: auto;
     scrollbar-width: none;
   }
-  .sidebar-inner::-webkit-scrollbar { display: none; }
+  .sidebar-inner::-webkit-scrollbar {
+    display: none;
+  }
 
   /* ── Avatar Box ── */
   .avatar-box {
@@ -210,7 +256,7 @@ const isActive = (href: string) => {
   }
 
   .brand-name {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 1.25rem;
     font-weight: 800;
     letter-spacing: -0.03em;
@@ -242,7 +288,7 @@ const isActive = (href: string) => {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.75rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -251,7 +297,9 @@ const isActive = (href: string) => {
     text-decoration: none;
     padding: 0.4rem 0.5rem;
     border-radius: 0.375rem;
-    transition: color 0.15s, background 0.15s;
+    transition:
+      color 0.15s,
+      background 0.15s;
     position: relative;
   }
 
@@ -321,7 +369,7 @@ const isActive = (href: string) => {
   }
 
   .identity-name {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.875rem;
     font-weight: 700;
     color: #1c1b1b;
@@ -333,7 +381,7 @@ const isActive = (href: string) => {
   }
 
   .identity-role {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.625rem;
     font-weight: 500;
     text-transform: uppercase;
@@ -366,7 +414,9 @@ const isActive = (href: string) => {
     border-radius: 0.375rem;
     color: rgba(28, 27, 27, 0.5);
     text-decoration: none;
-    transition: color 0.15s, background 0.15s;
+    transition:
+      color 0.15s,
+      background 0.15s;
   }
 
   :root.dark .social-btn {
@@ -395,7 +445,10 @@ const isActive = (href: string) => {
     background: transparent;
     color: rgba(28, 27, 27, 0.5);
     cursor: pointer;
-    transition: color 0.15s, background 0.15s, border-color 0.15s;
+    transition:
+      color 0.15s,
+      background 0.15s,
+      border-color 0.15s;
     flex-shrink: 0;
   }
 
@@ -417,8 +470,12 @@ const isActive = (href: string) => {
   }
 
   /* Show/hide sun/moon based on theme */
-  :root:not(.dark) .icon-dark  { display: none; }
-  :root.dark       .icon-light { display: none; }
+  :root:not(.dark) .icon-dark {
+    display: none;
+  }
+  :root.dark .icon-light {
+    display: none;
+  }
 
   /* ══ MOBILE BAR ══ */
   .mobile-bar {
@@ -444,7 +501,7 @@ const isActive = (href: string) => {
   }
 
   .mobile-brand {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 1rem;
     font-weight: 800;
     letter-spacing: -0.02em;
@@ -486,7 +543,9 @@ const isActive = (href: string) => {
     height: 1.5px;
     background: #554335;
     border-radius: 2px;
-    transition: transform 0.25s ease, opacity 0.2s;
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s;
   }
 
   :root.dark .ham-line {
@@ -561,12 +620,14 @@ const isActive = (href: string) => {
     gap: 0.75rem;
     padding: 0.875rem 1rem;
     border-radius: 0.5rem;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     font-size: 0.9375rem;
     font-weight: 500;
     color: rgba(28, 27, 27, 0.6);
     text-decoration: none;
-    transition: background 0.15s, color 0.15s;
+    transition:
+      background 0.15s,
+      color 0.15s;
   }
 
   :root.dark .drawer-link {
@@ -597,7 +658,9 @@ const isActive = (href: string) => {
     margin-left: auto;
     opacity: 0;
     transform: translateX(-4px);
-    transition: opacity 0.15s, transform 0.15s;
+    transition:
+      opacity 0.15s,
+      transform 0.15s;
     flex-shrink: 0;
   }
 
@@ -618,8 +681,12 @@ const isActive = (href: string) => {
 
   /* ══ RESPONSIVE ══ */
   @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .mobile-bar { display: flex; }
+    .sidebar {
+      display: none;
+    }
+    .mobile-bar {
+      display: flex;
+    }
   }
 
   @media (min-width: 769px) {
@@ -635,7 +702,9 @@ const isActive = (href: string) => {
   // ── Theme ──
   const getTheme = () =>
     localStorage.getItem("theme") ??
-    (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    (window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light");
 
   const applyTheme = (theme: string) => {
     document.documentElement.classList.toggle("dark", theme === "dark");
@@ -643,17 +712,25 @@ const isActive = (href: string) => {
   };
 
   const toggleTheme = () =>
-    applyTheme(document.documentElement.classList.contains("dark") ? "light" : "dark");
+    applyTheme(
+      document.documentElement.classList.contains("dark") ? "light" : "dark",
+    );
 
   applyTheme(getTheme());
 
-  document.getElementById("theme-toggle-sidebar")?.addEventListener("click", toggleTheme);
-  document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
+  document
+    .getElementById("theme-toggle-sidebar")
+    ?.addEventListener("click", toggleTheme);
+  document
+    .getElementById("theme-toggle-mobile")
+    ?.addEventListener("click", toggleTheme);
 
   // ── Mobile drawer ──
-  const menuToggle  = document.getElementById("mobile-menu-toggle") as HTMLButtonElement;
-  const drawer      = document.getElementById("mobile-drawer")!;
-  const backdrop    = document.getElementById("mobile-backdrop")!;
+  const menuToggle = document.getElementById(
+    "mobile-menu-toggle",
+  ) as HTMLButtonElement;
+  const drawer = document.getElementById("mobile-drawer")!;
+  const backdrop = document.getElementById("mobile-backdrop")!;
 
   let drawerOpen = false;
 
@@ -674,12 +751,16 @@ const isActive = (href: string) => {
     menuToggle.setAttribute("aria-expanded", "false");
     drawer.classList.remove("is-open");
     backdrop.classList.remove("is-open");
-    setTimeout(() => { backdrop.style.display = "none"; }, 250);
+    setTimeout(() => {
+      backdrop.style.display = "none";
+    }, 250);
     document.body.style.overflow = "";
     menuToggle.focus();
   }
 
-  menuToggle?.addEventListener("click", () => drawerOpen ? closeDrawer() : openDrawer());
+  menuToggle?.addEventListener("click", () =>
+    drawerOpen ? closeDrawer() : openDrawer(),
+  );
   backdrop?.addEventListener("click", closeDrawer);
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && drawerOpen) closeDrawer();
@@ -693,14 +774,16 @@ const isActive = (href: string) => {
   drawer?.addEventListener("keydown", (e) => {
     if (!drawerOpen || e.key !== "Tab") return;
     const focusable = drawer.querySelectorAll<HTMLElement>(
-      'a[href], button, [tabindex]:not([tabindex="-1"])'
+      'a[href], button, [tabindex]:not([tabindex="-1"])',
     );
     const first = focusable[0];
-    const last  = focusable[focusable.length - 1];
+    const last = focusable[focusable.length - 1];
     if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault(); last.focus();
+      e.preventDefault();
+      last.focus();
     } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault(); first.focus();
+      e.preventDefault();
+      first.focus();
     }
   });
 </script>
