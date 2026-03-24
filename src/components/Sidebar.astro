@@ -1,10 +1,11 @@
 ---
 // src/components/Sidebar.astro
 const navLinks = [
+  { href: "/", label: "Home", icon: "home" },
   { href: "/work", label: "Work", icon: "work" },
   { href: "/blog", label: "Blog", icon: "edit_note" },
-  { href: "/about", label: "About", icon: "person" },
   { href: "/now", label: "Now", icon: "today" },
+  { href: "/about", label: "About", icon: "person" },
 ];
 
 const currentPath = Astro.url.pathname;
