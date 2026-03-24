@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TEGUH SUWANDA | BLOG</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#904d00",
+              "on-tertiary-fixed": "#001d33",
+              "primary-container": "#e67e00",
+              "on-tertiary-fixed-variant": "#004a76",
+              "primary-fixed-dim": "#ffb77d",
+              "surface-container-low": "#fff1e9",
+              "surface": "#fff8f5",
+              "primary-fixed": "#ffdcc3",
+              "on-secondary-fixed-variant": "#683c14",
+              "on-error-container": "#93000a",
+              "secondary-container": "#ffbf8c",
+              "on-secondary": "#ffffff",
+              "tertiary-container": "#00a0f8",
+              "inverse-surface": "#392e26",
+              "outline": "#897363",
+              "on-tertiary-container": "#003455",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#ffb77d",
+              "error-container": "#ffdad6",
+              "secondary": "#835329",
+              "background": "#fff8f5",
+              "surface-container-highest": "#f2dfd2",
+              "on-primary-container": "#4e2700",
+              "inverse-on-surface": "#ffede3",
+              "tertiary": "#00639c",
+              "secondary-fixed-dim": "#f9b987",
+              "on-primary-fixed": "#2f1500",
+              "on-primary-fixed-variant": "#6e3900",
+              "on-primary": "#ffffff",
+              "surface-dim": "#e9d6ca",
+              "surface-container-high": "#f8e5d8",
+              "surface-bright": "#fff8f5",
+              "tertiary-fixed-dim": "#97cbff",
+              "on-surface-variant": "#554335",
+              "outline-variant": "#dcc2af",
+              "on-surface": "#231a12",
+              "on-error": "#ffffff",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#231a12",
+              "surface-variant": "#f2dfd2",
+              "on-secondary-fixed": "#2f1500",
+              "error": "#ba1a1a",
+              "primary": "#904d00",
+              "on-secondary-container": "#7a4b22",
+              "surface-container": "#feeade",
+              "secondary-fixed": "#ffdcc3",
+              "tertiary-fixed": "#cee5ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #fff8f5;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- Mobile Header (TopAppBar) -->
+<header class="fixed top-0 w-full z-50 md:hidden flex items-center justify-between px-6 py-4 bg-[#FFF8F5]/80 backdrop-blur-xl border-b border-[#554335]/10 shadow-sm">
+<span class="text-lg font-bold tracking-tighter text-[#231A12] font-headline">TEGUH SUWANDA</span>
+<button class="active:scale-95 text-[#E67E00]">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</header>
+<div class="flex min-h-screen">
+<!-- Sidebar (SideNavBar) -->
+<aside class="fixed left-0 top-0 h-full w-[30%] min-w-[280px] hidden md:flex flex-col p-12 justify-between bg-[#FFF8F5] border-r border-[#554335]/10 z-40 overflow-y-auto">
+<div class="space-y-12 flex flex-col items-center text-center">
+<!-- Brand Anchor -->
+<div class="flex flex-col items-center">
+<div class="w-48 h-48 rounded-full overflow-hidden mb-8 bg-surface-container-highest ring-4 ring-primary-container/10">
+<img alt="Portrait of Teguh Suwanda" class="w-full h-full object-cover" data-alt="Close up professional portrait of a creative professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAohtgchUdNCeYzmrtq6sUIOF6IANizIxdrRsVq6pti0R95Oa6jVFymhzVqh4pLy2qGCT3i6JLp3VhKSunkE2bpZMDuriUUnTa1j3UsbrVaSPiIvngilkyv_CHQYwS4OkYzJQ1fPKmy3jg8EdPk5FfjCLJJ_5Xg98-pWlcHhgH08ClQ9w4c78nszSsNX0C0zQAcEC5lStqIINZHUKEoIS32as3ARoQjcvboO8lCfO7yyR59L0LS8imhAjNDOxBfV6xGIgg1CYPSgH0"/>
+</div>
+<h1 class="text-4xl font-black text-[#231A12] leading-none mb-2 font-headline tracking-tight">TEGUH SUWANDA</h1>
+<p class="text-on-surface-variant font-body text-sm uppercase tracking-widest opacity-70">Illustrator | Engineer</p>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-8 items-center">
+<a class="text-[#554335] hover:text-[#E67E00] transition-all duration-300 scale-95 active:scale-90" href="#">
+<span class="font-label uppercase tracking-[0.15em] text-[0.75rem] font-medium">HOME</span>
+</a>
+<a class="text-[#554335] hover:text-[#E67E00] transition-all duration-300 scale-95 active:scale-90" href="#">
+<span class="font-label uppercase tracking-[0.15em] text-[0.75rem] font-medium">WORK</span>
+</a>
+<!-- Active State: BLOG -->
+<a class="text-[#E67E00] font-bold transition-colors duration-300 scale-95 active:scale-90" href="#">
+<span class="font-label uppercase tracking-[0.15em] text-[0.75rem]">BLOG</span>
+</a>
+<a class="text-[#554335] hover:text-[#E67E00] transition-all duration-300 scale-95 active:scale-90" href="#">
+<span class="font-label uppercase tracking-[0.15em] text-[0.75rem] font-medium">NOW</span>
+</a>
+<a class="text-[#554335] hover:text-[#E67E00] transition-all duration-300 scale-95 active:scale-90" href="#">
+<span class="font-label uppercase tracking-[0.15em] text-[0.75rem] font-medium">ABOUT</span>
+</a>
+</nav>
+</div>
+<div class="flex flex-col items-center gap-8">
+<!-- CTA -->
+<button class="bg-primary-container text-on-primary-container py-4 px-10 rounded-full font-label uppercase tracking-widest text-xs font-bold transition-transform active:scale-95 shadow-lg shadow-primary-container/20">
+                WORK
+            </button>
+<!-- Social Footer -->
+<div class="flex items-center gap-6 text-[#554335]">
+<a class="hover:text-primary transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="photo_camera">photo_camera</span>
+</a>
+<a class="hover:text-primary transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined text-xl" data-icon="code">code</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content (Scrollable) -->
+<main class="w-full md:ml-[30%] md:w-[70%] bg-surface-container-lowest min-h-screen pt-24 md:pt-0">
+<div class="max-w-3xl mx-auto px-6 md:px-16 pt-12 md:pt-24 space-y-24">
+<!-- Page Header -->
+<header class="mb-16">
+<h1 class="text-5xl md:text-7xl font-headline font-bold text-on-surface mb-8 tracking-tight leading-[0.9]">Reflection</h1>
+<p class="text-xl md:text-2xl text-on-surface-variant leading-relaxed font-body max-w-2xl opacity-90">
+                    A tumblelog of fleeting thoughts, visual cues, and occasional deep dives into the intersection of code and ink
+                </p>
+<div class="mt-12 h-1 w-24 bg-primary-container"></div>
+</header>
+<!-- 1. Long-Form Article Card -->
+<article class="group relative pb-24 border-b border-outline-variant/20 last:border-0">
+<header class="mb-6">
+<div class="flex items-center justify-between mb-4">
+<span class="inline-block bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">SELF-DEVELOPMENT</span>
+<time class="text-[10px] uppercase tracking-widest text-outline">Oct 28, 2023</time>
+</div>
+<h2 class="text-3xl md:text-4xl font-headline font-bold text-on-surface leading-tight group-hover:text-primary transition-colors">
+                        The Art of Deliberate Practice in Engineering
+                    </h2>
+</header>
+<p class="text-on-surface-variant font-body leading-relaxed mb-6 text-lg">
+                    Engineering isn't just about syntax and systems; it's a craft that requires repetitive, focused effort on specific weaknesses. In this entry, I explore how I applied master-apprentice techniques to modern software architecture...
+                </p>
+<a class="inline-flex items-center gap-2 text-primary-container font-semibold group-hover:gap-4 transition-all duration-300" href="#">
+                    Read Article <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</article>
+<!-- 2. Quote Post Card -->
+<article class="group relative pb-24 border-b border-outline-variant/20 last:border-0">
+<div class="flex items-center justify-between mb-8">
+<span class="inline-block bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">PHILOSOPHY</span>
+<time class="text-[10px] uppercase tracking-widest text-outline">Oct 26, 2023</time>
+</div>
+<section class="bg-surface-container p-12 md:p-20 text-center rounded-2xl relative overflow-hidden">
+<span class="absolute top-8 left-8 material-symbols-outlined text-outline-variant/30 text-6xl" data-icon="format_quote">format_quote</span>
+<blockquote class="relative z-10">
+<p class="text-2xl md:text-3xl font-headline italic text-on-surface leading-snug mb-8">
+                            "The purpose of art is washing the dust of daily life off our souls."
+                        </p>
+<cite class="not-italic text-on-surface-variant uppercase tracking-[0.2em] text-xs font-medium">— Pablo Picasso</cite>
+</blockquote>
+</section>
+</article>
+<!-- 3. Image-Only Post Card -->
+<article class="group relative pb-24 border-b border-outline-variant/20 last:border-0">
+<div class="flex items-center justify-between mb-8">
+<span class="inline-block bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">VISUALS</span>
+<time class="text-[10px] uppercase tracking-widest text-outline">Oct 24, 2023</time>
+</div>
+<div class="space-y-6">
+<div class="w-full overflow-hidden bg-surface-container-high aspect-video md:aspect-[16/9] rounded-2xl">
+<img alt="Illustration character design desk" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Overhead shot of an artist desk with sketches and pens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbu2r49l2RZNo1nkrim-_DmNB9K1ERnkAnTc3d3xKH6YLZEXKIemKsnYnbcwJNOhNK9Y7WNM1KmaCWLLxbodt6jsj8stegZaqJ8efWhs8wPNazc8PmjiMmNx6C4pMTca_CuU5GPBts7aa1O555KZEr0Bxpf0QMrp6tkOZbA6TbL-XcbBI3u2CSBX4Mi7WmTqhtwWqhSJk_bHHGJjHNBnBPtXFBxacBconmOPbnUSTjcPn3Ny5po02PQpPOI5xOaCHlshlztu6AVtc"/>
+</div>
+<div class="flex justify-between items-baseline">
+<p class="text-on-surface-variant italic font-body">Late night ideation for a new character.</p>
+</div>
+</div>
+</article>
+<!-- 4. Short Note/Thought Card -->
+<article class="group relative pb-24 border-b border-outline-variant/20 last:border-0">
+<div class="flex items-center justify-between mb-8">
+<span class="inline-block bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">DEVLOG</span>
+<time class="text-[10px] uppercase tracking-widest text-outline">Oct 22, 2023</time>
+</div>
+<div class="py-12 px-8 border-l-2 border-primary-container/20 bg-surface-container-lowest/50">
+<p class="text-xl font-body text-on-surface leading-relaxed mb-6">
+                        Spent the morning refactoring a legacy module. There's a strange meditation in deleting code. It's the digital equivalent of pruning a bonsai tree. Less is almost always better.
+                    </p>
+<div class="flex items-center gap-3">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="text-xs uppercase tracking-[0.2em] text-on-surface-variant font-medium">Notes from the studio • 09:14 AM</span>
+</div>
+</div>
+</article>
+<!-- 5. Grid Collage Interaction (Mixed Media) -->
+<article class="group relative pb-24 border-b border-outline-variant/20 last:border-0">
+<div class="flex items-center justify-between mb-8">
+<span class="inline-block bg-primary-container/10 text-primary-container px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">EXPERIMENTAL</span>
+<time class="text-[10px] uppercase tracking-widest text-outline">Oct 20, 2023</time>
+</div>
+<section class="grid grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-sm">
+<div class="aspect-square bg-surface-container-high overflow-hidden">
+<img alt="Abstract art" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Abstract painterly texture in muted tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfFAQTC28CP_0xAcd__CFN_6-kl2JGt5UoFOLbIEhIkTXj4MVvz_uaNAbmsI2x4uZDIJesReJCPnTzZkWU1aJwNw5irN3rKZUrEdxwSlzYZIXPsZ-ovv0cXm6g00Js_O_WbGYlOsACvIahuFhFz5F2r8wmQzZvJLUntuquMthSxiapcH8lEUs5Qqwkhtzp3hf_B5xvcu00TH6UrmQSN-H3WavTlPA3ulnV9zOZSWDzEUphFotvSulA9uVqkJtgNiQVTAGWaiy010c"/>
+</div>
+<div class="aspect-square flex items-center justify-center p-8 bg-on-surface text-surface text-center">
+<div>
+<span class="material-symbols-outlined text-primary-container mb-4" data-icon="auto_awesome">auto_awesome</span>
+<p class="text-sm font-headline tracking-tight leading-snug">Every pixel is a decision. Every line is a statement.</p>
+</div>
+</div>
+<div class="aspect-square flex items-center justify-center p-8 bg-primary-container text-on-primary-container text-center">
+<p class="text-xs font-label uppercase tracking-widest font-bold">Current Mood: Focused</p>
+</div>
+<div class="aspect-square bg-surface-container-high overflow-hidden">
+<img alt="Circuit board close up" class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Close up of high tech circuit board golden traces" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrUXGl19AJKKdWbw5qAJO99rnN4mwrpLPiOtTWcLffcsKSQcED7whkDMM1FOa9wEjth_5ZqK53Tu6wkra0qm33IVFaC6MfOTCq-WFEuL9kFUE1bIg7tYCiPVqY3aIoPkmCaTwADL9eJcL9jaBnzyW2UjI4S4SJ-xgL-yq4fZRQyCafaV_xRsBO8GbuoyQQoJzirLPYC_ZBQabMvUeFEfzHpeP-c3C_wPU1qr2wMvGUvVSU0h21eSwsgHS_C980M7to0W6YbOWQkvk"/>
+</div>
+</section>
+</article>
+<!-- Load More -->
+<div class="text-center pt-12">
+<button class="group inline-flex flex-col items-center gap-4 focus:outline-none">
+<span class="text-xs font-label uppercase tracking-[0.3em] text-on-surface-variant">Older Entries</span>
+<div class="w-px h-16 bg-outline-variant/30 group-hover:h-24 group-hover:bg-primary-container transition-all duration-500"></div>
+</button>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-24 px-8 md:px-16 py-16 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0 bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+<p class="text-[10px] font-label text-on-surface-variant tracking-[0.2em] uppercase">© 2024 TEGUH SUWANDA</p>
+<div class="hidden md:block w-px h-4 bg-outline-variant/30"></div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span>
+<span class="text-[10px] font-label tracking-widest uppercase">Bandung, ID</span>
+</div>
+</div>
+<div class="flex items-center gap-10">
+<div class="flex space-x-8">
+<a class="text-[10px] font-label text-on-surface-variant hover:text-primary-container transition-colors uppercase tracking-[0.2em]" href="#">Instagram</a>
+<a class="text-[10px] font-label text-on-surface-variant hover:text-primary-container transition-colors uppercase tracking-[0.2em]" href="#">LinkedIn</a>
+</div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+</button>
+</div>
+</footer>
+</main>
+</div>
+<!-- Mobile Navigation Bar -->
+<nav class="fixed bottom-0 w-full bg-[#FFF8F5] border-t border-[#554335]/10 flex md:hidden justify-around py-4 z-50">
+<a class="text-[#554335] flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</a>
+<a class="text-[#554335] flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="palette">palette</span>
+</a>
+<a class="text-[#E67E00] flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="edit_note" style="font-variation-settings: 'FILL' 1;">edit_note</span>
+</a>
+<a class="text-[#554335] flex flex-col items-center" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</a>
+</nav>
+</body></html>

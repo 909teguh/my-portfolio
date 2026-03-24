@@ -9,7 +9,7 @@ const posts = allPosts
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const categories = ["all", "craft", "notes", "family"] as const;
-const postTypes  = ["all", "long", "quote", "image", "link"] as const;
+const postTypes = ["all", "long", "quote", "image", "link"] as const;
 
 const categoryLabel: Record<string, string> = {
   all: "Semua",
@@ -19,18 +19,18 @@ const categoryLabel: Record<string, string> = {
 };
 
 const typeLabel: Record<string, string> = {
-  all:   "Semua",
-  long:  "Artikel",
+  all: "Semua",
+  long: "Artikel",
   quote: "Quote",
   image: "Foto",
-  link:  "Link",
+  link: "Link",
 };
 
 const typeIcon: Record<string, string> = {
-  long:  "✦",
+  long: "✦",
   quote: "❝",
   image: "◻",
-  link:  "↗",
+  link: "↗",
 };
 
 const formatDate = (date: Date) =>
@@ -55,18 +55,17 @@ const getDomain = (url: string) => {
   description="Tulisan tentang ilustrasi, engineering, dan hal-hal kecil yang membuat hidup bermakna."
 >
   <div class="container">
-
     <!-- ── HEADER ── -->
     <header class="page-header">
       <div class="page-header-inner">
-        <h1 class="page-title">Blog</h1>
+        <h1 class="page-title">Reflections</h1>
         <p class="page-desc" id="page-desc">
-          Tempat saya berpikir dengan keras — tentang gambar, kode, dan
-          perjalanan menjadi manusia yang lebih baik.
+          A tumblelog of fleeting thoughts, visual cues, and occasional deep
+          dives into the intersection of code and ink.
         </p>
       </div>
       <div class="page-header-deco" aria-hidden="true">
-        <span class="header-deco-word" id="deco-word">tulisan</span>
+        <span class="header-deco-word" id="deco-word"> </span>
       </div>
     </header>
 
@@ -76,16 +75,18 @@ const getDomain = (url: string) => {
       <div class="filter-group">
         <span class="filter-group-label">Topik</span>
         <div class="filter-bar" role="tablist" id="cat-filter">
-          {categories.map((cat) => (
-            <button
-              class="filter-btn"
-              data-cat={cat}
-              role="tab"
-              aria-selected={cat === "all" ? "true" : "false"}
-            >
-              {categoryLabel[cat]}
-            </button>
-          ))}
+          {
+            categories.map((cat) => (
+              <button
+                class="filter-btn"
+                data-cat={cat}
+                role="tab"
+                aria-selected={cat === "all" ? "true" : "false"}
+              >
+                {categoryLabel[cat]}
+              </button>
+            ))
+          }
         </div>
       </div>
 
@@ -93,170 +94,209 @@ const getDomain = (url: string) => {
       <div class="filter-group">
         <span class="filter-group-label">Format</span>
         <div class="filter-bar" role="tablist" id="type-filter">
-          {postTypes.map((type) => (
-            <button
-              class="filter-btn filter-btn--type"
-              data-type={type}
-              role="tab"
-              aria-selected={type === "all" ? "true" : "false"}
-            >
-              {type !== "all" && (
-                <span class="type-icon" aria-hidden="true">{typeIcon[type]}</span>
-              )}
-              {typeLabel[type]}
-            </button>
-          ))}
+          {
+            postTypes.map((type) => (
+              <button
+                class="filter-btn filter-btn--type"
+                data-type={type}
+                role="tab"
+                aria-selected={type === "all" ? "true" : "false"}
+              >
+                {type !== "all" && (
+                  <span class="type-icon" aria-hidden="true">
+                    {typeIcon[type]}
+                  </span>
+                )}
+                {typeLabel[type]}
+              </button>
+            ))
+          }
         </div>
       </div>
     </div>
 
     <!-- ── FEED ── -->
-    {posts.length === 0 ? (
-      <div class="empty-state">
-        <p>Belum ada tulisan. Sedang dimasak.</p>
-      </div>
-    ) : (
-      <div class="feed" id="feed">
-        {posts.map((post) => {
-          const pt = post.data.postType ?? "long";
-          return (
-            <article
-              class={`post-card post-card--${pt}`}
-              data-cat={post.data.category}
-              data-type={pt}
-            >
-
-              {/* ── LONG: artikel ── */}
-              {pt === "long" && (
-                <a href={`/blog/${post.id}`} class="post-link">
-                  {post.data.cover && (
-                    <div class="post-cover">
-                      <img src={post.data.cover} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
-                    </div>
-                  )}
-                  <div class="post-body">
-                    <div class="post-meta-row">
-                      <span class={`cat-badge cat-badge--${post.data.category}`}>
-                        {categoryLabel[post.data.category]}
-                      </span>
-                      <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-                        {formatDate(post.data.pubDate)}
-                      </time>
-                    </div>
-                    <h2 class="post-title">{post.data.title}</h2>
-                    <p class="post-excerpt">{post.data.description}</p>
-                    {post.data.tags.length > 0 && (
-                      <div class="post-tags">
-                        {post.data.tags.slice(0, 4).map((tag) => (
-                          <span class="tag">#{tag}</span>
-                        ))}
+    {
+      posts.length === 0 ? (
+        <div class="empty-state">
+          <p>Belum ada tulisan. Sedang dimasak.</p>
+        </div>
+      ) : (
+        <div class="feed" id="feed">
+          {posts.map((post) => {
+            const pt = post.data.postType ?? "long";
+            return (
+              <article
+                class={`post-card post-card--${pt}`}
+                data-cat={post.data.category}
+                data-type={pt}
+              >
+                {/* ── LONG: artikel ── */}
+                {pt === "long" && (
+                  <a href={`/blog/${post.id}`} class="post-link">
+                    {post.data.cover && (
+                      <div class="post-cover">
+                        <img
+                          src={post.data.cover}
+                          alt={post.data.coverAlt ?? post.data.title}
+                          loading="lazy"
+                        />
                       </div>
                     )}
-                    <span class="read-more">Baca selengkapnya →</span>
-                  </div>
-                </a>
-              )}
+                    <div class="post-body">
+                      <div class="post-meta-row">
+                        <span
+                          class={`cat-badge cat-badge--${post.data.category}`}
+                        >
+                          {categoryLabel[post.data.category]}
+                        </span>
+                        <time
+                          class="post-date"
+                          datetime={post.data.pubDate.toISOString()}
+                        >
+                          {formatDate(post.data.pubDate)}
+                        </time>
+                      </div>
+                      <h2 class="post-title">{post.data.title}</h2>
+                      <p class="post-excerpt">{post.data.description}</p>
+                      {post.data.tags.length > 0 && (
+                        <div class="post-tags">
+                          {post.data.tags.slice(0, 4).map((tag) => (
+                            <span class="tag">#{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                      <span class="read-more">Baca selengkapnya →</span>
+                    </div>
+                  </a>
+                )}
 
-              {/* ── QUOTE ── */}
-              {pt === "quote" && (
-                <a href={`/blog/${post.id}`} class="post-link">
-                  <div class="post-body">
+                {/* ── QUOTE ── */}
+                {pt === "quote" && (
+                  <a href={`/blog/${post.id}`} class="post-link">
                     <div class="post-meta-row">
                       <span class="type-pill type-pill--quote">
                         <span aria-hidden="true">❝</span> Quote
                       </span>
-                      <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+                      <time
+                        class="post-date"
+                        datetime={post.data.pubDate.toISOString()}
+                      >
                         {formatDate(post.data.pubDate)}
                       </time>
                     </div>
-                    <blockquote class="quote-text">{post.data.title}</blockquote>
-                    {(post.data.quoteAttribution || post.data.quoteSource) && (
-                      <cite class="quote-cite">
-                        {post.data.quoteAttribution}
-                        {post.data.quoteSource && (
-                          <span class="quote-source">, {post.data.quoteSource}</span>
-                        )}
-                      </cite>
-                    )}
-                    {post.data.description && post.data.description !== post.data.title && (
-                      <p class="quote-comment">{post.data.description}</p>
-                    )}
-                  </div>
-                </a>
-              )}
+                    <div class="quote-box">
+                      <span class="quote-box-icon" aria-hidden="true">&ldquo;</span>
+                      <blockquote class="quote-text">
+                        {post.data.title}
+                      </blockquote>
+                      {(post.data.quoteAttribution ||
+                        post.data.quoteSource) && (
+                        <cite class="quote-cite">
+                          — {post.data.quoteAttribution}
+                          {post.data.quoteSource && (
+                            <span class="quote-source">
+                              , {post.data.quoteSource}
+                            </span>
+                          )}
+                        </cite>
+                      )}
+                    </div>
+                    {post.data.description &&
+                      post.data.description !== post.data.title && (
+                        <p class="quote-comment">{post.data.description}</p>
+                      )}
+                  </a>
+                )}
 
-              {/* ── IMAGE ── */}
-              {pt === "image" && (
-                <a href={`/blog/${post.id}`} class="post-link">
-                  {post.data.image && (
-                    <div class="post-image-wrap">
-                      <img
-                        src={post.data.image}
-                        alt={post.data.imageAlt ?? post.data.title}
-                        loading="lazy"
-                        class="post-image"
-                      />
+                {/* ── IMAGE ── */}
+                {pt === "image" && (
+                  <a href={`/blog/${post.id}`} class="post-link">
+                    {post.data.image && (
+                      <div class="post-image-wrap">
+                        <img
+                          src={post.data.image}
+                          alt={post.data.imageAlt ?? post.data.title}
+                          loading="lazy"
+                          class="post-image"
+                        />
+                      </div>
+                    )}
+                    <div class="post-body post-body--image">
+                      <div class="post-meta-row">
+                        <span class="type-pill type-pill--image">
+                          <span aria-hidden="true">◻</span> Foto
+                        </span>
+                        <time
+                          class="post-date"
+                          datetime={post.data.pubDate.toISOString()}
+                        >
+                          {formatDate(post.data.pubDate)}
+                        </time>
+                      </div>
+                      {post.data.imageCaption && (
+                        <p class="image-caption">{post.data.imageCaption}</p>
+                      )}
+                      {post.data.description && (
+                        <p class="post-excerpt">{post.data.description}</p>
+                      )}
                     </div>
-                  )}
-                  <div class="post-body post-body--image">
+                  </a>
+                )}
+
+                {/* ── LINK ── */}
+                {pt === "link" && (
+                  <div class="post-body">
                     <div class="post-meta-row">
-                      <span class="type-pill type-pill--image">
-                        <span aria-hidden="true">◻</span> Foto
+                      <span class="type-pill type-pill--link">
+                        <span aria-hidden="true">↗</span> Link
                       </span>
-                      <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+                      <time
+                        class="post-date"
+                        datetime={post.data.pubDate.toISOString()}
+                      >
                         {formatDate(post.data.pubDate)}
                       </time>
                     </div>
-                    {post.data.imageCaption && (
-                      <p class="image-caption">{post.data.imageCaption}</p>
-                    )}
+                    <h2 class="post-title post-title--link">
+                      <a
+                        href={post.data.linkUrl}
+                        target="_blank"
+                        rel="noopener"
+                        class="link-title-anchor"
+                      >
+                        {post.data.title}
+                        <span class="link-domain">
+                          {post.data.linkDomain ??
+                            (post.data.linkUrl
+                              ? getDomain(post.data.linkUrl)
+                              : "")}
+                        </span>
+                      </a>
+                    </h2>
                     {post.data.description && (
                       <p class="post-excerpt">{post.data.description}</p>
                     )}
-                  </div>
-                </a>
-              )}
-
-              {/* ── LINK ── */}
-              {pt === "link" && (
-                <div class="post-body">
-                  <div class="post-meta-row">
-                    <span class="type-pill type-pill--link">
-                      <span aria-hidden="true">↗</span> Link
-                    </span>
-                    <time class="post-date" datetime={post.data.pubDate.toISOString()}>
-                      {formatDate(post.data.pubDate)}
-                    </time>
-                  </div>
-                  <h2 class="post-title post-title--link">
-                    <a
-                      href={post.data.linkUrl}
-                      target="_blank"
-                      rel="noopener"
-                      class="link-title-anchor"
-                    >
-                      {post.data.title}
-                      <span class="link-domain">
-                        {post.data.linkDomain ?? (post.data.linkUrl ? getDomain(post.data.linkUrl) : "")}
-                      </span>
+                    {/* Komentar panjang — lihat di detail page */}
+                    <a href={`/blog/${post.id}`} class="link-more">
+                      Baca komentar →
                     </a>
-                  </h2>
-                  {post.data.description && (
-                    <p class="post-excerpt">{post.data.description}</p>
-                  )}
-                  {/* Komentar panjang — lihat di detail page */}
-                  <a href={`/blog/${post.id}`} class="link-more">
-                    Baca komentar →
-                  </a>
-                </div>
-              )}
+                  </div>
+                )}
+              </article>
+            );
+          })}
+        </div>
 
-            </article>
-          );
-        })}
-      </div>
-    )}
-
+        <!-- Older Entries -->
+        <div class="older-entries" id="older-entries-wrap">
+          <button class="older-entries__btn" id="older-entries-btn" aria-label="Load older entries">
+            OLDER ENTRIES
+          </button>
+          <span class="older-entries__line" aria-hidden="true"></span>
+        </div>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -278,7 +318,9 @@ const getDomain = (url: string) => {
     gap: 2rem;
   }
 
-  .page-header-inner { flex: 1; }
+  .page-header-inner {
+    flex: 1;
+  }
 
   .page-title {
     font-size: clamp(2rem, 5vw, 3.25rem);
@@ -292,7 +334,9 @@ const getDomain = (url: string) => {
     max-width: 52ch;
     margin: 0;
     line-height: 1.75;
-    transition: opacity 0.2s, transform 0.25s;
+    transition:
+      opacity 0.2s,
+      transform 0.25s;
   }
 
   .page-header-deco {
@@ -305,17 +349,26 @@ const getDomain = (url: string) => {
     font-family: var(--font-serif);
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-style: italic;
-    font-variation-settings: "opsz" 9, "SOFT" 100;
+    font-variation-settings:
+      "opsz" 9,
+      "SOFT" 100;
     color: var(--color-border);
     letter-spacing: -0.03em;
     line-height: 1;
     display: block;
-    transition: color 0.3s, opacity 0.3s;
+    transition:
+      color 0.3s,
+      opacity 0.3s;
   }
 
   @media (max-width: 600px) {
-    .page-header { flex-direction: column; gap: 0; }
-    .page-header-deco { display: none; }
+    .page-header {
+      flex-direction: column;
+      gap: 0;
+    }
+    .page-header-deco {
+      display: none;
+    }
   }
 
   /* ── Filter Section ── */
@@ -450,8 +503,14 @@ const getDomain = (url: string) => {
     border-radius: 4px;
   }
 
-  .cat-badge--notes { background: var(--color-bg-subtle); color: var(--color-text-muted); }
-  .cat-badge--craft { background: var(--color-accent-soft); color: var(--color-accent); }
+  .cat-badge--notes {
+    background: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+  }
+  .cat-badge--craft {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
   .cat-badge--family {
     background: color-mix(in srgb, #16a34a 12%, transparent);
     color: #16a34a;
@@ -556,51 +615,64 @@ const getDomain = (url: string) => {
     transition: opacity 0.15s;
   }
 
-  .post-link:hover .read-more { opacity: 0.75; }
+  .post-link:hover .read-more {
+    opacity: 0.75;
+  }
 
   /* ── Quote card ── */
   .post-card--quote {
     position: relative;
-    padding-left: 1.5rem;
   }
 
-  .post-card--quote::before {
-    content: '';
+  .quote-box {
+    background: var(--color-bg-subtle);
+    border-radius: 1rem;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quote-box-icon {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 3px;
-    background: var(--color-accent);
-    border-radius: 99px;
+    top: 1.25rem;
+    left: 1.25rem;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--color-border);
+    font-family: Georgia, serif;
+    user-select: none;
     opacity: 0.5;
-  }
-
-  .post-card--quote:hover::before {
-    opacity: 1;
   }
 
   .quote-text {
     font-family: var(--font-serif);
-    font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+    font-size: clamp(1.25rem, 2.5vw, 1.625rem);
     font-style: italic;
-    font-variation-settings: "opsz" 9, "SOFT" 100;
+    font-variation-settings:
+      "opsz" 9,
+      "SOFT" 100;
     color: var(--color-text);
-    line-height: 1.6;
-    margin: 0 0 0.75rem;
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
     border: none;
     padding: 0;
+    position: relative;
+    z-index: 1;
   }
 
   .quote-cite {
     display: block;
-    font-size: 0.8125rem;
+    font-size: 0.6875rem;
     font-style: normal;
     color: var(--color-text-muted);
-    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-weight: 500;
+    margin-bottom: 0;
+    position: relative;
+    z-index: 1;
   }
-
-  .quote-cite::before { content: "— "; }
 
   .quote-source {
     font-style: italic;
@@ -618,48 +690,54 @@ const getDomain = (url: string) => {
 
   /* ── Image card ── */
   .post-image-wrap {
-    border-radius: 8px;
+    border-radius: 1rem;
     overflow: hidden;
-    border: 1px solid var(--color-border);
     margin-bottom: 0;
+    aspect-ratio: 16/9;
   }
 
   .post-image {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
-    max-height: 480px;
     object-fit: cover;
-    transition: transform 0.35s ease;
+    filter: grayscale(100%);
+    transition: filter 0.7s ease, transform 0.7s ease;
   }
 
   .post-card--image:hover .post-image {
+    filter: grayscale(0%);
     transform: scale(1.02);
   }
 
-  .post-body--image { padding-top: 1rem; }
+  .post-body--image {
+    padding-top: 1rem;
+  }
 
   .image-caption {
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 0.9375rem;
-    color: var(--color-text);
-    margin: 0 0 0.5rem;
+    color: var(--color-text-muted);
+    margin: 0 0 0.25rem;
     line-height: 1.5;
   }
 
   /* ── Link card ── */
   .post-card--link .post-body {
-    padding-block: 1.5rem;
+    padding-block: 0;
   }
 
-  .post-card--link:hover .post-body {
-    background-color: var(--color-bg-subtle);
-    padding-inline: 1rem;
-    margin-inline: -1rem;
+  .link-note-box {
+    padding: 2rem 1.5rem;
+    border-left: 2px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+    background: color-mix(in srgb, var(--color-bg-subtle) 50%, transparent);
   }
 
-  .post-title--link { margin-bottom: 0.25rem; }
+  .post-title--link {
+    margin-bottom: 0.25rem;
+    font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  }
 
   .link-title-anchor {
     display: flex;
@@ -673,7 +751,9 @@ const getDomain = (url: string) => {
     transition: color 0.15s;
   }
 
-  .link-title-anchor:hover { color: var(--color-accent); }
+  .link-title-anchor:hover {
+    color: var(--color-accent);
+  }
 
   .link-domain {
     font-family: var(--font-sans);
@@ -697,7 +777,9 @@ const getDomain = (url: string) => {
     transition: opacity 0.15s;
   }
 
-  .link-more:hover { opacity: 0.75; }
+  .link-more:hover {
+    opacity: 0.75;
+  }
 
   /* ── Empty state ── */
   .empty-state {
@@ -708,41 +790,109 @@ const getDomain = (url: string) => {
     font-family: var(--font-serif);
     font-size: 1.125rem;
   }
+
+  /* ── Older Entries ── */
+  .older-entries {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 0 4rem;
+  }
+
+  .older-entries__btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--color-accent, #8c7a5e);
+    text-transform: uppercase;
+    padding: 0.25rem 0;
+    transition: opacity 0.2s;
+    font-family: var(--font-sans);
+  }
+
+  .older-entries__btn:hover {
+    opacity: 0.6;
+  }
+
+  .older-entries__line {
+    display: block;
+    width: 1px;
+    height: 3.5rem;
+    background: var(--color-border);
+    margin-top: 0.75rem;
+  }
+
+  .older-entries[hidden] {
+    display: none;
+  }
 </style>
 
 <script>
-  // ── State filter aktif ──
-  let activeCat  = "all";
-  let activeType = "all";
+  const PAGE_SIZE = 5;
+  let visibleCount = PAGE_SIZE;
+  let activeCat  = 'all';
+  let activeType = 'all';
 
-  function applyFilter() {
-    const cards = document.querySelectorAll<HTMLElement>(".post-card");
-    cards.forEach((card) => {
-      const matchCat  = activeCat  === "all" || card.dataset.cat  === activeCat;
-      const matchType = activeType === "all" || card.dataset.type === activeType;
-      card.classList.toggle("hidden", !(matchCat && matchType));
+  const allCards   = Array.from(document.querySelectorAll<HTMLElement>('.post-card'));
+  const olderWrap  = document.getElementById('older-entries-wrap');
+  const olderBtn   = document.getElementById('older-entries-btn');
+
+  function getFilteredCards() {
+    return allCards.filter(c => {
+      const matchCat  = activeCat  === 'all' || c.dataset.cat  === activeCat;
+      const matchType = activeType === 'all' || c.dataset.type === activeType;
+      return matchCat && matchType;
     });
   }
 
+  function applyVisibility() {
+    const filtered = getFilteredCards();
+    allCards.forEach(c => c.classList.add('hidden'));
+    filtered.forEach((c, i) => {
+      if (i < visibleCount) c.classList.remove('hidden');
+    });
+    if (olderWrap) {
+      if (visibleCount >= filtered.length) {
+        olderWrap.setAttribute('hidden', '');
+      } else {
+        olderWrap.removeAttribute('hidden');
+      }
+    }
+  }
+
+  // Initial render
+  applyVisibility();
+
+  // ── Older Entries ──
+  olderBtn?.addEventListener('click', () => {
+    visibleCount += PAGE_SIZE;
+    applyVisibility();
+  });
+
   // ── Filter kategori ──
-  const catBtns = document.querySelectorAll<HTMLButtonElement>("#cat-filter .filter-btn");
+  const catBtns = document.querySelectorAll<HTMLButtonElement>('#cat-filter .filter-btn');
   catBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeCat = btn.dataset.cat ?? "all";
-      catBtns.forEach((b) => b.setAttribute("aria-selected", "false"));
-      btn.setAttribute("aria-selected", "true");
-      applyFilter();
+    btn.addEventListener('click', () => {
+      activeCat = btn.dataset.cat ?? 'all';
+      visibleCount = PAGE_SIZE;
+      catBtns.forEach((b) => b.setAttribute('aria-selected', 'false'));
+      btn.setAttribute('aria-selected', 'true');
+      applyVisibility();
     });
   });
 
   // ── Filter tipe ──
-  const typeBtns = document.querySelectorAll<HTMLButtonElement>("#type-filter .filter-btn");
+  const typeBtns = document.querySelectorAll<HTMLButtonElement>('#type-filter .filter-btn');
   typeBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      activeType = btn.dataset.type ?? "all";
-      typeBtns.forEach((b) => b.setAttribute("aria-selected", "false"));
-      btn.setAttribute("aria-selected", "true");
-      applyFilter();
+    btn.addEventListener('click', () => {
+      activeType = btn.dataset.type ?? 'all';
+      visibleCount = PAGE_SIZE;
+      typeBtns.forEach((b) => b.setAttribute('aria-selected', 'false'));
+      btn.setAttribute('aria-selected', 'true');
+      applyVisibility();
     });
   });
 </script>

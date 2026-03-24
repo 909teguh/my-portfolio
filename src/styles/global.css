@@ -5,8 +5,8 @@
 @layer base {
   :root {
     /* Fonts */
-    --font-sans: "Plus Jakarta Sans Variable", sans-serif;
-    --font-serif: "Fraunces Variable", serif;
+    --font-sans: "Inter", sans-serif;
+    --font-serif: "Newsreader", serif;
 
     /* Colors — light mode */
     --color-bg: #FAF9F6;
@@ -19,7 +19,7 @@
     /* teks sekunder */
     --color-border: #E5E2DA;
     /* garis halus */
-    --color-accent: #C2410C;
+    --color-accent: #8f4e00;
     /* oranye terbakar — energi & seni */
     --color-accent-soft: #FEF3ED;
     /* accent bg tipis */

@@ -1,7 +1,7 @@
 ---
 // src/pages/index.astro
 import { getCollection } from "astro:content";
-import Nav from "../components/Nav.astro";
+import Sidebar from "../components/Sidebar.astro";
 import "../styles/global.css";
 
 const allWork = await getCollection("work");
@@ -49,27 +49,23 @@ const year = new Date().getFullYear();
   </head>
 
   <body class="home-body">
-    <!-- ── Nav: komponen yang sama dengan About/Blog/Work ── -->
-    <Nav />
+    <!-- Sidebar — komponen yang sama dengan BaseLayout / About -->
+    <Sidebar />
 
-    <!-- ── Snap Container ── -->
+    <!-- ════════════════════════════════════
+         SNAP CONTAINER
+         Menempel ke kanan sidebar (margin-left 16rem)
+         Sidebar.astro sudah menangani mobile bar sendiri,
+         jadi kita tinggal offset padding-top di mobile.
+    ════════════════════════════════════ -->
     <div class="snap-container" id="snap-container">
-      <!-- ══════════════════════════════
-           SECTION 0 — HERO
-      ══════════════════════════════ -->
-      <section class="snap-section section--hero" id="s0" data-index="0">
+      <!-- ══ SECTION 0 — HERO ══ -->
+      <section class="snap-section section--hero" data-index="0">
         <div class="hero-layout">
           <div class="hero-text">
             <p class="hero-eyebrow">Tentang saya</p>
 
-            <!--
-              Tipografi SAMA PERSIS dengan about.astro .intro-heading:
-                font-family: var(--font-serif)  →  Fraunces Variable
-                font-size: clamp(2rem, 5vw, 3rem)
-                Kata biasa: color --color-text, weight normal
-                <em>: font-style italic, color --color-accent,
-                      font-variation-settings "opsz" 9, "SOFT" 100
-            -->
+            <!-- Tipografi identik dengan .ab-hero-heading + .ab-hero-heading-serif di about.astro -->
             <h1 class="hero-heading">
               Engineer <em>by day,</em><br />
               Illustrator <em>by passion,</em><br />
@@ -92,7 +88,7 @@ const year = new Date().getFullYear();
           </div>
 
           <div class="hero-deco" aria-hidden="true">
-            <span class="hero-deco-word">craft</span>
+            <span class="hero-deco-word"></span>
           </div>
         </div>
 
@@ -102,20 +98,16 @@ const year = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ══════════════════════════════
-           SECTION 1 — SELECTED WORKS
-           Style persis dari code.html
-      ══════════════════════════════ -->
-      <section class="snap-section section--works" id="s1" data-index="1">
+      <!-- ══ SECTION 1 — SELECTED WORKS ══ -->
+      <section class="snap-section section--works" data-index="1">
         <div class="works-inner">
           <div class="works-header">
             <p class="works-eyebrow">SELECTED WORKS</p>
             <span class="works-year">2023 — {year}</span>
           </div>
 
-          <!-- Zero-gap grid: 8fr feature + 4fr sidebar stack -->
+          <!-- Zero-gap grid: 8fr feature + 4fr sidebar stack — persis code.html -->
           <div class="works-grid">
-            <!-- Large Feature -->
             <div class="works-feature">
               {
                 featuredWork[0] ? (
@@ -137,7 +129,7 @@ const year = new Date().getFullYear();
                     )}
                   </a>
                 ) : (
-                  <div class="grid-cell grid-cell--placeholder">
+                  <div class="grid-cell">
                     <div class="grid-noimage">
                       <span>A</span>
                     </div>
@@ -146,7 +138,6 @@ const year = new Date().getFullYear();
               }
             </div>
 
-            <!-- Sidebar Stack -->
             <div class="works-stack">
               {
                 featuredWork[1] ? (
@@ -168,7 +159,7 @@ const year = new Date().getFullYear();
                     )}
                   </a>
                 ) : (
-                  <div class="grid-cell grid-cell--placeholder">
+                  <div class="grid-cell">
                     <div class="grid-noimage">
                       <span>B</span>
                     </div>
@@ -196,7 +187,7 @@ const year = new Date().getFullYear();
                     )}
                   </a>
                 ) : (
-                  <div class="grid-cell grid-cell--placeholder">
+                  <div class="grid-cell">
                     <div class="grid-noimage">
                       <span>C</span>
                     </div>
@@ -208,11 +199,8 @@ const year = new Date().getFullYear();
         </div>
       </section>
 
-      <!-- ══════════════════════════════
-           SECTION 2 — RECENT REFLECTIONS
-           Style persis dari code.html
-      ══════════════════════════════ -->
-      <section class="snap-section section--blog" id="s2" data-index="2">
+      <!-- ══ SECTION 2 — RECENT REFLECTIONS ══ -->
+      <section class="snap-section section--blog" data-index="2">
         <div class="blog-inner">
           <p class="blog-eyebrow">RECENT REFLECTIONS</p>
 
@@ -309,7 +297,6 @@ const year = new Date().getFullYear();
             }
           </div>
 
-          <!-- Footer — persis dari code.html -->
           <footer class="blog-footer">
             <p class="blog-footer-copy">© {year} TEGUH SUWANDA</p>
             <div class="blog-footer-links">
@@ -329,7 +316,7 @@ const year = new Date().getFullYear();
       </section>
     </div><!-- /snap-container -->
 
-    <!-- Section dot navigator -->
+    <!-- Section dots -->
     <nav class="section-dots" id="section-dots" aria-label="Section navigator">
       <button class="dot dot--active" data-target="0" aria-label="Hero"
       ></button>
@@ -341,46 +328,48 @@ const year = new Date().getFullYear();
 
 <style>
   /* ══════════════════════════════════════════
-     GLOBAL RESETS FOR HOME PAGE
+     HOME BODY
+     Sidebar.astro sudah fixed position sendiri (width 16rem).
+     Body tidak overflow — snap hanya di .snap-container.
   ══════════════════════════════════════════ */
   .home-body {
-    /* Nav sudah sticky dari komponen Nav.astro (height 3.5rem) */
-    /* Body harus non-scrollable; scroll hanya di snap-container */
     overflow: hidden;
     height: 100dvh;
-    display: flex;
-    flex-direction: column;
   }
 
   /* ══════════════════════════════════════════
      SNAP CONTAINER
-     Mengisi sisa tinggi setelah Nav (3.5rem)
+     Menggunakan margin-left 16rem agar tidak tertutup sidebar,
+     sama persis dengan .layout-main di BaseLayout.astro.
   ══════════════════════════════════════════ */
   .snap-container {
-    flex: 1;
-    min-height: 0; /* penting agar flex child bisa scroll */
+    margin-left: 16rem; /* lebar sidebar — sama dengan BaseLayout */
+    height: 100dvh;
     overflow-y: scroll;
     overflow-x: hidden;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
+    background: #fcf9f8;
+    transition: background 0.3s;
+  }
+  :root.dark .snap-container {
+    background: #141412;
   }
   .snap-container::-webkit-scrollbar {
     display: none;
   }
 
   /* ══════════════════════════════════════════
-     SNAP SECTIONS — tiap section = 100% tinggi container
+     SNAP SECTIONS — tiap section = 100dvh
   ══════════════════════════════════════════ */
   .snap-section {
     scroll-snap-align: start;
     scroll-snap-stop: always;
-    /* 100vh dikurangi tinggi Nav (3.5rem) */
-    height: calc(100dvh - 3.5rem);
+    height: 100dvh;
     width: 100%;
     display: flex;
     position: relative;
-    /* Fade-in awal */
     opacity: 0;
     transform: translateY(12px);
     transition:
@@ -394,6 +383,7 @@ const year = new Date().getFullYear();
 
   /* ══════════════════════════════════════════
      SECTION 0 — HERO
+     Tipografi identik dengan about.astro .intro-heading
   ══════════════════════════════════════════ */
   .section--hero {
     background: var(--color-bg);
@@ -411,8 +401,8 @@ const year = new Date().getFullYear();
     padding: 0 4rem;
   }
 
+  /* Identik .intro-eyebrow di about.astro */
   .hero-eyebrow {
-    /* Sama persis dengan .intro-eyebrow di about.astro */
     font-size: 0.8125rem;
     color: var(--color-text-muted);
     letter-spacing: 0.04em;
@@ -420,46 +410,34 @@ const year = new Date().getFullYear();
     margin: 0 0 1rem;
   }
 
-  /*
-    TIPOGRAFI HERO — identik dengan .intro-heading di about.astro:
-      font-family: var(--font-serif)  = Fraunces Variable
-      font-size: clamp(2rem, 5vw, 3rem)
-      line-height: 1.1
-      letter-spacing: -0.02em
-      color: var(--color-text)
-
-    <em> identik dengan .intro-heading em di about.astro:
-      font-style: italic
-      color: var(--color-accent)
-      font-variation-settings: "opsz" 9, "SOFT" 100
-  */
+  /* Identik .ab-hero-heading di about.astro */
   .hero-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-variation-settings: "opsz" 9;
-    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 1.5rem;
+    color: var(--color-text);
+    margin: 0 0 2rem;
   }
   .hero-heading em {
+    font-family: var(--font-serif);
     font-style: italic;
+    font-weight: 400;
     color: var(--color-accent);
-    font-variation-settings:
-      "opsz" 9,
-      "SOFT" 100;
   }
 
-  /* .intro-lead style dari about.astro */
+  /* Identik .ab-hero-lead di about.astro */
   .hero-lead {
-    font-size: 1.0625rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.75;
     color: var(--color-text-muted);
-    line-height: 1.8;
     max-width: 46ch;
     margin: 0 0 2rem;
   }
 
-  /* Garis oranye pendek */
   .hero-accent-bar {
     width: 2.5rem;
     height: 3px;
@@ -473,6 +451,7 @@ const year = new Date().getFullYear();
     gap: 0.75rem;
     align-items: center;
   }
+
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -487,6 +466,7 @@ const year = new Date().getFullYear();
   .btn-primary:hover {
     opacity: 0.85;
   }
+
   .btn-ghost {
     display: inline-flex;
     align-items: center;
@@ -502,11 +482,10 @@ const year = new Date().getFullYear();
     background: var(--color-bg-subtle);
   }
 
-  /* Dekorasi kata italic besar kanan */
+  /* Dekorasi kata serif besar kanan */
   .hero-deco {
     flex-shrink: 0;
     user-select: none;
-    padding-bottom: 0.5rem;
   }
   .hero-deco-word {
     font-family: var(--font-serif);
@@ -521,7 +500,7 @@ const year = new Date().getFullYear();
     display: block;
   }
 
-  /* Scroll hint bawah */
+  /* Scroll hint */
   .scroll-hint {
     position: absolute;
     bottom: 1.75rem;
@@ -533,7 +512,7 @@ const year = new Date().getFullYear();
     gap: 0.4rem;
   }
   .scroll-hint-label {
-    font-size: 0.625rem;
+    font-size: 0.6rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-border);
@@ -559,7 +538,7 @@ const year = new Date().getFullYear();
 
   /* ══════════════════════════════════════════
      SECTION 1 — SELECTED WORKS
-     Identik dengan code.html: zero-gap, grayscale→color hover
+     Identik code.html: zero-gap, grayscale→color
   ══════════════════════════════════════════ */
   .section--works {
     background: var(--color-bg);
@@ -570,21 +549,21 @@ const year = new Date().getFullYear();
   .works-inner {
     width: 100%;
     height: 100%;
-    display: flex;
-    flex-direction: column;
+    display: block;
   }
 
-  /* Header row — persis code.html */
+  /* "px-8 md:px-20" dari code.html */
   .works-header {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    /* px-8 md:px-20 dari code.html */
     padding: 2.5rem 5rem 1.25rem;
     flex-shrink: 0;
+    /* Tinggi header row yang kita pakai sebagai acuan calc di bawah */
+    height: 5.5rem;
   }
+  /* "text-xs font-label uppercase tracking-[0.3em]" */
   .works-eyebrow {
-    /* text-xs font-label uppercase tracking-[0.3em] text-on-surface-variant */
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 500;
@@ -592,8 +571,8 @@ const year = new Date().getFullYear();
     text-transform: uppercase;
     color: var(--color-text-muted);
   }
+  /* "text-xs italic text-outline-variant" */
   .works-year {
-    /* text-xs font-label text-outline-variant italic */
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-style: italic;
@@ -601,30 +580,30 @@ const year = new Date().getFullYear();
     opacity: 0.5;
   }
 
-  /* Grid: 12-col zero-gap — identik code.html grid-cols-12 gap-0 */
+  /*
+    Grid zero-gap.
+    Tinggi eksplisit = 100dvh dikurangi tinggi header row (5.5rem).
+    Ini memastikan kedua gambar sidebar persis setengah-setengah
+    tanpa bergantung pada flex sizing yang tidak konsisten.
+  */
   .works-grid {
     display: grid;
-    grid-template-columns: 8fr 4fr; /* md:col-span-8 + md:col-span-4 */
-    gap: 0; /* ZERO GAP */
-    flex: 1;
-    min-height: 0;
+    grid-template-columns: 8fr 4fr;
+    grid-template-rows: calc(100dvh - 5.5rem);
+    gap: 0;
     overflow: hidden;
   }
-
   .works-feature {
     overflow: hidden;
     height: 100%;
   }
-
-  /* Sidebar stack — 2 equal rows */
   .works-stack {
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 0; /* ZERO GAP */
+    grid-template-rows: 1fr 1fr; /* dua baris sama tinggi */
+    gap: 0;
     height: 100%;
   }
 
-  /* Grid cell */
   .grid-cell {
     display: block;
     width: 100%;
@@ -633,11 +612,7 @@ const year = new Date().getFullYear();
     position: relative;
     background: var(--color-bg-subtle);
   }
-  .grid-cell--placeholder {
-    cursor: default;
-  }
-
-  /* Gambar — grayscale default, color on hover — identik code.html */
+  /* "grayscale hover:grayscale-0 transition-all duration-700" */
   .grid-cell img {
     width: 100%;
     height: 100%;
@@ -653,25 +628,23 @@ const year = new Date().getFullYear();
     filter: grayscale(0%);
     transform: scale(1.03);
   }
-
-  /* Placeholder tanpa gambar */
   .grid-noimage {
     width: 100%;
     height: 100%;
-    min-height: 160px;
+    min-height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--color-bg-subtle);
     font-family: var(--font-serif);
-    font-size: 3.5rem;
+    font-size: 3rem;
     font-style: italic;
     color: var(--color-border);
+    background: var(--color-bg-subtle);
   }
 
   /* ══════════════════════════════════════════
      SECTION 2 — RECENT REFLECTIONS
-     Identik dengan code.html: 2-col, uppercase cat, "READ JOURNAL →"
+     Identik code.html: 2-col, cat label, "READ JOURNAL →"
   ══════════════════════════════════════════ */
   .section--blog {
     background: var(--color-bg);
@@ -684,14 +657,12 @@ const year = new Date().getFullYear();
     height: 100%;
     display: flex;
     flex-direction: column;
-    /* px-8 md:px-20 py-32 dari code.html */
+    /* "px-8 md:px-20 py-32" dari code.html */
     padding: 4rem 5rem 0;
-    max-width: 100%;
   }
 
-  /* Eyebrow — identik code.html */
+  /* "text-xs uppercase tracking-[0.3em] mb-16" */
   .blog-eyebrow {
-    /* text-xs font-label uppercase tracking-[0.3em] text-on-surface-variant mb-16 */
     font-family: var(--font-sans);
     font-size: 0.75rem;
     font-weight: 500;
@@ -702,19 +673,17 @@ const year = new Date().getFullYear();
     flex-shrink: 0;
   }
 
-  /* 2-col grid — identik code.html grid-cols-2 gap-16 md:gap-24 */
+  /* "grid-cols-2 gap-16 md:gap-24" */
   .blog-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem 6rem;
-    flex: 1;
+    align-content: start; /* grid tidak stretch ke bawah */
   }
 
-  /* Article — group hover pattern dari code.html */
   .blog-article {
     display: flex;
     flex-direction: column;
-    gap: 0;
     text-decoration: none;
     color: inherit;
   }
@@ -727,7 +696,7 @@ const year = new Date().getFullYear();
     margin-bottom: 0.5rem;
   }
 
-  /* Category — "text-xs font-label text-primary-container font-semibold" dari code.html */
+  /* "text-xs text-primary-container font-semibold" */
   .article-cat {
     font-family: var(--font-sans);
     font-size: 0.75rem;
@@ -737,12 +706,12 @@ const year = new Date().getFullYear();
     color: var(--color-accent);
   }
 
-  /* Title — "text-2xl font-bold text-on-surface group-hover:text-primary font-headline" */
+  /* "text-2xl font-bold font-headline group-hover:text-primary" */
   .article-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: clamp(1.25rem, 2vw, 1.5rem);
     font-variation-settings: "opsz" 9;
-    font-weight: 500;
+    font-weight: 700;
     color: var(--color-text);
     line-height: 1.3;
     margin-bottom: 1rem;
@@ -752,17 +721,17 @@ const year = new Date().getFullYear();
     color: var(--color-accent);
   }
 
-  /* Excerpt — "text-on-surface-variant font-body leading-relaxed" */
+  /* "text-on-surface-variant leading-relaxed" */
   .article-excerpt {
     font-family: var(--font-sans);
     font-size: 1rem;
     color: var(--color-text-muted);
     line-height: 1.7;
     margin-bottom: 1.25rem;
-    flex: 1;
+    /* Tidak pakai flex:1 — biar CTA tetap rapat di bawah excerpt */
   }
 
-  /* CTA — "inline-flex items-center text-xs font-bold font-label tracking-widest" */
+  /* "inline-flex text-xs font-bold tracking-widest" */
   .article-cta {
     display: inline-flex;
     align-items: center;
@@ -786,7 +755,7 @@ const year = new Date().getFullYear();
     transform: translateX(3px);
   }
 
-  /* Footer — persis dari code.html */
+  /* Footer — persis code.html */
   .blog-footer {
     display: flex;
     align-items: center;
@@ -852,14 +821,25 @@ const year = new Date().getFullYear();
     transform: scale(1.4);
   }
 
-  /* ══ RESPONSIVE ══ */
-  @media (max-width: 640px) {
+  /* ══════════════════════════════════════════
+     RESPONSIVE
+     Sidebar.astro sudah handle breakpoint 768px:
+     - ≤768px: sidebar hilang, mobile-bar + drawer muncul
+     - ≥769px: mobile-bar hilang
+     Kita tinggal sesuaikan margin snap-container.
+  ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .snap-container {
+      margin-left: 0;
+      /* Sidebar.astro mobile-bar height = 3.25rem */
+      padding-top: 3.25rem;
+      height: 100dvh;
+    }
+    .snap-section {
+      height: calc(100dvh - 3.25rem);
+    }
     .section-dots {
       display: none;
-    }
-
-    .snap-section {
-      height: calc(100dvh - 3.5rem);
     }
 
     /* Hero */
@@ -871,11 +851,7 @@ const year = new Date().getFullYear();
     .hero-deco {
       display: none;
     }
-    .hero-heading {
-      font-size: clamp(1.75rem, 8vw, 2.25rem);
-    }
     .hero-lead {
-      font-size: 0.9375rem;
       max-width: 100%;
     }
     .scroll-hint {
@@ -912,7 +888,7 @@ const year = new Date().getFullYear();
     }
   }
 
-  @media (min-width: 641px) and (max-width: 1024px) {
+  @media (min-width: 769px) and (max-width: 1100px) {
     .hero-layout {
       padding: 0 2.5rem;
     }
@@ -923,20 +899,21 @@ const year = new Date().getFullYear();
       padding: 3rem 2.5rem 0;
     }
     .blog-grid {
-      gap: 3rem 4rem;
+      gap: 3rem 3rem;
+    }
+    .blog-eyebrow {
+      margin-bottom: 2.5rem;
     }
   }
 </style>
 
 <script>
-  // ── Scroll snap logic ──
+  // ── Scroll snap ──
   const container = document.getElementById("snap-container")!;
   const sections = document.querySelectorAll<HTMLElement>(".snap-section");
   const dots = document.querySelectorAll<HTMLButtonElement>(".dot");
 
-  function H() {
-    return container.clientHeight;
-  }
+  const H = () => container.clientHeight;
 
   function goTo(idx: number) {
     container.scrollTo({ top: idx * H(), behavior: "smooth" });
@@ -953,7 +930,7 @@ const year = new Date().getFullYear();
   // Fade-in section pertama langsung
   sections[0].classList.add("in-view");
 
-  // IntersectionObserver — fade-in saat section masuk viewport
+  // Fade-in per section via IntersectionObserver
   const obs = new IntersectionObserver(
     (entries) =>
       entries.forEach((e) => {
