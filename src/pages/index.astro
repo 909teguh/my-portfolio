@@ -2,6 +2,7 @@
 // src/pages/index.astro
 import { getCollection } from "astro:content";
 import Sidebar from "../components/Sidebar.astro";
+import Footer from "../components/Footer.astro";
 import "../styles/global.css";
 
 const allWork = await getCollection("work");
@@ -294,23 +295,8 @@ const year = new Date().getFullYear();
               )
             }
           </div>
-
-          <footer class="blog-footer">
-            <p class="blog-footer-copy">© {year} TEGUH SUWANDA</p>
-            <div class="blog-footer-links">
-              <a
-                href="https://instagram.com/suwandateguh"
-                target="_blank"
-                rel="noopener">INSTAGRAM</a
-              >
-              <a
-                href="https://github.com/909teguh"
-                target="_blank"
-                rel="noopener">GITHUB</a
-              >
-            </div>
-          </footer>
         </div>
+        <Footer />
       </section>
     </div><!-- /snap-container -->
 
@@ -652,7 +638,7 @@ const year = new Date().getFullYear();
 
   .blog-inner {
     width: 100%;
-    height: 100%;
+    flex: 1;
     display: flex;
     flex-direction: column;
     /* "px-8 md:px-20 py-32" dari code.html */
@@ -751,44 +737,6 @@ const year = new Date().getFullYear();
   }
   .blog-article:hover .article-cta svg {
     transform: translateX(3px);
-  }
-
-  /* Footer — persis code.html */
-  .blog-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem 0;
-    margin-top: auto;
-    flex-shrink: 0;
-    border-top: 1px solid
-      color-mix(in srgb, var(--color-border) 50%, transparent);
-  }
-  .blog-footer-copy {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    margin: 0;
-  }
-  .blog-footer-links {
-    display: flex;
-    gap: 2rem;
-  }
-  .blog-footer-links a {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .blog-footer-links a:hover {
-    color: var(--color-accent);
   }
 
   /* ══ SECTION DOTS ══ */
