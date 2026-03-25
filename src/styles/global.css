@@ -60,11 +60,11 @@
   h1,
   h2,
   h3 {
-    font-family: var(--font-serif);
-    font-variation-settings: "opsz" 9;
-    /* Fraunces optical size */
+    font-family: var(--font-sans);
+    /* Inter, bukan serif */
+    font-weight: 800;
     line-height: 1.15;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
 
   p {

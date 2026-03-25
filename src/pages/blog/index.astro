@@ -12,17 +12,17 @@ const categories = ["all", "craft", "notes", "family"] as const;
 const postTypes = ["all", "long", "quote", "image", "link"] as const;
 
 const categoryLabel: Record<string, string> = {
-  all: "Semua",
+  all: "All",
   craft: "Craft",
   notes: "Notes",
   family: "Family",
 };
 
 const typeLabel: Record<string, string> = {
-  all: "Semua",
-  long: "Artikel",
+  all: "All",
+  long: "Article",
   quote: "Quote",
-  image: "Foto",
+  image: "Photo",
   link: "Link",
 };
 
@@ -58,10 +58,10 @@ const getDomain = (url: string) => {
     <!-- ── HEADER ── -->
     <header class="page-header">
       <div class="page-header-inner">
-        <h1 class="page-title">Reflections</h1>
+        <h1 class="page-title">Notes</h1>
         <p class="page-desc" id="page-desc">
-          A tumblelog of fleeting thoughts, visual cues, and occasional deep
-          dives into the intersection of code and ink.
+          Thoughts, lessons, and small reflections on building, learning, and
+          life.
         </p>
       </div>
       <div class="page-header-deco" aria-hidden="true">
@@ -73,7 +73,7 @@ const getDomain = (url: string) => {
     <div class="filter-section">
       <!-- Filter by kategori -->
       <div class="filter-group">
-        <span class="filter-group-label">Topik</span>
+        <span class="filter-group-label">Topics</span>
         <div class="filter-bar" role="tablist" id="cat-filter">
           {
             categories.map((cat) => (
@@ -92,7 +92,7 @@ const getDomain = (url: string) => {
 
       <!-- Filter by tipe post -->
       <div class="filter-group">
-        <span class="filter-group-label">Format</span>
+        <span class="filter-group-label">Type</span>
         <div class="filter-bar" role="tablist" id="type-filter">
           {
             postTypes.map((type) => (
@@ -166,7 +166,7 @@ const getDomain = (url: string) => {
                           ))}
                         </div>
                       )}
-                      <span class="read-more">Baca selengkapnya →</span>
+                      <span class="read-more">Continue →</span>
                     </div>
                   </a>
                 )}
@@ -175,9 +175,6 @@ const getDomain = (url: string) => {
                 {pt === "quote" && (
                   <a href={`/blog/${post.id}`} class="post-link">
                     <div class="post-meta-row">
-                      <span class="type-pill type-pill--quote">
-                        <span aria-hidden="true">❝</span> Quote
-                      </span>
                       <time
                         class="post-date"
                         datetime={post.data.pubDate.toISOString()}
@@ -224,9 +221,6 @@ const getDomain = (url: string) => {
                     )}
                     <div class="post-body post-body--image">
                       <div class="post-meta-row">
-                        <span class="type-pill type-pill--image">
-                          <span aria-hidden="true">◻</span> Foto
-                        </span>
                         <time
                           class="post-date"
                           datetime={post.data.pubDate.toISOString()}
@@ -248,9 +242,6 @@ const getDomain = (url: string) => {
                 {pt === "link" && (
                   <div class="post-body">
                     <div class="post-meta-row">
-                      <span class="type-pill type-pill--link">
-                        <span aria-hidden="true">↗</span> Link
-                      </span>
                       <time
                         class="post-date"
                         datetime={post.data.pubDate.toISOString()}
@@ -279,7 +270,7 @@ const getDomain = (url: string) => {
                     )}
                     {/* Komentar panjang — lihat di detail page */}
                     <a href={`/blog/${post.id}`} class="link-more">
-                      Baca komentar →
+                      Continue →
                     </a>
                   </div>
                 )}
@@ -577,12 +568,12 @@ const getDomain = (url: string) => {
 
   .post-title {
     font-size: 1.125rem;
-    font-weight: 500;
+    font-weight: 700;
+    font-family: var(--font-sans);
+    /* hapus font-variation-settings */
     margin: 0 0 0.5rem;
     color: var(--color-text);
     line-height: 1.4;
-    font-family: var(--font-serif);
-    font-variation-settings: "opsz" 9;
   }
 
   .post-excerpt {

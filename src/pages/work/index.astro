@@ -9,8 +9,8 @@ const work = allWork.sort((a, b) => a.data.order - b.data.order);
 const types = ["all", ...new Set(work.map((w) => w.data.type))];
 
 const typeLabel: Record<string, string> = {
-  all: "All",
-  illustration: "Illustration",
+  all: "Everything",
+  illustration: "Drawings",
   commission: "Commission",
   generative: "Generative",
   other: "Other",
@@ -27,10 +27,10 @@ const typeLabel: Record<string, string> = {
   <div class="container">
     <!-- Header -->
     <header class="page-header">
-      <h1 class="page-title">Work</h1>
+      <h1 class="page-title">Things I’ve Built</h1>
       <p class="page-desc">
-        Karya-karya yang lahir dari sela-sela waktu — di malam hari, di akhir
-        pekan, dan di momen tenang yang susah payah saya jaga.
+        Things I made in between—late nights, quiet weekends, and moments I tried
+        to hold onto.
       </p>
     </header>
 
