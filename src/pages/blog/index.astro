@@ -430,15 +430,22 @@ const getDomain = (url: string) => {
   .feed {
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 0;
     padding-bottom: 6rem;
   }
 
   /* ── Base card ── */
   .post-card {
     border-bottom: 1px solid var(--color-border);
-    transition: background-color 0.15s;
     border-radius: 8px;
+    padding-block: 2rem;
+    padding-inline: 1rem;
+    margin-inline: -1rem;
+    transition: background-color 0.15s;
+  }
+
+  .post-card:hover {
+    background-color: var(--color-bg-subtle);
   }
 
   .post-card:first-child {
@@ -453,20 +460,13 @@ const getDomain = (url: string) => {
     display: block;
     text-decoration: none;
     color: inherit;
-    padding: 1.5rem 0;
+    padding: 0;
     border-radius: 8px;
     transition: background-color 0.15s;
   }
 
-  .post-card:hover > .post-link,
-  .post-card:hover > .post-body {
-    background-color: var(--color-bg-subtle);
-    padding-inline: 1rem;
-    margin-inline: -1rem;
-  }
-
   .post-body {
-    padding-block: 1.5rem;
+    padding-block: 0;
   }
 
   /* ── Meta row ── */
