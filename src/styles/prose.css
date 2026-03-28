@@ -278,8 +278,13 @@
 }
 
 /* ─────────────────────────────────────────────
-   IMAGE — standar
+   IMAGE — standar (Figure & Img)
 ───────────────────────────────────────────── */
+
+.prose figure {
+  margin: 0;
+  padding: 0;
+}
 
 .prose img:not(.float-img) {
   display: block;

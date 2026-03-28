@@ -18,7 +18,7 @@ const blog = defineCollection({
         updatedDate: z.coerce.date().optional(),
 
         // Jenis post — menentukan cara render di feed maupun detail page
-        postType: z.enum(['long', 'quote', 'image', 'link']).default('long'),
+        postType: z.enum(['long', 'quote', 'image', 'link', 'short']).default('long'),
 
         // Kategori tulisan
         category: z.enum(['craft', 'notes', 'family']).default('notes'),

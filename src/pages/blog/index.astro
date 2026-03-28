@@ -1,15 +1,25 @@
 ---
 // src/pages/blog/index.astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 const allPosts = await getCollection("blog");
-const posts = allPosts
+const filteredPosts = allPosts
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
+const posts = await Promise.all(
+  filteredPosts.map(async (post) => {
+    if (post.data.postType === "short") {
+      const { Content } = await render(post);
+      return { ...post, Content };
+    }
+    return { ...post, Content: null };
+  })
+);
+
 const categories = ["all", "craft", "notes", "family"] as const;
-const postTypes = ["all", "long", "quote", "image", "link"] as const;
+const postTypes = ["all", "long", "short", "quote", "image", "link"] as const;
 
 const categoryLabel: Record<string, string> = {
   all: "All",
@@ -21,6 +31,7 @@ const categoryLabel: Record<string, string> = {
 const typeLabel: Record<string, string> = {
   all: "All",
   long: "Article",
+  short: "Short",
   quote: "Quote",
   image: "Photo",
   link: "Link",
@@ -28,6 +39,7 @@ const typeLabel: Record<string, string> = {
 
 const typeIcon: Record<string, string> = {
   long: "✦",
+  short: "✎",
   quote: "❝",
   image: "◻",
   link: "↗",
@@ -125,6 +137,7 @@ const getDomain = (url: string) => {
         <div class="feed" id="feed">
           {posts.map((post) => {
             const pt = post.data.postType ?? "long";
+            const Content = post.Content;
             return (
               <article
                 class={`post-card post-card--${pt}`}
@@ -169,6 +182,35 @@ const getDomain = (url: string) => {
                       <span class="read-more">Continue →</span>
                     </div>
                   </a>
+                )}
+
+                {/* ── SHORT: tumblr style ── */}
+                {pt === "short" && (
+                  <div class="post-body">
+                    <div class="post-meta-row">
+                      <span class={`cat-badge cat-badge--${post.data.category || 'notes'}`}>
+                        {categoryLabel[post.data.category || 'notes']}
+                      </span>
+                      <time
+                        class="post-date"
+                        datetime={post.data.pubDate.toISOString()}
+                      >
+                        <a href={`/blog/${post.id}`} class="short-permalink" aria-label="Permalink">
+                          {formatDate(post.data.pubDate)}
+                        </a>
+                      </time>
+                    </div>
+                    {post.data.title && (
+                      <h2 class="post-title">
+                        <a href={`/blog/${post.id}`} class="link-title-anchor">
+                          {post.data.title}
+                        </a>
+                      </h2>
+                    )}
+                    <div class="post-content prose">
+                      {Content && <Content />}
+                    </div>
+                  </div>
                 )}
 
                 {/* ── QUOTE ── */}
@@ -482,6 +524,15 @@ const getDomain = (url: string) => {
     font-size: 0.8rem;
     color: var(--color-text-muted);
     margin-left: auto;
+  }
+
+  .short-permalink {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .short-permalink:hover {
+    color: var(--color-accent);
   }
 
   /* ── Category badge ── */

@@ -1,0 +1,108 @@
+{
+    "Blog: Long Post": {
+        "scope": "markdown,mdx,astro",
+        "prefix": "post-long",
+        "description": "Template artikel panjang (long post)",
+        "body": [
+            "---",
+            "title: \"${1:Judul Artikel}\"",
+            "description: \"${2:Ringkasan singkat artikel, muncul di feed dan SEO.}\"",
+            "pubDate: ${3:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+            "postType: \"long\"",
+            "category: \"${4|notes,craft,family|}\"",
+            "tags: [\"${5:tag1}\", \"${6:tag2}\"]",
+            "draft: ${7|true,false|}",
+            "cover: \"${8:/images/nama-cover.jpg}\"",
+            "coverAlt: \"${9:Deskripsi gambar cover}\"",
+            "---",
+            "",
+            "## ${10:Section Pertama}",
+            "",
+            "${11:Konten artikel di sini...}",
+            ""
+        ]
+    },
+    "Blog: Quote Post": {
+        "scope": "markdown,mdx",
+        "prefix": "post-quote",
+        "description": "Template kutipan (quote post)",
+        "body": [
+            "---",
+            "title: \"${1:Isi kutipan di sini, tanpa tanda kutip ganda di luar.}\"",
+            "description: \"${2:Refleksi atau komentar singkat tentang kutipan ini.}\"",
+            "pubDate: ${3:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+            "postType: \"quote\"",
+            "category: \"${4|notes,craft,family|}\"",
+            "tags: []",
+            "draft: ${5|true,false|}",
+            "quoteAttribution: \"${6:Nama Penulis}\"",
+            "quoteSource: \"${7:Judul Buku / Artikel}\"",
+            "---",
+            "",
+            "${8:Komentar panjang opsional di sini. Jika kosong, bagian ini tidak ditampilkan.}",
+            ""
+        ]
+    },
+    "Blog: Image Post": {
+        "scope": "markdown,mdx",
+        "prefix": "post-image",
+        "description": "Template post foto atau ilustrasi (image post)",
+        "body": [
+            "---",
+            "title: \"${1:Judul Post Foto}\"",
+            "description: \"${2:Catatan singkat tentang gambar ini.}\"",
+            "pubDate: ${3:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+            "postType: \"image\"",
+            "category: \"${4|craft,notes,family|}\"",
+            "tags: [\"${5:tag}\"]",
+            "draft: ${6|true,false|}",
+            "image: \"${7:/images/nama-foto.jpg}\"",
+            "imageAlt: \"${8:Deskripsi aksesibel untuk gambar}\"",
+            "imageCaption: \"${9:Caption yang muncul di bawah gambar}\"",
+            "---",
+            "",
+            "${10:Tulisan tambahan atau konteks di balik foto ini. Opsional — bisa dikosongkan.}",
+            ""
+        ]
+    },
+    "Blog: Link Post": {
+        "scope": "markdown,mdx",
+        "prefix": "post-link",
+        "description": "Template berbagi link eksternal (link post)",
+        "body": [
+            "---",
+            "title: \"${1:Judul atau nama artikel/halaman yang dibagikan}\"",
+            "description: \"${2:Kenapa tautan ini menarik atau relevan.}\"",
+            "pubDate: ${3:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+            "postType: \"link\"",
+            "category: \"${4|notes,craft,family|}\"",
+            "tags: []",
+            "draft: ${5|true,false|}",
+            "linkUrl: \"${6:https://contoh.com/artikel}\"",
+            "linkDomain: \"${7:contoh.com}\"",
+            "---",
+            "",
+            "${8:Komentar atau catatan yang lebih panjang tentang tautan ini. Opsional.}",
+            ""
+        ]
+    },
+    "Blog: Short Post": {
+        "scope": "markdown,mdx",
+        "prefix": "post-short",
+        "description": "Template post pendek (short post) ala Tumblr",
+        "body": [
+            "---",
+            "title: \"${1:Judul Post (Opsional)}\"",
+            "description: \"${2:Ringkasan singkat untuk SEO (Opsional)}\"",
+            "pubDate: ${3:$CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE}",
+            "postType: \"short\"",
+            "category: \"${4|notes,craft,family|}\"",
+            "tags: [\"${5:tag1}\"]",
+            "draft: ${6|true,false|}",
+            "---",
+            "",
+            "${7:Tulis konten pendek Anda di sini, bisa berupa gambar, tautan, quote atau teks biasa yang akan langsung muncul seluruhnya di feed.}",
+            ""
+        ]
+    }
+}

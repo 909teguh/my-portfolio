@@ -1,0 +1,167 @@
+{
+    "Element: Import Components": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-import",
+        "description": "Import Callout dan ImageFloat di bagian atas MDX",
+        "body": [
+            "import { Callout, ImageFloat } from '../../components/mdx/index.ts';",
+            ""
+        ]
+    },
+    "Element: Callout Info": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-callout-info",
+        "description": "Callout info dengan warna dominan biru",
+        "body": [
+            "<Callout type=\"info\" title=\"${1:Sekilas Info}\">",
+            "  ${2:Tulis informasi, catatan, atau konteks tambahan di sini.}",
+            "</Callout>",
+            ""
+        ]
+    },
+    "Element: Callout Tip": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-callout-tip",
+        "description": "Callout tip dengan warna dominan hijau",
+        "body": [
+            "<Callout type=\"tip\" title=\"${1:Tips & Trik}\">",
+            "  ${2:Bagikan shorcut, trik, atau best practice di sini.}",
+            "</Callout>",
+            ""
+        ]
+    },
+    "Element: Callout Warning": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-callout-warning",
+        "description": "Callout warning dengan warna dominan kuning",
+        "body": [
+            "<Callout type=\"warning\" title=\"${1:Perhatian}\">",
+            "  ${2:Tuliskan hal-hal yang perlu diperhatikan sebelum mengambil tindakan lanjut.}",
+            "</Callout>",
+            ""
+        ]
+    },
+    "Element: Callout Danger": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-callout-danger",
+        "description": "Callout danger dengan warna dominan merah",
+        "body": [
+            "<Callout type=\"danger\" title=\"${1:Awas!}\">",
+            "  ${2:Soroti bahaya kritis, error fatal, atau tindakan yang tidak dapat di-cancel di sini.}",
+            "</Callout>",
+            ""
+        ]
+    },
+    "Element: Callout Accent": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-callout-accent",
+        "description": "Callout accent tanpa judul dengan warna tema",
+        "body": [
+            "<Callout type=\"accent\">",
+            "  ${1:Tulis poin penting atau penutup ringkas di sini.}",
+            "</Callout>",
+            ""
+        ]
+    },
+    "Element: Image Regular": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-image",
+        "description": "Gambar standar dengan ukuran penuh (tidak mengambang)",
+        "body": [
+            "<figure>",
+            "  <img src=\"${1:/images/nama-gambar.jpg}\" alt=\"${2:Deskripsi gambar untuk aksesibilitas}\" />",
+            "  <figcaption>${3:Caption penjelasan di bawah gambar}</figcaption>",
+            "</figure>",
+            ""
+        ]
+    },
+    "Element: ImageFloat Left": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-image-left",
+        "description": "Gambar di sebelah kiri, teks mengalir di kanannya",
+        "body": [
+            "<ImageFloat",
+            "  src=\"${1:/images/nama-gambar.jpg}\"",
+            "  alt=\"${2:Deskripsi gambar untuk kemudahan aksesibilitas}\"",
+            "  side=\"left\"",
+            "  width=\"${3:250px}\"",
+            "  caption=\"${4:Caption penjelasan di bawah gambar}\"",
+            ">",
+            "  ${5:Tuliskan paragraf teks di sini. Teks akan membungkus (wrap) secara natural di sebelah kanan gambar layaknya majalah.}",
+            "</ImageFloat>",
+            ""
+        ]
+    },
+    "Element: ImageFloat Right": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-image-right",
+        "description": "Gambar di sebelah kanan, teks mengalir di kirinya",
+        "body": [
+            "<ImageFloat",
+            "  src=\"${1:/images/nama-gambar.jpg}\"",
+            "  alt=\"${2:Deskripsi gambar untuk kemudahan aksesibilitas}\"",
+            "  side=\"right\"",
+            "  width=\"${3:300px}\"",
+            "  caption=\"${4:Caption penjelasan di bawah gambar}\"",
+            ">",
+            "  ${5:Tuliskan paragraf teks di sini. Teks akan membungkus (wrap) secara natural di sebelah kiri gambar layaknya majalah.}",
+            "</ImageFloat>",
+            ""
+        ]
+    },
+    "Element: Quote": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-quote",
+        "description": "Komponen tipografi: Blockquote / kutipan dengan atribut nama sumbernya",
+        "body": [
+            "> \"${1:Tuliskan kutipan yang bermakna atau layak disoroti pada bagian ini.}\"  ",
+            "> <cite>${2:Nama Sumber / Tokoh Bijak}</cite>",
+            ""
+        ]
+    },
+    "Element: Code Block": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-codeblock",
+        "description": "Komponen tipografi: Blok baris kode / syntax highlighter",
+        "body": [
+            "```${1:javascript}",
+            "// ${2:Contoh kode program}",
+            "${3:const message = \"Hello World!\";}",
+            "```",
+            ""
+        ]
+    },
+    "Element: List Unordered": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-list-ul",
+        "description": "Elemen list: Daftar menggunakan bullet points (unordered)",
+        "body": [
+            "- ${1:Item poin pertama}",
+            "- ${2:Item poin kedua dengan beberapa anak item:}",
+            "  - ${3:Sub-item A}",
+            "  - ${4:Sub-item B}",
+            "- ${5:Item poin ketiga}",
+            ""
+        ]
+    },
+    "Element: List Ordered": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-list-ol",
+        "description": "Elemen list: Daftar menggunakan angka berurutan (ordered)",
+        "body": [
+            "1. ${1:Langkah instruksi pertama}",
+            "2. ${2:Langkah instruksi kedua}",
+            "3. ${3:Langkah instruksi ketiga}",
+            ""
+        ]
+    },
+    "Element: Divider": {
+        "scope": "markdown,mdx",
+        "prefix": "elem-divider",
+        "description": "Pemisah halaman horizontal / Horizontal Rule (HR)",
+        "body": [
+            "---",
+            ""
+        ]
+    }
+}

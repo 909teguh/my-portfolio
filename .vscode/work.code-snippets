@@ -1,0 +1,32 @@
+{
+    "Work: New Entry": {
+        "scope": "markdown,mdx",
+        "prefix": "post-work",
+        "description": "Template untuk entry baru di content/work/",
+        "body": [
+            "---",
+            "title: \"${1:Judul Karya}\"",
+            "description: \"${2:Deskripsi singkat karya ini.}\"",
+            "year: ${3:$CURRENT_YEAR}",
+            "type: \"${4|illustration,commission,generative,other|}\"",
+            "cover: \"${5:/images/nama-cover.jpg}\"",
+            "coverAlt: \"${6:Deskripsi cover}\"",
+            "tags: [\"${7:tag}\"]",
+            "tools: [\"${8:Procreate}\", \"${9:Figma}\"]",
+            "featured: ${10|false,true|}",
+            "order: ${11:10}",
+            "---",
+            "",
+            "import { Callout, ImageFloat } from '../../components/mdx/index.ts';",
+            "",
+            "## Latar Belakang",
+            "",
+            "${12:Cerita atau konteks di balik karya ini.}",
+            "",
+            "## Proses",
+            "",
+            "${13:Bagaimana proses pembuatannya.}",
+            ""
+        ]
+    }
+}
