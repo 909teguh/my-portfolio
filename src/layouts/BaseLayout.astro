@@ -11,6 +11,8 @@ interface Props {
   ogImage?: string;
   ogType?: "website" | "article";
   noindex?: boolean;
+  /** Sembunyikan footer — dipakai halaman yang harus muat dalam satu layar. */
+  hideFooter?: boolean;
 }
 
 const {
@@ -19,6 +21,7 @@ const {
   ogImage = "/og-default.png",
   ogType = "website",
   noindex = false,
+  hideFooter = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -36,11 +39,11 @@ const fullTitle =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" href="/favicon.png" />
 
-    <!-- Google Fonts — Inter + Newsreader (untuk design system baru) -->
+    <!-- Google Fonts — Inter + Newsreader + Space Grotesk (untuk design system baru) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&family=Space+Grotesk:wght@300..700&display=swap"
       rel="stylesheet"
     />
 
@@ -79,7 +82,7 @@ const fullTitle =
         <main class="main-content">
           <slot />
         </main>
-        <Footer />
+        {!hideFooter && <Footer />}
       </div>
     </div>
   </body>

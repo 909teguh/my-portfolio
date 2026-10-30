@@ -13,7 +13,7 @@ const blog = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
     schema: z.object({
         title: z.string(),
-        description: z.string(),
+        description: z.string().default(''),
         pubDate: z.coerce.date(),
         updatedDate: z.coerce.date().optional(),
 
@@ -43,6 +43,7 @@ const blog = defineCollection({
         // ── Field untuk 'long' post (sama seperti sebelumnya) ──
         cover: z.string().optional(),
         coverAlt: z.string().optional(),
+        images: z.array(z.string()).default([]),
     }),
 });
 
@@ -53,7 +54,7 @@ const work = defineCollection({
     loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/work' }),
     schema: z.object({
         title: z.string(),
-        description: z.string(),
+        description: z.string().default(''),
         cover: z.string().optional(),
         coverAlt: z.string().optional(),
         type: z.enum(['illustration', 'commission', 'generative', 'other']).default('illustration'),

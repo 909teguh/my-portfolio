@@ -62,23 +62,35 @@ const year = new Date().getFullYear();
     <div class="snap-container" id="snap-container">
       <!-- ══ SECTION 0 — HERO ══ -->
       <section class="snap-section section--hero" data-index="0">
+        <!-- ══ Background slideshow (cross-fade + ken burns) ══ -->
+        <div class="hero-bg" aria-hidden="true">
+          <img
+            class="hero-bg-slide is-active"
+            src="/images/hero1.webp"
+            alt=""
+            width="1672"
+            height="940"
+            fetchpriority="high"
+            decoding="async"
+          />
+          <img
+            class="hero-bg-slide"
+            src="/images/hero2.webp"
+            alt=""
+            width="1774"
+            height="887"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="hero-scrim" aria-hidden="true"></div>
+
         <div class="hero-layout">
           <div class="hero-text">
-            <p class="hero-eyebrow">About Me</p>
-
             <!-- Tipografi identik dengan .ab-hero-heading + .ab-hero-heading-serif di about.astro -->
-            <h1 class="hero-heading">
-              Engineer <em>by day,</em><br />
-              Illustrator <em>by passion,</em><br />
-              Husband, Father, <em>still learning.</em>
-            </h1>
+            <h1 class="hero-heading">TEGUH SUWANDA</h1>
 
-            <p class="hero-lead">
-              I build things—sometimes with code, sometimes with imagination and
-              learning along the way what truly matters.
-            </p>
-
-            <div class="hero-accent-bar" aria-hidden="true"></div>
+            <p class="hero-lead">ILLUSTRATOR | ENGINEER</p>
 
             <div class="hero-actions">
               <a href="/work" class="btn-primary">Explore my works</a>
@@ -90,223 +102,8 @@ const year = new Date().getFullYear();
             <span class="hero-deco-word"></span>
           </div>
         </div>
-
-        <div class="scroll-hint" aria-hidden="true">
-          <span class="scroll-hint-label">scroll</span>
-          <div class="scroll-hint-line"></div>
-        </div>
-      </section>
-
-      <!-- ══ SECTION 1 — SELECTED WORKS ══ -->
-      <section class="snap-section section--works" data-index="1">
-        <div class="works-inner">
-          <div class="works-header">
-            <p class="works-eyebrow">SELECTED WORKS</p>
-            <span class="works-year">2023 — {year}</span>
-          </div>
-
-          <!-- Zero-gap grid: 8fr feature + 4fr sidebar stack — persis code.html -->
-          <div class="works-grid">
-            <div class="works-feature">
-              {
-                featuredWork[0] ? (
-                  <a href={`/work/${featuredWork[0].id}`} class="grid-cell">
-                    {featuredWork[0].data.cover ? (
-                      <img
-                        src={featuredWork[0].data.cover}
-                        alt={
-                          featuredWork[0].data.coverAlt ??
-                          featuredWork[0].data.title
-                        }
-                        loading="eager"
-                        decoding="async"
-                      />
-                    ) : (
-                      <div class="grid-noimage">
-                        <span>{featuredWork[0].data.title.charAt(0)}</span>
-                      </div>
-                    )}
-                  </a>
-                ) : (
-                  <div class="grid-cell">
-                    <div class="grid-noimage">
-                      <span>A</span>
-                    </div>
-                  </div>
-                )
-              }
-            </div>
-
-            <div class="works-stack">
-              {
-                featuredWork[1] ? (
-                  <a href={`/work/${featuredWork[1].id}`} class="grid-cell">
-                    {featuredWork[1].data.cover ? (
-                      <img
-                        src={featuredWork[1].data.cover}
-                        alt={
-                          featuredWork[1].data.coverAlt ??
-                          featuredWork[1].data.title
-                        }
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : (
-                      <div class="grid-noimage">
-                        <span>{featuredWork[1].data.title.charAt(0)}</span>
-                      </div>
-                    )}
-                  </a>
-                ) : (
-                  <div class="grid-cell">
-                    <div class="grid-noimage">
-                      <span>B</span>
-                    </div>
-                  </div>
-                )
-              }
-
-              {
-                featuredWork[2] ? (
-                  <a href={`/work/${featuredWork[2].id}`} class="grid-cell">
-                    {featuredWork[2].data.cover ? (
-                      <img
-                        src={featuredWork[2].data.cover}
-                        alt={
-                          featuredWork[2].data.coverAlt ??
-                          featuredWork[2].data.title
-                        }
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    ) : (
-                      <div class="grid-noimage">
-                        <span>{featuredWork[2].data.title.charAt(0)}</span>
-                      </div>
-                    )}
-                  </a>
-                ) : (
-                  <div class="grid-cell">
-                    <div class="grid-noimage">
-                      <span>C</span>
-                    </div>
-                  </div>
-                )
-              }
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ══ SECTION 2 — RECENT REFLECTIONS ══ -->
-      <section class="snap-section section--blog" data-index="2">
-        <div class="blog-inner">
-          <p class="blog-eyebrow">RECENT REFLECTIONS</p>
-
-          <div class="blog-grid">
-            {
-              latestPosts.length === 0 ? (
-                <>
-                  <article class="blog-article">
-                    <div class="article-meta">
-                      <span class="article-cat">SELF-DEVELOPMENT</span>
-                    </div>
-                    <h4 class="article-title">
-                      The Art of Deliberate Practice in Engineering
-                    </h4>
-                    <p class="article-excerpt">
-                      Bagaimana memperlakukan arsitektur software layaknya
-                      masterclass ilustrasi dapat mengubah cara kita mendekati
-                      pemecahan masalah yang kompleks...
-                    </p>
-                    <span class="article-cta">
-                      READ JOURNAL
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </span>
-                  </article>
-
-                  <article class="blog-article">
-                    <div class="article-meta">
-                      <span class="article-cat">PHILOSOPHY</span>
-                    </div>
-                    <h4 class="article-title">
-                      Finding Stillness in the Middle of the Grind
-                    </h4>
-                    <p class="article-excerpt">
-                      Refleksi tentang mempertahankan output kreatif sembari
-                      menjalani karier engineering penuh waktu dan kekacauan
-                      indah kehidupan keluarga...
-                    </p>
-                    <span class="article-cta">
-                      READ JOURNAL
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </span>
-                  </article>
-                </>
-              ) : (
-                latestPosts.map((post) => (
-                  <article class="blog-article">
-                    <div class="article-meta">
-                      <span class="article-cat">
-                        {categoryLabel[post.data.category]?.toUpperCase()}
-                      </span>
-                    </div>
-                    <h4 class="article-title">{post.data.title}</h4>
-                    <p class="article-excerpt">{post.data.description}</p>
-                    <a href={`/blog/${post.id}`} class="article-cta">
-                      READ JOURNAL
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      >
-                        <path d="M5 12h14M13 6l6 6-6 6" />
-                      </svg>
-                    </a>
-                  </article>
-                ))
-              )
-            }
-          </div>
-        </div>
-        <Footer />
       </section>
     </div><!-- /snap-container -->
-
-    <!-- Section dots -->
-    <nav class="section-dots" id="section-dots" aria-label="Section navigator">
-      <button class="dot dot--active" data-target="0" aria-label="Hero"
-      ></button>
-      <button class="dot" data-target="1" aria-label="Works"></button>
-      <button class="dot" data-target="2" aria-label="Blog"></button>
-    </nav>
   </body>
 </html>
 
@@ -370,9 +167,53 @@ const year = new Date().getFullYear();
      Tipografi identik dengan about.astro .intro-heading
   ══════════════════════════════════════════ */
   .section--hero {
-    background: var(--color-bg);
+    background: #141412;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* ── Background slideshow: cross-fade + ken burns ── */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-bg-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transform: scale(1.03);
+    transition:
+      opacity 1.6s ease-in-out,
+      transform 8s ease-out;
+    will-change: opacity, transform;
+  }
+  .hero-bg-slide.is-active {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+
+  /* Scrim supaya teks tetap terbaca di atas gambar */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        120% 90% at 50% 45%,
+        rgba(8, 8, 8, 0.2) 0%,
+        rgba(8, 8, 8, 0.68) 100%
+      ),
+      linear-gradient(to bottom, rgba(8, 8, 8, 0.45), rgba(8, 8, 8, 0.62));
   }
 
   .hero-layout {
@@ -383,6 +224,13 @@ const year = new Date().getFullYear();
     width: 100%;
     max-width: 72rem;
     padding: 0 4rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Blok teks hero — rata tengah */
+  .hero-text {
+    text-align: center;
   }
 
   /* Identik .intro-eyebrow di about.astro */
@@ -397,7 +245,7 @@ const year = new Date().getFullYear();
   /* Identik .ab-hero-heading di about.astro */
   .hero-heading {
     font-family: var(--font-sans);
-    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-size: clamp(3.375rem, 8.25vw, 5.625rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1.1;
@@ -413,13 +261,13 @@ const year = new Date().getFullYear();
 
   /* Identik .ab-hero-lead di about.astro */
   .hero-lead {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 1.25rem;
-    line-height: 1.75;
+    font-family: var(--font-sans);
+    font-style: normal;
+    font-size: 1.5rem;
+    line-height: 1.6;
     color: var(--color-text-muted);
     max-width: 46ch;
-    margin: 0 0 2rem;
+    margin: 0 auto 2rem;
   }
 
   .hero-accent-bar {
@@ -434,6 +282,28 @@ const year = new Date().getFullYear();
     display: flex;
     gap: 0.75rem;
     align-items: center;
+    justify-content: center;
+  }
+
+  /* Kontras teks & tombol di atas gambar latar */
+  .section--hero .hero-heading {
+    color: #fff;
+    text-shadow: 0 2px 28px rgba(0, 0, 0, 0.5);
+  }
+  .section--hero .hero-lead {
+    color: rgba(255, 255, 255, 0.86);
+    text-shadow: 0 1px 18px rgba(0, 0, 0, 0.45);
+  }
+  .section--hero .btn-primary {
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+  }
+  .section--hero .btn-ghost {
+    border-color: rgba(255, 255, 255, 0.42);
+    color: #fff;
+    backdrop-filter: blur(4px);
+  }
+  .section--hero .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.14);
   }
 
   .btn-primary {
@@ -767,6 +637,16 @@ const year = new Date().getFullYear();
     transform: scale(1.4);
   }
 
+  /* ══ HERO SLIDESHOW — hormati preferensi reduced motion ══ */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-bg-slide,
+    .hero-bg-slide.is-active {
+      transition: none;
+      animation: none !important;
+      transform: none;
+    }
+  }
+
   /* ══════════════════════════════════════════
      RESPONSIVE
      Sidebar.astro sudah handle breakpoint 768px:
@@ -885,4 +765,40 @@ const year = new Date().getFullYear();
     { threshold: 0.3, root: container },
   );
   sections.forEach((s) => obs.observe(s));
+
+  // ── Hero background slideshow ──
+  const heroSlides = Array.from(
+    document.querySelectorAll<HTMLImageElement>(".hero-bg-slide"),
+  );
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (heroSlides.length > 1 && !reduceMotion) {
+    const SLIDE_MS = 8000;
+    let current = 0;
+    let timer = 0;
+
+    const nextSlide = () => {
+      heroSlides[current].classList.remove("is-active");
+      current = (current + 1) % heroSlides.length;
+      heroSlides[current].classList.add("is-active");
+    };
+
+    const start = () => {
+      window.clearInterval(timer);
+      timer = window.setInterval(nextSlide, SLIDE_MS);
+    };
+
+    start();
+
+    // Jangan buang CPU saat tab tidak terlihat
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        window.clearInterval(timer);
+      } else {
+        start();
+      }
+    });
+  }
 </script>

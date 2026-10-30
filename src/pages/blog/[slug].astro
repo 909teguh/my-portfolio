@@ -1,17 +1,14 @@
 ---
 // src/pages/blog/[slug].astro
-import { getCollection, render } from "astro:content";
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post },
-  }));
+const { slug } = Astro.params;
+const post = await getEntry("blog", slug);
+if (!post) {
+  return new Response(null, { status: 404, statusText: "Not Found" });
 }
 
-const { post } = Astro.props;
 const { Content } = await render(post);
 
 const pt = post.data.postType ?? "long";

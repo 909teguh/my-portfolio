@@ -1,159 +1,224 @@
 ---
 // src/pages/about.astro
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import profile from "../assets/profile.png";
+
+// ── Clients / Brands ─────────────────────────────────────────
+// PLACEHOLDER — ganti isinya dengan klien asli.
+//   name : nama brand / studio (wajib)
+//   logo : path logo di public/, mis. "/images/clients/acme.svg" (opsional)
+//   url  : tautan situs klien (opsional)
+const clients: { name: string; logo?: string; url?: string }[] = [
+    { name: "Studio North" },
+    { name: "Paper & Pixel" },
+    { name: "Ninth Wave" },
+    { name: "Atlas Books" },
+    { name: "Lumen Games" },
+    { name: "Copperline" },
+    { name: "Field Notes" },
+    { name: "Studio Kite" },
+];
 ---
 
 <BaseLayout
     title="About"
     description="Engineer by day, illustrator by passion, family man by purpose."
+    hideFooter
 >
-    <!-- ══ HERO ══ -->
-    <section class="ab-hero">
-        <div class="ab-hero-inner">
-            <h1 class="ab-hero-heading">
-                Just someone who likes building things,<br />
-                <span class="ab-hero-heading-serif"
-                    >with code and with hands.</span
-                >
-            </h1>
-            <div class="ab-hero-body-grid">
-                <div class="ab-hero-body-col">
+    <div class="ab-page">
+        <!-- ══ HERO ══ -->
+        <section class="ab-hero">
+            <div class="ab-hero-inner">
+                <div class="ab-hero-text">
+                    <h1 class="ab-hero-heading">
+                        I am Teguh,<br />
+                        <span class="ab-hero-heading-accent"
+                            >an illustrator who works as an engineer.</span
+                        >
+                    </h1>
                     <p class="ab-hero-lead">
-                        Hi, I’m Teguh. I work as an engineer during the day, and
-                        I draw whenever I can. I enjoy building things—sometimes
-                        systems, sometimes illustrations. Lately, I’ve been
-                        trying to do both with more intention.
+                        I’ve been working as a freelance illustrator since 2015,
+                        focusing on concept art, book covers, posters, and Steam
+                        capsules, mainly for the game and publishing industries.
+                        I also work as a software engineer, building web
+                        applications with Laravel. This site is where I keep
+                        both.
                     </p>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- ══ THREE PILLARS — BENTO GRID ══ -->
-    <section class="ab-pillars">
-        <div class="ab-grid">
-            <!-- 01 Engineer — text card -->
-            <div class="ab-card ab-card--engineer">
-                <div>
-                    <span class="ab-eyebrow">01 — The Engineer</span>
-                    <h2 class="ab-pillar-h">
-                        Still learning, but I enjoy building things for the web.
-                    </h2>
-                    <p class="ab-pillar-body">
-                        I’ve been working mostly with Laravel, building and
-                        maintaining web applications. Lately, I’ve been trying
-                        to get better at JavaScript and the frontend side of
-                        things—still learning, still figuring things out.
-                        Nothing too fancy, just trying to write code that works
-                        and makes sense.
+                <figure class="ab-hero-photo">
+                    <Image
+                        src={profile}
+                        alt="Portrait of Teguh Suwanda"
+                        widths={[240, 320, 480, 640]}
+                        sizes="(max-width: 768px) 5rem, 16rem"
+                        format="webp"
+                        quality={82}
+                        loading="eager"
+                    />
+                </figure>
+            </div>
+        </section>
+
+        <!-- ══ CLIENTS ══ -->
+        <section class="ab-clients" aria-labelledby="clients-heading">
+            <div class="ab-clients-inner">
+                <div class="ab-clients-head">
+                    <h2 id="clients-heading" class="ab-clients-h">Clients</h2>
+                    <p class="ab-clients-sub">
+                        Brands and studios I’ve worked with
                     </p>
                 </div>
-                <div class="ab-tags">
-                    <span class="ab-tag">Laravel</span>
-                    <span class="ab-tag">JavaScript</span>
+
+                <ul class="ab-clients-row" id="clients-row">
+                    {
+                        clients.map((client) => {
+                            const Tag = client.url ? "a" : "span";
+                            return (
+                                <li class="ab-client">
+                                    <Tag
+                                        class="ab-client-link"
+                                        href={client.url}
+                                        target={
+                                            client.url ? "_blank" : undefined
+                                        }
+                                        rel={
+                                            client.url
+                                                ? "noopener noreferrer"
+                                                : undefined
+                                        }
+                                    >
+                                        {client.logo ? (
+                                            <img
+                                                class="ab-client-logo"
+                                                src={client.logo}
+                                                alt={client.name}
+                                                loading="lazy"
+                                                decoding="async"
+                                            />
+                                        ) : (
+                                            <span class="ab-client-name">
+                                                {client.name}
+                                            </span>
+                                        )}
+                                    </Tag>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+
+                <div class="ab-clients-nav">
+                    <button
+                        type="button"
+                        class="ab-clients-arrow"
+                        data-dir="-1"
+                        aria-label="Geser klien ke kiri"
+                        aria-controls="clients-row"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M15 18l-6-6 6-6"></path>
+                        </svg>
+                    </button>
+                    <button
+                        type="button"
+                        class="ab-clients-arrow"
+                        data-dir="1"
+                        aria-label="Geser klien ke kanan"
+                        aria-controls="clients-row"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.75"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M9 18l6-6-6-6"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
+        </section>
 
-            <!-- 01 Engineer — image -->
-            <div class="ab-card ab-card--img ab-card--eng-img">
-                <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBA3tXPwf2o9Pk83HdtIQcE3ivSyo4JEd6ZVvldxT_YeBaaakMjVyWvM0nXLFY4xJIcm0Cf5ZEBj28Gi63LGwFCdw6i1F8ol0NT8ODQEB-4CD7BuyaBbwUEp9Wvm8u1AD800YqD1gOTvjBre3MXt72rxufvpWw-MFo32FWGnc4StpfLcWrK9oCDZUXLSiT5MLxRpIVp8x6cLZVP57bP3N-y8bwc4wL0ViABFe1Q2QAOsjRn_IZzWrPjFJ5hQdbYBTvDWNNVyGKVF8RV"
-                    alt="Technical engineering setup with clean lines"
-                    class="ab-img"
-                    loading="lazy"
-                />
-                <div class="ab-img-tint"></div>
-            </div>
-
-            <!-- 02 Illustrator — image -->
-            <div class="ab-card ab-card--img ab-card--illus-img">
-                <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFLu-j_x7SEP9mO6tSVjDrxDvK387cEAPURdJnNWjG9yfFbA1bnGq421z_lrfGLNByYfcZVY7AFt5dCGIFGnIdoNgTPBjKU917WuREqevs3QYBbH_bOrp36XI2quoLoSdUwwHi94cdHBamfYptOqWJWjd9ucaH39IVqtsD48yzXj890p6WJ2RZOTvtDPq9LjBdKg7bOBmRoa-XWnN_tJxZsribVGPTxSinAmLcMFx8xYDT833fvWwQHX15pcGTUSywV3XZKu5IO2CA"
-                    alt="Detailed botanical illustration"
-                    class="ab-img"
-                    loading="lazy"
-                />
-            </div>
-
-            <!-- 02 Illustrator — text card -->
-            <div class="ab-card ab-card--illus">
-                <span class="ab-eyebrow">02 — The Illustrator</span>
-                <h2 class="ab-pillar-h ab-pillar-h--serif">
-                    Observing the world, one line at a time.
-                </h2>
-                <p class="ab-pillar-body">
-                    Drawing helps me slow down. It’s something I’ve spent more
-                    time with, and feel more at home doing. I focus on texture,
-                    light, and quiet details—things that don’t shout, but stay.
-                </p>
-            </div>
-
-            <!-- 03 Family Man -->
-            <div class="ab-card ab-card--family">
-                <div class="ab-family-text">
-                    <span class="ab-eyebrow">03 — Life Outside Work</span>
-                    <h2 class="ab-pillar-h">Most of life happens here.</h2>
-                    <p class="ab-pillar-body">
-                        Outside of work and drawing, I spend most of my time
-                        with my family. It’s not always balanced, and I’m still
-                        figuring it out—but it’s the part of life I care about
-                        the most.
+        <!-- ══ CTA ══ -->
+        <section class="ab-cta-wrap">
+            <div class="ab-cta">
+                <div class="ab-cta-text">
+                    <h3 class="ab-cta-h">Have something in mind?</h3>
+                    <p class="ab-cta-sub">
+                        I’m always open to ideas, small conversations, or just
+                        connecting with like-minded people.
                     </p>
                 </div>
-                <div class="ab-family-imgs">
-                    <div class="ab-fimg ab-fimg--top">
-                        <img
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq1xFUpWGlBMjXy-PGW6eGNIU0JxN1kgYD81DtbcisXfeoVG_PifLE5lSE3qtYIFsoJcxn7WBiYJUzpixQbHQYGXcxgwEFl5tSDJM2x1X-z_smBVJG-Yti4VSopDAOD_CcmC-8ZuE4pU5Yzw1Q_hC2FIOj508V9Ipme0EZcrfOpl2hgkOSdTafkz6nIZIEJ-8RXMBZptC58XIJjV3Y_8ylaovVjWreM_oWta4_-uAUtWvAhHgCjecGUYO1FhlWRgBJ-782UfNJNF4w"
-                            alt="Warm family gathering scene"
-                            loading="lazy"
-                        />
-                    </div>
-                    <div class="ab-fimg ab-fimg--bottom">
-                        <img
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDntmhPm31Lg7ZunvKBypvawZ9ZYnRu_RxiKkWQOvp2pqL-RzIWBz1teUD1MlanGysMJoGgk-oNFoh3GF7CB4S9AnBEBmXUDLNgeYDAaOOh4hdlDkEglRewI8IQkauIi8WznRNgrw0yZ7Srr4mLhOyaQpdla_VRb5bRRyMtdq5Zd0xde93I6sDom3Uf4qv1tH9mvrju1znEesZHoxUnIasl_wmRnZNrskzOfk8WnnQpanZYiyaGn_6KBTgGOAL8rckidn23KFOT6aAi"
-                            alt="Peaceful morning light"
-                            loading="lazy"
-                        />
-                    </div>
-                </div>
+                <a href="mailto:[EMAIL_ADDRESS]" class="ab-cta-btn"
+                    >Let’s talk</a
+                >
             </div>
-        </div>
-    </section>
-
-    <!-- ══ PHILOSOPHY ══ -->
-    <section class="ab-philosophy">
-        <div class="ab-philosophy-inner">
-            <span class="ab-phil-eyebrow">The Philosophy</span>
-            <blockquote class="ab-quote">
-                "I build things that make sense—in code, in art, and in life."
-            </blockquote>
-            <div class="ab-rule" aria-hidden="true"></div>
-            <p class="ab-phil-body">
-                Nothing complicated. Just something I try to live by.
-            </p>
-        </div>
-    </section>
-
-    <!-- ══ CTA ══ -->
-    <section class="ab-cta-wrap">
-        <div class="ab-cta">
-            <div class="ab-cta-text">
-                <h3 class="ab-cta-h">Have something in mind?</h3>
-                <p class="ab-cta-sub">
-                    I’m always open to ideas, small conversations, or just
-                    connecting with like-minded people.
-                </p>
-            </div>
-            <a href="mailto:[EMAIL_ADDRESS]" class="ab-cta-btn">Let’s talk</a>
-        </div>
-    </section>
+        </section>
+    </div>
 </BaseLayout>
+
+<script>
+    // ── Clients: geser horizontal + state tombol panah ──
+    const clientsRow = document.getElementById("clients-row");
+    const clientsNav = document.querySelector<HTMLElement>(".ab-clients-nav");
+
+    if (clientsRow && clientsNav) {
+        const arrows = Array.from(
+            clientsNav.querySelectorAll<HTMLButtonElement>(".ab-clients-arrow"),
+        );
+
+        const syncArrows = () => {
+            const maxScroll = clientsRow.scrollWidth - clientsRow.clientWidth;
+            const atStart = clientsRow.scrollLeft <= 1;
+            const atEnd = clientsRow.scrollLeft >= maxScroll - 1;
+
+            arrows.forEach((btn) => {
+                const dir = Number(btn.dataset.dir);
+                btn.disabled =
+                    maxScroll <= 1 ? true : dir < 0 ? atStart : atEnd;
+            });
+        };
+
+        arrows.forEach((btn) => {
+            btn.addEventListener("click", () => {
+                clientsRow.scrollBy({
+                    left:
+                        Number(btn.dataset.dir) * clientsRow.clientWidth * 0.8,
+                    behavior: "smooth",
+                });
+            });
+        });
+
+        clientsRow.addEventListener("scroll", syncArrows, { passive: true });
+        window.addEventListener("resize", syncArrows);
+        syncArrows();
+    }
+</script>
 
 <style>
     /* ══════════════════════════════════════════
      GOOGLE FONTS
+     Dimuat global lewat BaseLayout (Inter, Newsreader, Space Grotesk).
   ══════════════════════════════════════════ */
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,600&display=swap");
 
     /* ══════════════════════════════════════════
      DESIGN TOKENS
@@ -173,6 +238,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         --ab-on-primary: #ffffff;
         --ab-f-head: "Inter", sans-serif;
         --ab-f-body: "Newsreader", serif;
+        --ab-f-tech: "Space Grotesk", "Inter", sans-serif;
     }
 
     :root.dark {
@@ -194,52 +260,101 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     /* ══════════════════════════════════════════
+     PAGE SHELL — satu layar penuh, tanpa scroll
+  ══════════════════════════════════════════ */
+    .ab-page {
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: var(--ab-surface);
+    }
+
+    /* ══════════════════════════════════════════
      HERO
   ══════════════════════════════════════════ */
     .ab-hero {
+        flex: 1 1 auto;
+        min-height: 0;
+        display: flex;
+        align-items: center;
         background: var(--ab-surface);
-        padding: 8rem 5rem 5rem;
+        padding: clamp(1.5rem, 5vh, 3.5rem) 5rem clamp(1rem, 3vh, 2rem);
     }
 
     .ab-hero-inner {
+        width: 100%;
         max-width: 72rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) clamp(
+                10.5rem,
+                min(30vh, 22vw),
+                20rem
+            );
+        column-gap: clamp(2rem, 4vw, 4rem);
+        align-items: center;
+    }
+
+    .ab-hero-text {
+        min-width: 0;
     }
 
     .ab-hero-heading {
         font-family: var(--ab-f-head);
-        font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+        font-size: clamp(1.6rem, min(6vh, 8.5vw), 4rem);
         font-weight: 800;
         letter-spacing: -0.03em;
-        line-height: 1.1;
+        line-height: 1.08;
         color: var(--ab-on-bg);
-        margin: 0 0 2rem;
+        margin: 0 0 clamp(0.75rem, 2vh, 1.5rem);
     }
 
-    .ab-hero-heading-serif {
-        font-family: var(--ab-f-body);
-        font-style: italic;
-        font-weight: 400;
-        color: var(--ab-primary);
+    .ab-hero-heading-accent {
         display: block;
-    }
-
-    .ab-hero-body-grid {
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        gap: 2rem;
-    }
-
-    .ab-hero-body-col {
-        grid-column: span 7;
+        margin-top: 0.35em;
+        font-family: var(--ab-f-tech);
+        font-size: 0.62em;
+        font-weight: 300;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--ab-primary);
+        text-wrap: balance;
     }
 
     .ab-hero-lead {
-        font-family: var(--ab-f-body);
-        font-style: italic;
-        font-size: 1.25rem;
-        line-height: 1.75;
+        font-family: var(--ab-f-tech);
+        font-size: clamp(0.9375rem, 1.9vh, 1.125rem);
+        font-weight: 300;
+        line-height: 1.65;
+        letter-spacing: 0.002em;
         color: var(--ab-on-surface-var);
         margin: 0;
+        max-width: 58ch;
+        text-wrap: pretty;
+    }
+
+    /* ── Hero portrait ── */
+    .ab-hero-photo {
+        margin: 0;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        border-radius: 0.75rem;
+        overflow: hidden;
+        background: var(--ab-surface-cont);
+        box-shadow: 0 1px 2px rgba(28, 27, 27, 0.04);
+    }
+
+    :root.dark .ab-hero-photo {
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .ab-hero-photo img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 50% 12%;
     }
 
     /* ══════════════════════════════════════════
@@ -365,7 +480,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     /* ── Shared text styles ── */
     .ab-eyebrow {
-        font-family: var(--ab-f-head);
+        font-family: var(--ab-f-tech);
         font-size: 0.75rem;
         font-weight: 500;
         text-transform: uppercase;
@@ -479,17 +594,163 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     }
 
     /* ══════════════════════════════════════════
+     CLIENTS — satu baris, bisa digeser
+  ══════════════════════════════════════════ */
+    .ab-clients {
+        flex: 0 0 auto;
+        background: var(--ab-surface-low);
+        padding: clamp(1rem, 2.5vh, 1.75rem) 5rem;
+    }
+
+    .ab-clients-inner {
+        max-width: 72rem;
+        display: grid;
+        grid-template-columns: 13rem minmax(0, 1fr) auto;
+        column-gap: clamp(1rem, 2.5vw, 2rem);
+        align-items: center;
+    }
+
+    .ab-clients-h {
+        font-family: var(--ab-f-head);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: var(--ab-primary);
+        margin: 0 0 0.3rem;
+    }
+
+    .ab-clients-sub {
+        font-family: var(--ab-f-tech);
+        font-size: 0.875rem;
+        font-weight: 300;
+        line-height: 1.35;
+        color: var(--ab-on-surface-var);
+        margin: 0;
+        max-width: 20ch;
+    }
+
+    /* Strip horizontal — scroll, tanpa scrollbar */
+    .ab-clients-row {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ab-clients-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ab-client {
+        flex: 0 0 auto;
+        display: flex;
+        align-items: center;
+        min-height: 3.25rem;
+        padding: 0 clamp(0.875rem, 1.6vw, 1.375rem);
+    }
+
+    .ab-client + .ab-client {
+        border-left: 1px solid var(--ab-outline-var);
+    }
+
+    .ab-client-link {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: rgba(28, 27, 27, 0.45);
+        transition: color 0.2s ease;
+    }
+
+    :root.dark .ab-client-link {
+        color: rgba(245, 243, 238, 0.42);
+    }
+
+    a.ab-client-link:hover,
+    a.ab-client-link:focus-visible {
+        color: var(--ab-primary);
+    }
+
+    .ab-client-name {
+        font-family: var(--ab-f-tech);
+        font-size: 0.75rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        line-height: 1.3;
+        white-space: nowrap;
+    }
+
+    .ab-client-logo {
+        max-height: 1.75rem;
+        max-width: 8rem;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        filter: grayscale(1);
+        opacity: 0.55;
+        transition:
+            filter 0.2s ease,
+            opacity 0.2s ease;
+    }
+
+    a.ab-client-link:hover .ab-client-logo,
+    a.ab-client-link:focus-visible .ab-client-logo {
+        filter: grayscale(0);
+        opacity: 1;
+    }
+
+    /* Panah navigasi */
+    .ab-clients-nav {
+        display: flex;
+        gap: 0.25rem;
+    }
+
+    .ab-clients-arrow {
+        width: 2rem;
+        height: 2rem;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--ab-outline-var);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ab-on-surface-var);
+        cursor: pointer;
+        transition:
+            color 0.15s,
+            border-color 0.15s,
+            opacity 0.15s;
+    }
+
+    .ab-clients-arrow:hover:not(:disabled) {
+        color: var(--ab-primary);
+        border-color: var(--ab-primary);
+    }
+
+    .ab-clients-arrow:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    /* ══════════════════════════════════════════
      CTA
   ══════════════════════════════════════════ */
     .ab-cta-wrap {
-        padding: 0 5rem 8rem;
+        flex: 0 0 auto;
+        padding: clamp(1rem, 3vh, 2rem) 5rem clamp(1.25rem, 3.5vh, 2.5rem);
         background: var(--ab-surface);
     }
 
     .ab-cta {
         background: var(--ab-primary);
         border-radius: 0.75rem;
-        padding: 4rem;
+        padding: clamp(1.25rem, 3vh, 2.25rem) clamp(1.5rem, 3vw, 2.5rem);
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -497,33 +758,38 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         flex-wrap: wrap;
     }
 
+    .ab-cta-text {
+        flex: 1 1 22rem;
+        min-width: 0;
+    }
+
     .ab-cta-h {
         font-family: var(--ab-f-head);
-        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-size: clamp(1.05rem, 2.2vh, 1.5rem);
         font-weight: 700;
         color: var(--ab-on-primary);
         letter-spacing: -0.02em;
-        margin: 0 0 0.5rem;
+        margin: 0 0 0.35rem;
     }
 
     .ab-cta-sub {
-        font-family: var(--ab-f-body);
-        font-style: italic;
-        font-size: 1rem;
+        font-family: var(--ab-f-tech);
+        font-size: 0.9375rem;
+        font-weight: 300;
         color: rgba(255, 255, 255, 0.8);
         margin: 0;
-        line-height: 1.6;
+        line-height: 1.5;
     }
 
     .ab-cta-btn {
         font-family: var(--ab-f-head);
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.12em;
         color: var(--ab-primary);
         background: var(--ab-surface-lowest);
-        padding: 1rem 2.5rem;
+        padding: 0.7rem 1.75rem;
         border-radius: 0.5rem;
         text-decoration: none;
         flex-shrink: 0;
@@ -550,14 +816,37 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         .ab-hero,
         .ab-pillars,
         .ab-philosophy,
+        .ab-clients,
         .ab-cta-wrap {
             padding-inline: 2.5rem;
+        }
+
+        .ab-hero-inner {
+            grid-template-columns: minmax(0, 1fr) clamp(
+                    9rem,
+                    min(22vh, 18vw),
+                    13rem
+                );
+        }
+
+        .ab-clients-inner {
+            grid-template-columns: minmax(0, 1fr) auto;
+            row-gap: 0.5rem;
+        }
+
+        .ab-clients-head {
+            grid-column: 1 / -1;
+        }
+
+        .ab-clients-sub {
+            max-width: none;
         }
 
         .ab-card--engineer {
             grid-column: span 12;
             min-height: auto;
         }
+
         .ab-card--eng-img {
             grid-column: span 12;
             min-height: 320px;
@@ -575,18 +864,73 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         }
     }
 
+    /* Mobile / tablet portrait ≤ 768px — sidebar hilang, mobile bar muncul */
+    @media (max-width: 768px) {
+        .ab-page {
+            height: calc(100dvh - 3.25rem);
+        }
+
+        .ab-hero {
+            padding: 1.25rem 1.25rem 1rem;
+        }
+
+        .ab-hero-inner {
+            grid-template-columns: minmax(0, 1fr);
+            row-gap: 0.75rem;
+            align-items: start;
+        }
+
+        /* Foto jadi avatar kecil di atas judul */
+        .ab-hero-photo {
+            order: -1;
+            width: 4.5rem;
+            aspect-ratio: 1;
+            border-radius: 50%;
+        }
+
+        .ab-clients,
+        .ab-cta-wrap {
+            padding-inline: 1.25rem;
+        }
+
+        .ab-clients-nav {
+            display: none;
+        }
+
+        .ab-cta {
+            padding: 1.25rem;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .ab-cta-text {
+            flex: 0 0 auto;
+        }
+
+        .ab-cta-btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+
     /* Mobile ≤ 640px */
     @media (max-width: 640px) {
-        .ab-hero {
-            padding: 5rem 1.25rem 3rem;
-        }
-
-        .ab-hero-body-col {
-            grid-column: span 12;
-        }
-
         .ab-hero-lead {
-            font-size: 1rem;
+            font-size: 0.9375rem;
+        }
+
+        .ab-clients {
+            padding-block: 1rem;
+        }
+
+        .ab-client {
+            min-height: 2.75rem;
+        }
+
+        .ab-client-name {
+            font-size: 0.6875rem;
+            letter-spacing: 0.1em;
         }
 
         .ab-pillars {
@@ -645,20 +989,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         }
 
         .ab-cta-wrap {
-            padding: 0 1.25rem 4rem;
+            padding: 0.75rem 1.25rem 1.25rem;
         }
 
         .ab-cta {
-            padding: 2rem 1.5rem;
-            flex-direction: column;
-            align-items: flex-start;
             border-radius: 0.5rem;
-            gap: 1.5rem;
-        }
-
-        .ab-cta-btn {
-            width: 100%;
-            text-align: center;
         }
     }
 </style>
