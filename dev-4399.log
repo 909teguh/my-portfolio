@@ -1,0 +1,17 @@
+[vite] connected.
+[2m14.27.10[22m [34m[types][39m Generated [2m11ms[22m
+[vite] connected.
+
+[43m[30m update [39m[49m [33m▶ New version of Astro available: 7.4.4[39m
+  Run [36mnpx @astrojs/upgrade[39m to update
+
+[2m14.27.12[22m [34m[content][39m Syncing content
+[2m14.27.12[22m [34m[content][39m Synced content
+[2m14.27.12[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.4.8[39m [2mready in[22m 5861 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4399/[39m
+[2m14.27.12[22m [32mwatching for file changes...[39m
+[2m14.27.20[22m [34m[200][39m /keystatic [2m24ms[22m
+[2m14.27.25[22m [34m[200][39m /keystatic [2m5ms[22m
+[BABEL] Note: The code generator has deoptimised the styling of D:\CODE\my-portfolio\node_modules\.vite\deps\chunk-2A4PGIUY.js?v=81d8562e as it exceeds the max of 500KB.
+[2m14.27.27[22m [34m[200][39m /api/keystatic/tree [2m80ms[22m
