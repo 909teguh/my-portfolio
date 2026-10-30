@@ -5,13 +5,13 @@ import tailwindcss from '@tailwindcss/vite';
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 
 import keystatic from '@keystatic/astro';
 
 export default defineConfig({
   output: 'server',
-  adapter: node({ mode: 'middleware' }),
+  adapter: vercel(),
   site: 'https://yourdomain.com', // ganti dengan domain Anda
   vite: {
     plugins: [tailwindcss()]
