@@ -78,6 +78,10 @@ export default config({
             unorderedList: true,
             link: true,
             divider: true,
+            image: {
+              directory: 'public/images/blog',
+              publicPath: '/images/blog',
+            },
           },
         }),
       },
@@ -128,6 +132,10 @@ export default config({
             unorderedList: true,
             link: true,
             divider: true,
+            image: {
+              directory: 'public/images/work',
+              publicPath: '/images/work',
+            },
           },
         }),
       },
@@ -184,6 +192,10 @@ export default config({
             unorderedList: true,
             link: true,
             divider: true,
+            image: {
+              directory: 'public/images/now',
+              publicPath: '/images/now',
+            },
           },
         }),
       },
