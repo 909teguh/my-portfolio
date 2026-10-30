@@ -168,9 +168,64 @@ const clients: { name: string; logo?: string; url?: string }[] = [
                         connecting with like-minded people.
                     </p>
                 </div>
-                <a href="mailto:[EMAIL_ADDRESS]" class="ab-cta-btn"
-                    >Let’s talk</a
+
+                <form
+                    class="ab-cta-form"
+                    action="https://api.web3forms.com/submit"
+                    method="POST"
                 >
+                    <input
+                        type="hidden"
+                        name="access_key"
+                        value="186b0389-5b8f-4f87-a726-9cec3479eb1c"
+                    />
+                    <input
+                        type="hidden"
+                        name="redirect"
+                        value="https://suwandateguh.vercel.app/about"
+                    />
+                    <input
+                        type="hidden"
+                        name="subject"
+                        value="New message from your website"
+                    />
+
+                    <div class="ab-field-row">
+                        <label class="ab-field">
+                            <span class="ab-field-label">Name</span>
+                            <input
+                                class="ab-input"
+                                type="text"
+                                name="name"
+                                placeholder="Your name"
+                                required
+                            />
+                        </label>
+                        <label class="ab-field">
+                            <span class="ab-field-label">Email</span>
+                            <input
+                                class="ab-input"
+                                type="email"
+                                name="email"
+                                placeholder="you@example.com"
+                                required
+                            />
+                        </label>
+                    </div>
+
+                    <label class="ab-field">
+                        <span class="ab-field-label">Message</span>
+                        <textarea
+                            class="ab-input ab-textarea"
+                            name="message"
+                            rows="3"
+                            placeholder="Tell me about your project…"
+                            required
+                        ></textarea>
+                    </label>
+
+                    <button type="submit" class="ab-cta-btn">Send message</button>
+                </form>
             </div>
         </section>
     </div>
@@ -275,7 +330,7 @@ const clients: { name: string; logo?: string; url?: string }[] = [
      HERO
   ══════════════════════════════════════════ */
     .ab-hero {
-        flex: 1 1 auto;
+        flex: 1 0 auto;
         min-height: 0;
         display: flex;
         align-items: center;
@@ -748,50 +803,117 @@ const clients: { name: string; logo?: string; url?: string }[] = [
     }
 
     .ab-cta {
-        background: var(--ab-primary);
+        background: var(--ab-surface-low);
         border-radius: 0.75rem;
-        padding: clamp(1.25rem, 3vh, 2.25rem) clamp(1.5rem, 3vw, 2.5rem);
+        padding: clamp(1rem, 2.5vh, 1.75rem) clamp(1.25rem, 2.5vw, 1.75rem);
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 2rem;
-        flex-wrap: wrap;
+        flex-direction: column;
+        gap: clamp(0.75rem, 1.8vh, 1.25rem);
     }
 
     .ab-cta-text {
-        flex: 1 1 22rem;
-        min-width: 0;
+        max-width: 52ch;
     }
 
     .ab-cta-h {
         font-family: var(--ab-f-head);
-        font-size: clamp(1.05rem, 2.2vh, 1.5rem);
+        font-size: clamp(1rem, 2vh, 1.25rem);
         font-weight: 700;
-        color: var(--ab-on-primary);
+        color: var(--ab-on-bg);
         letter-spacing: -0.02em;
-        margin: 0 0 0.35rem;
+        margin: 0 0 0.2rem;
     }
 
     .ab-cta-sub {
         font-family: var(--ab-f-tech);
-        font-size: 0.9375rem;
+        font-size: 0.875rem;
         font-weight: 300;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--ab-on-surface-var);
         margin: 0;
-        line-height: 1.5;
+        line-height: 1.45;
+    }
+
+    .ab-cta-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        width: 100%;
+    }
+
+    .ab-field-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .ab-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        min-width: 0;
+    }
+
+    .ab-field-label {
+        font-family: var(--ab-f-tech);
+        font-size: 0.6875rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ab-on-surface-var);
+    }
+
+    .ab-input {
+        font-family: var(--ab-f-tech);
+        font-size: 0.875rem;
+        line-height: 1.4;
+        color: var(--ab-on-bg);
+        background: var(--ab-surface-lowest);
+        border: 1px solid var(--ab-outline-var);
+        border-radius: 0.5rem;
+        padding: 0.55rem 0.75rem;
+        width: 100%;
+        outline: none;
+        transition:
+            border-color 0.15s ease,
+            box-shadow 0.15s ease;
+    }
+
+    .ab-input::placeholder {
+        color: rgba(85, 67, 53, 0.45);
+    }
+
+    :root.dark .ab-input::placeholder {
+        color: rgba(201, 184, 172, 0.4);
+    }
+
+    .ab-input:focus {
+        border-color: var(--ab-primary);
+        box-shadow: 0 0 0 3px rgba(143, 78, 0, 0.14);
+    }
+
+    :root.dark .ab-input:focus {
+        box-shadow: 0 0 0 3px rgba(226, 129, 18, 0.22);
+    }
+
+    .ab-textarea {
+        resize: vertical;
+        min-height: 4.5rem;
     }
 
     .ab-cta-btn {
         font-family: var(--ab-f-head);
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--ab-primary);
-        background: var(--ab-surface-lowest);
-        padding: 0.7rem 1.75rem;
+        letter-spacing: 0.1em;
+        color: #fff;
+        background: var(--ab-primary);
+        padding: 0.6rem 1.4rem;
         border-radius: 0.5rem;
         text-decoration: none;
+        border: none;
+        cursor: pointer;
+        align-self: flex-start;
         flex-shrink: 0;
         white-space: nowrap;
         transition:
@@ -899,13 +1021,10 @@ const clients: { name: string; logo?: string; url?: string }[] = [
 
         .ab-cta {
             padding: 1.25rem;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 1rem;
         }
 
-        .ab-cta-text {
-            flex: 0 0 auto;
+        .ab-field-row {
+            grid-template-columns: 1fr;
         }
 
         .ab-cta-btn {
