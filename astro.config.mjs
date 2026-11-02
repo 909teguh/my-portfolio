@@ -8,13 +8,14 @@ import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 
 import keystatic from '@keystatic/astro';
+import { workThumbsWatcher } from './scripts/work-thumbs-watcher.mjs';
 
 export default defineConfig({
   output: 'server',
   adapter: vercel(),
   site: 'https://yourdomain.com', // ganti dengan domain Anda
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss(), workThumbsWatcher()]
   },
   integrations: [mdx(), react(), sitemap(), keystatic()],
 });

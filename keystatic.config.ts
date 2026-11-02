@@ -94,7 +94,14 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Judul' } }),
         description: fields.text({ label: 'Deskripsi', multiline: true, defaultValue: '' }),
-        cover: fields.text({ label: 'URL Cover' }),
+        cover: fields.image({
+          label: 'Cover',
+          description:
+            'Upload gambar utama. Thumbnail gallery dibuat otomatis dari gambar ini.',
+          directory: 'public/images/work/portfolio',
+          publicPath: '/images/work/portfolio',
+          validation: { isRequired: false },
+        }),
         coverAlt: fields.text({ label: 'Alt Cover' }),
         type: fields.select({
           label: 'Tipe',

@@ -2,6 +2,7 @@
 // src/pages/work/index.astro
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
+import { workThumb } from "../../lib/work-cover";
 
 const allWork = await getCollection("work");
 const work = allWork.sort((a, b) => a.data.order - b.data.order);
@@ -68,7 +69,7 @@ const typeLabel: Record<string, string> = {
               {item.data.cover ? (
                 <img
                   class="work-card__img"
-                  src={item.data.cover}
+                  src={workThumb(item)}
                   alt={item.data.coverAlt ?? item.data.title}
                   loading="lazy"
                   decoding="async"

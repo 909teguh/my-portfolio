@@ -7,7 +7,9 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "predev": "node scripts/generate-work-thumbs.mjs",
     "build": "astro build",
+    "prebuild": "node scripts/generate-work-thumbs.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
